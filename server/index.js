@@ -20,6 +20,9 @@ mongoose
     console.log("Connect to database successful !");
   });
 
+mongoose.set("toJSON", { virtuals: true });
+mongoose.set("toObject", { virtuals: true });
+
 app.listen(port, () => {
   console.log(`App running on port ${port} ...`);
 });
