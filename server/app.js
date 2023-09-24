@@ -6,6 +6,7 @@ const hpp = require("hpp");
 const rateLimit = require("express-rate-limit");
 const xss = require("xss-clean");
 const mongoSanitize = require("express-mongo-sanitize");
+const AppError = require("./utils/AppError");
 
 const app = express();
 
@@ -40,5 +41,10 @@ if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
 // middleware
 app.use(express.json());
 app.use(cors());
+
+// Handle when no match any routes
+app.all("*", (req, res, next) =>
+  next(new AppError(`Can't find ${req.originalUrl} on this server !`, 404)),
+);
 
 module.exports = app;
