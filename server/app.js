@@ -6,6 +6,7 @@ const hpp = require("hpp");
 const rateLimit = require("express-rate-limit");
 const xss = require("xss-clean");
 const mongoSanitize = require("express-mongo-sanitize");
+const cookieParser = require("cookie-parser");
 const AppError = require("./utils/AppError");
 
 const app = express();
@@ -46,6 +47,7 @@ app.use(
     credentials: true,
   }),
 );
+app.use(cookieParser());
 
 // Handle when no match any routes
 app.all("*", (req, res, next) =>
