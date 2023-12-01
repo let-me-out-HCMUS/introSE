@@ -8,7 +8,9 @@ import Home from "./pages/Home";
 
 import ProtectedRoute from "./ui/ProtectedRoute";
 import AppLayout from "./ui/AppLayout";
+import RankPage from "./pages/RankPage";
 import { Navbar } from "./features/navbar/Navbar";
+
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -38,6 +40,9 @@ function App() {
 
             <Route path="/" element={<Home />} />
 
+          <Route path="/" element={<Home />} />
+          <Route path="/rank" element={<RankPage />} />
+          <Route path="/player" element={<PlayerPage />} />
             {/* Another route add from here */}
 
             {/* All invalid route will render PageNotFound page */}
