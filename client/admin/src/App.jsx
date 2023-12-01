@@ -8,6 +8,8 @@ import Home from "./pages/Home";
 
 import ProtectedRoute from "./ui/ProtectedRoute";
 import AppLayout from "./ui/AppLayout";
+import RankPage from "./pages/RankPage";
+import PlayerPage from "./pages/PlayerPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -35,6 +37,8 @@ function App() {
           </Route>
 
           <Route path="/" element={<Home />} />
+          <Route path="/rank" element={<RankPage />} />
+          <Route path="/player" element={<PlayerPage />} />
 
           {/* Another route add from here */}
 
