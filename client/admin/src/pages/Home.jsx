@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { matches } from "../mocks/homePage";
 import Match from "../features/home/Match";
+import BannerImage from "../assets/images/home_banner.png";
 
 function Home() {
   const [matchesInfo, setMatchesInfo] = useState([]);
@@ -16,7 +17,7 @@ function Home() {
     <div className="px-32 py-16 mx-auto max-w-screen-xl">
       <div className="bg-green-800 flex w-full h-80">
         <div className="px-10 py-10">
-          <img width={350} height={350} src="https://baobinhduong.vn/image/fckeditor/upload/2023/20230907/images/2-cauthu_1.png" alt="tuyenVN" />
+          <img width={350} height={350} src={BannerImage} alt="tuyenVN" />
         </div>
         <div className="py-10 flex flex-col justify-between items-end">
           <p className="text-white text-6xl uppercase font-bold">Giải bóng đá vô địch quốc gia 2023</p>
