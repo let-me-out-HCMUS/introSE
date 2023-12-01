@@ -14,7 +14,7 @@ function Home() {
   }, [matchesInfo])
 
   return (
-    <div className="px-32 py-16 mx-auto max-w-screen-xl">
+    <div className="px-16 py-16 mx-auto">
       <div className="bg-green-800 flex w-full h-80">
         <div className="px-10 py-10">
           <img width={350} height={350} src={BannerImage} alt="tuyenVN" />

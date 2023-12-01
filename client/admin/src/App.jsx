@@ -9,7 +9,9 @@ import Home from "./pages/Home";
 import ProtectedRoute from "./ui/ProtectedRoute";
 import AppLayout from "./ui/AppLayout";
 import RankPage from "./pages/RankPage";
+import PlayerPage from "./pages/PlayerPage";
 import { Navbar } from "./features/navbar/Navbar";
+import DossierRegistration from "./pages/DossierRegistration";
 
 
 const queryClient = new QueryClient({
@@ -24,9 +26,9 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
-      <div style={{background: "#e5e5e5"}}>
-        <Navbar />
+      <div className="container mx-auto p-5" style={{background: "#e5e5e5"}}>
         <BrowserRouter>
+          <Navbar />
           <Routes>
             <Route
               element={
@@ -38,11 +40,10 @@ function App() {
               {/* Some route page that just use for admin */}
             </Route>
 
-            <Route path="/" element={<Home />} />
-
           <Route path="/" element={<Home />} />
           <Route path="/rank" element={<RankPage />} />
-          <Route path="/player" element={<PlayerPage />} />
+          <Route path="/register" element={<DossierRegistration />} />
+          <Route path="/players" element={<PlayerPage />} />
             {/* Another route add from here */}
 
             {/* All invalid route will render PageNotFound page */}
