@@ -9,10 +9,11 @@ export default function RuleForm() {
     formState: { errors },
   } = useForm({ defaultValues: rule });
 
+  //   Todo: submit data to server
   const onSubmit = (data) => console.log(data);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="px-16 mx-auto relative">
+    <form onSubmit={handleSubmit(onSubmit)} className="relative mx-auto px-16">
       <div className="group-rule">
         <h1>Cầu thủ</h1>
         <div className="rule-content flex w-full">
@@ -100,11 +101,20 @@ export default function RuleForm() {
       </div>
 
       {errors.club && <span>This field is required</span>}
-      <div className="button w-full flex justify-end">
-      <button type="submit" className="bg-slate-500 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded">Cancel</button>
-      <button type="submit" className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-4">Submit</button>
+      <div className="button flex w-full justify-end">
+        <button
+          type="submit"
+          className="rounded bg-slate-500 px-4 py-2 font-bold text-white hover:bg-slate-700"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          className="ml-4 rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-700"
+        >
+          Submit
+        </button>
       </div>
-      
     </form>
   );
 }
