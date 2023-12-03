@@ -1,10 +1,10 @@
 export const rule = {
     club: {
-        maxAge: 40,
         minAge: 16,
+        maxAge: 40,
         maxForeigners: 3,
-        maxPlayers: 25,
         minPlayers: 15,
+        maxPlayers: 25,
     },
 
     goal: {
