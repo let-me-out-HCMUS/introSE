@@ -10,6 +10,7 @@ import AppLayout from "./ui/AppLayout";
 import RankPage from "./pages/RankPage";
 import PlayerPage from "./pages/PlayerPage";
 import DossierRegistration from "./pages/DossierRegistration";
+import ChangeRule from "./pages/ChangeRule";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -31,6 +32,7 @@ function App() {
             <Route path="/rank" element={<RankPage />} />
             <Route path="/register" element={<DossierRegistration />} />
             <Route path="/players" element={<PlayerPage />} />
+            <Route path="/change-rule" element={<ChangeRule />} />
             {/* Another route add from here */}
 
             {/* All invalid route will render PageNotFound page */}
