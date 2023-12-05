@@ -8,11 +8,14 @@ export default function RuleForm() {
   const {
     register,
     handleSubmit,
-    // watch,
+    watch,
     reset,
     formState: { errors },
   } = useForm({ defaultValues: rule });
 
+  const watchPriority = watch("point.priority");
+
+  // console.log(watchPriority);
   //   Todo: submit data to server
   const onSubmit = (data) => {
     console.log(data);
@@ -30,43 +33,62 @@ export default function RuleForm() {
               <input
                 disabled={!isEditting}
                 type="number"
-                {...register("club.minAge")}
+                {...register("club.minAge", { required: true, min: 0 })}
               />
             </div>
+            {errors.club?.minAge && (
+              <p className="error-field">*Không hợp lệ*</p>
+            )}
+
             <div className="field">
               <label>Tuổi tối đa:</label>
               <input
                 disabled={!isEditting}
                 type="number"
-                {...register("club.maxAge")}
+                {...register("club.maxAge", { required: true, min: 0 })}
               />
             </div>
+            {errors.club?.maxAge && (
+              <p className="error-field">*Không hợp lệ*</p>
+            )}
+
             <div className="field">
               <label>Giới hạn cầu thủ nước ngoài:</label>
               <input
                 disabled={!isEditting}
                 type="number"
-                {...register("club.maxForeigners")}
+                {...register("club.maxForeigners", { required: true, min: 0 })}
               />
             </div>
+            {errors.club?.maxForeigners && (
+              <p className="error-field">*Không hợp lệ*</p>
+            )}
           </div>
+
           <div className="rule-half">
             <div className="field">
               <label>Số lượng tối thiểu trong đội:</label>
               <input
                 disabled={!isEditting}
                 type="number"
-                {...register("club.minPlayers")}
+                {...register("club.minPlayers", { required: true, min: 0 })}
               />
             </div>
+            {errors.club?.minPlayers && (
+              <p className="error-field">*Không hợp lệ*</p>
+            )}
+
             <div className="field">
               <label>Số lượng tối đa trong đội:</label>
               <input
                 disabled={!isEditting}
                 type="number"
-                {...register("club.maxPlayers")}
+                {...register("club.maxPlayers", { required: true, min: 0 })}
               />
             </div>
+            {errors.club?.maxPlayers && (
+              <p className="error-field">*Không hợp lệ*</p>
+            )}
           </div>
         </div>
       </div>
@@ -80,19 +102,26 @@ export default function RuleForm() {
               <input
                 disabled={!isEditting}
                 type="number"
-                {...register("goal.quantityType")}
+                {...register("goal.quantityType", { required: true, min: 0 })}
               />
             </div>
+            {errors.goal?.quantityType && (
+              <p className="error-field">*Không hợp lệ*</p>
+            )}
           </div>
+
           <div className="rule-half">
             <div className="field">
               <label>Thời điểm ghi bàn tối đa:</label>
               <input
                 disabled={!isEditting}
                 type="number"
-                {...register("goal.maxTime")}
+                {...register("goal.maxTime", { required: true, min: 0 })}
               />
             </div>
+            {errors.goal?.maxTime && (
+              <p className="error-field">*Không hợp lệ*</p>
+            )}
           </div>
         </div>
       </div>
@@ -106,36 +135,121 @@ export default function RuleForm() {
               <input
                 disabled={!isEditting}
                 type="number"
-                {...register("point.win")}
+                {...register("point.win", {
+                  required: true,
+                  validate: (value) => value > watch("point.draw"),
+                })}
               />
             </div>
+            {errors.point?.win && <p className="error-field">*Không hợp lệ*</p>}
+
             <div className="field">
               <label>Điểm hoà:</label>
               <input
                 disabled={!isEditting}
                 type="number"
-                {...register("point.draw")}
+                {...register("point.draw", {
+                  required: true,
+                  validate: (value) => value > watch("point.lose"),
+                })}
               />
             </div>
+            {errors.point?.draw && (
+              <p className="error-field">*Không hợp lệ*</p>
+            )}
+
             <div className="field">
               <label>Điểm thua:</label>
               <input
                 disabled={!isEditting}
                 type="number"
-                {...register("point.lose")}
+                {...register("point.lose", { required: true })}
               />
             </div>
+            {errors.point?.lose && (
+              <p className="error-field">*Không hợp lệ*</p>
+            )}
           </div>
           <div className="rule-half">
-            <div className="field">
-              <label>Thứ tự ưu tiên 1:</label>
-              <input
+            {/* <input
                 disabled={!isEditting}
                 className="!w-32"
                 {...register("point.priority[0]")}
-              />
+              /> */}
+            <div className="field inline-flex">
+              <label>Thứ tự ưu tiên 1: </label>
+              <select
+                disabled={!isEditting}
+                {...register("point.priority[0]", {
+                  required: true,
+                  validate: (value) =>
+                    value !== watchPriority[1] &&
+                    value !== watchPriority[2] &&
+                    value !== watchPriority[3],
+                })}
+              >
+                <option value="points">Điểm</option>
+                <option value="goalDifference">Hiệu số</option>
+                <option value="totalGoals">Tổng bàn thắng</option>
+                <option value="headToHead">Đối kháng</option>
+              </select>
             </div>
-            <div className="field">
+            <div className="field inline-flex">
+              <label>Thứ tự ưu tiên 2: </label>
+              <select
+                disabled={!isEditting}
+                {...register("point.priority[1]", {
+                  required: true,
+                  validate: (value) =>
+                    value !== watchPriority[0] &&
+                    value !== watchPriority[2] &&
+                    value !== watchPriority[3],
+                })}
+              >
+                <option value="points">Điểm</option>
+                <option value="goalDifference">Hiệu số</option>
+                <option value="totalGoals">Tổng bàn thắng</option>
+                <option value="headToHead">Đối kháng</option>
+              </select>
+            </div>
+            <div className="field inline-flex">
+              <label>Thứ tự ưu tiên 3: </label>
+              <select
+                disabled={!isEditting}
+                {...register("point.priority[2]", {
+                  required: true,
+                  validate: (value) =>
+                    value !== watchPriority[0] &&
+                    value !== watchPriority[1] &&
+                    value !== watchPriority[3],
+                })}
+              >
+                <option value="points">Điểm</option>
+                <option value="goalDifference">Hiệu số</option>
+                <option value="totalGoals">Tổng bàn thắng</option>
+                <option value="headToHead">Đối kháng</option>
+              </select>
+            </div>
+            <div className="field inline-flex">
+              <label>Thứ tự ưu tiên 4: </label>
+              <select
+                disabled={!isEditting}
+                {...register("point.priority[3]", {
+                  required: true,
+                  validate: (value) =>
+                    value !== watchPriority[0] &&
+                    value !== watchPriority[1] &&
+                    value !== watchPriority[2],
+                })}
+              >
+                <option value="points">Điểm</option>
+                <option value="goalDifference">Hiệu số</option>
+                <option value="totalGoals">Tổng bàn thắng</option>
+                <option value="headToHead">Đối kháng</option>
+              </select>
+            </div>
+
+            {/* <div className="field">
               <label>Thứ tự ưu tiên 2:</label>
               <input
                 disabled={!isEditting}
@@ -158,7 +272,10 @@ export default function RuleForm() {
                 className="!w-32"
                 {...register("point.priority[3]")}
               />
-            </div>
+            </div> */}
+            {errors.point?.priority && (
+              <p className="error-field">*Lựa chọn bị trùng*</p>
+            )}
           </div>
         </div>
       </div>

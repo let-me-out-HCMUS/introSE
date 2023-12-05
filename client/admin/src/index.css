@@ -21,3 +21,11 @@
 .field input {
     @apply border-solid border-2 border-gray-300 rounded-md px-2 w-16 ml-3;
 }
+
+.field select {
+    @apply border-solid border-2 border-gray-300 rounded-md px-2 w-40 ml-3;
+}
+
+.error-field {
+    @apply text-red-500 italic text-sm;
+}
