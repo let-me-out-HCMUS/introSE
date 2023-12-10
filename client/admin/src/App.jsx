@@ -8,9 +8,8 @@ import Home from "./pages/Home";
 
 import AppLayout from "./ui/AppLayout";
 import RankPage from "./pages/RankPage";
+import PlayerPage from "./pages/PlayerPage";
 import DossierRegistration from "./pages/DossierRegistration";
-import ClubPage from "./pages/ClubPage";
-import ClubDetail from "./features/clubs/ClubDetail";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -31,8 +30,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/rank" element={<RankPage />} />
             <Route path="/register" element={<DossierRegistration />} />
-            <Route path="/clubs" element={<ClubPage />} />
-            <Route path="/clubs/:id" element={<ClubDetail />} />
+            <Route path="/players" element={<PlayerPage />} />
             {/* Another route add from here */}
 
             {/* All invalid route will render PageNotFound page */}

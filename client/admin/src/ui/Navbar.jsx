@@ -26,8 +26,8 @@ export const Navbar = () => {
       link: "/register",
     },
     {
-      name: "Thông tin câu lạc bộ",
-      link: "/clubs",
+      name: "Thông tin cầu thủ",
+      link: "/players",
     },
     {
       name: "Thay đổi quy định",
