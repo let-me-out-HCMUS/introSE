@@ -90,7 +90,7 @@ function RankTable() {
         </TableHead>
         <TableBody>
           {rows.map((row, index) => (
-            <TableRow key={row.rank}>
+            <TableRow key={row.club}>
               <TableCell component="th" scope="row" align="center">
                 {index + 1}
               </TableCell>
