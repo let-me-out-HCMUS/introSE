@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import ClubTable from "../features/clubs/ClubTable";
 import { clubs as MockClubs } from "../mocks/clubPage";
+import { Divider, Typography } from "@mui/material";
+import PlayerTable from "../features/players/PlayerTable";
+import ClubDetail from "../features/clubs/ClubDetail";
 
 export default function ClubPage() {
   const [clubs, setClubs] = useState([]);
@@ -14,8 +16,18 @@ export default function ClubPage() {
   }, [clubs]);
 
   return (
-    <div className="flex justify-center px-16 py-16 	">
-      <ClubTable clubs={clubs} />
+    <div className="flex flex-col justify-center">
+      <ClubDetail />
+      <Divider sx={{ my: 4 }} />
+
+      <Typography
+        component="div"
+        variant="h4"
+        sx={{ fontWeight: "bold", margin: 2 }}
+      >
+        Cầu thủ
+      </Typography>
+      <PlayerTable />
     </div>
   );
 }

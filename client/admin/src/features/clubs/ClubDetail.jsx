@@ -1,24 +1,25 @@
-import {
-  Box,
-  Card,
-  CardContent,
-  CardMedia,
-  Divider,
-  Typography,
-} from "@mui/material";
-
-import PlayerTable from "../players/PlayerTable";
+import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
 
 export default function ClubDetail() {
   return (
-    <div className="flex flex-col justify-center px-16 py-16	">
-      <Card sx={{ display: "flex" }}>
-        <CardMedia component="img" image="https://placehold.co/450" />
+    <>
+      <Card
+        sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+      >
+        <CardMedia
+          component="img"
+          image="https://hanoifc.com.vn/images/logo-v2.png"
+          sx={{
+            width: 500,
+            padding: 5,
+          }}
+        />
 
         <Box
           sx={{
             display: "flex",
             flexDirection: "column",
+            alignItems: "center",
             justifyContent: "space-evenly",
             width: "100%",
           }}
@@ -43,13 +44,6 @@ export default function ClubDetail() {
           </CardContent>
         </Box>
       </Card>
-
-      <Divider sx={{ my: 4 }} />
-
-      <Typography component="div" variant="h2" sx={{ fontWeight: "bold" }}>
-        Cầu thủ
-      </Typography>
-      <PlayerTable />
-    </div>
+    </>
   );
 }
