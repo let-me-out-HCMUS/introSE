@@ -11,6 +11,7 @@ import RankPage from "./pages/RankPage";
 import PlayerPage from "./pages/PlayerPage";
 import DossierRegistration from "./pages/DossierRegistration";
 import ChangeRule from "./pages/ChangeRule";
+import MatchSchedule from "./pages/MatchSchedule";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -33,6 +34,7 @@ function App() {
             <Route path="/register" element={<DossierRegistration />} />
             <Route path="/players" element={<PlayerPage />} />
             <Route path="/change-rule" element={<ChangeRule />} />
+            <Route path="/schedules" element={<MatchSchedule />} />
             {/* Another route add from here */}
 
             {/* All invalid route will render PageNotFound page */}
