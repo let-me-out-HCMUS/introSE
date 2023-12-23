@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { trandau } from "../mocks/match-result";
 import CustomDialog from "../features/common/Dialog";
+import FormAddGoal from "../features/match-result/FormAddGoal";
+
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-unescaped-entities */
 export default function MatchResult({ id }) {
@@ -107,7 +109,7 @@ export default function MatchResult({ id }) {
               Add 
             </button>
             <CustomDialog title={'Thêm bàn thắng'} open={openingDialog} onClose={handleClose}>
-              <h1>test</h1>
+              <FormAddGoal submitAdd={handleClose}/>
             </CustomDialog>
             
           </ul>

@@ -2,30 +2,53 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Rule Form */
 .group-rule h1 {
-    @apply text-2xl font-bold;
+  @apply text-2xl font-bold;
 }
 
 .rule-content {
-    @apply m-4;
+  @apply m-4;
 }
 
 .rule-half {
-    @apply w-1/2;
+  @apply w-1/2;
 }
 
 .field {
-    @apply w-full;
+  @apply w-full;
 }
 
 .field input {
-    @apply border-solid border-2 border-gray-300 rounded-md px-2 w-16 ml-3;
+  @apply ml-3 w-16 rounded-md border-2 border-solid border-gray-300 px-2;
 }
 
 .field select {
-    @apply border-solid border-2 border-gray-300 rounded-md px-2 w-40 ml-3;
+  @apply ml-3 w-40 rounded-md border-2 border-solid border-gray-300 px-2;
 }
 
 .error-field {
-    @apply text-red-500 italic text-sm;
+  @apply text-sm italic text-red-500;
+}
+
+/* Match form */
+
+.btn {
+  @apply rounded bg-sky-300 px-4 py-2 font-bold text-white hover:bg-sky-500;
+}
+
+.btn-delete {
+  @apply rounded bg-red-300 px-4 py-2 font-bold text-white hover:bg-red-500;
+}
+
+.form-group {
+  @apply mb-2;
+}
+
+.form-group label {
+  @apply block font-bold text-sky-600;
+}
+
+.input-field {
+  @apply w-full border-2 border-sky-300 px-2 py-1;
 }
