@@ -22,6 +22,34 @@ export const trandau =
                 ThoiDiem: 20,
                 Loai: 'B',
             },
+            {
+                id: 3,
+                CauThu: 1,
+                Ten: 'Cristiano Ronaldo',
+                ThoiDiem: 40,
+                Loai: 'A',
+            },
+            {
+                id: 3,
+                CauThu: 1,
+                Ten: 'Cristiano Ronaldo',
+                ThoiDiem: 40,
+                Loai: 'A',
+            },
+            {
+                id: 3,
+                CauThu: 1,
+                Ten: 'Cristiano Ronaldo',
+                ThoiDiem: 40,
+                Loai: 'A',
+            },
+            {
+                id: 3,
+                CauThu: 1,
+                Ten: 'Cristiano Ronaldo',
+                ThoiDiem: 40,
+                Loai: 'A',
+            },
         ],
         Banthang2: [
             {

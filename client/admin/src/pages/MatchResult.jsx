@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { trandau } from "../mocks/match-result";
-
+import CustomDialog from "../features/common/Dialog";
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-unescaped-entities */
 export default function MatchResult({ id }) {
@@ -15,6 +15,14 @@ export default function MatchResult({ id }) {
   //     }
   //     return false
   // }
+
+  const [openingDialog, setOpeningDialog] = useState(false);
+
+  const handleClose = () => {
+    setOpeningDialog(false);
+    
+  };
+
   const [Doi1, setDoi1] = useState("");
   const [Doi2, setDoi2] = useState("");
 
@@ -68,7 +76,7 @@ export default function MatchResult({ id }) {
           </div>
         </div>
 
-        <div className="mt-10 flex items-center justify-between px-8">
+        <div className="mt-10 flex justify-between px-8">
           <ul className=" w-2/5">
             {Banthang1.map((item, index) => (
               <li
@@ -80,6 +88,28 @@ export default function MatchResult({ id }) {
                 <div>{item.Loai}</div>
               </li>
             ))}
+
+            {/* <form action="">
+              <div className="field">
+                <label htmlFor="">Cầu thủ</label>
+                <input type="text" className="w-10"/>
+              </div>
+              <div className="field">
+                <label htmlFor="">Cầu thủ</label>
+                <input type="text" className="w-10"/>
+              </div>
+              <div className="field">
+                <label htmlFor="">Cầu thủ</label>
+                <input type="text" className="w-10"/>
+              </div>
+            </form> */}
+            <button onClick={()=> setOpeningDialog(true)}>
+              Add 
+            </button>
+            <CustomDialog title={'Thêm bàn thắng'} open={openingDialog} onClose={handleClose}>
+              <h1>test</h1>
+            </CustomDialog>
+            
           </ul>
           <div>⚽</div>
           <ul className=" w-2/5">
