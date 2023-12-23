@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-
+import { Cauthu } from "../../mocks/match-result";
 /* eslint-disable react/prop-types */
 export default function FormAddGoal({ submitAdd }) {
   const types = 4;
@@ -18,11 +18,23 @@ export default function FormAddGoal({ submitAdd }) {
       <form onSubmit={handleSubmit(submitAdd)} className="min-w-[300px]">
         <div className="form-group">
           <label htmlFor="name">Họ và tên</label>
-          <input
+          {/* <input
             type="text"
             className=" input-field"
             {...register("Ten", { required: true })}
-          />
+          /> */}
+            <select
+                {...register("Ten", {
+                required: true,
+                })}
+                className="input-field"
+            >
+                {Cauthu.map((item, index) => (
+                <option key={index} value={item.Ten}>
+                    {item.Ten}
+                </option>
+                ))}
+            </select>
           {errors.Ten && <p className="error-field">*Không hợp lệ*</p>}
         </div>
 
