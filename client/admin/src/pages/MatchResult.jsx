@@ -1,4 +1,8 @@
+import { useState, useEffect } from "react";
+import { trandau } from "../mocks/match-result";
+
 /* eslint-disable react/prop-types */
+/* eslint-disable react/no-unescaped-entities */
 export default function MatchResult({ id }) {
   // const date = new Date();
   // const time = date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate()
@@ -11,6 +15,28 @@ export default function MatchResult({ id }) {
   //     }
   //     return false
   // }
+  const [Doi1, setDoi1] = useState("");
+  const [Doi2, setDoi2] = useState("");
+
+  const [Banthang1, setBanthang1] = useState([]);
+  const [Banthang2, setBanthang2] = useState([]);
+
+  
+
+  useEffect(() => {
+    setDoi1(trandau.Doi1);
+    setDoi2(trandau.Doi2);
+  }, []);
+
+  useEffect(() => {
+    setBanthang1(trandau.Banthang1);
+  }, []);
+
+  useEffect(() => {
+    setBanthang2(trandau.Banthang2);
+  }, []);
+
+  
 
   return (
     <div className="flex w-auto justify-center pt-32">
@@ -19,55 +45,55 @@ export default function MatchResult({ id }) {
             <h1>{isPlayed() ? time : test} {id}</h1> */}
       <div className="w-full bg-white">
         <div className="flex-start flex">
-          <h1>Giải bóng siêu cấp vô địch</h1>
-          <p>21/12 {id}</p>
+          <h1>Ngày</h1>
+          <p>21/12 - {id}</p>
         </div>
-        <div className="flex items-center justify-around mt-10">
-          <div>
+        <div className="mt-10 flex items-center justify-around">
+          <div className=" text-center">
             <img
               src="https://ssl.gstatic.com/onebox/media/sports/logos/Th4fAVAZeCJWRcKoLW7koA_96x96.png"
               alt="logo"
-              className=" h-20 w-20"
+              className=" m-auto h-20 w-20"
             />
-            <h1 className="mt-4">Real Madrid</h1>
+            <h1 className="mt-4 font-bold">{Doi1}</h1>
           </div>
-          <div className=" text-5xl tracking-[20px]">3 - 2</div>
-          <div>
+          <div className=" text-5xl tracking-[20px]">{Banthang1.length} - {Banthang2.length}</div>
+          <div className="text-center">
             <img
-              src="https://ssl.gstatic.com/onebox/media/sports/logos/Th4fAVAZeCJWRcKoLW7koA_96x96.png"
+              src="https://ssl.gstatic.com/onebox/media/sports/logos/paYnEE8hcrP96neHRNofhQ_96x96.png"
               alt="logo"
-              className=" h-20 w-20"
+              className=" m-auto h-20 w-20"
             />
-            <h1 className="mt-4">Real Madrid</h1>
+            <h1 className="mt-4 font-bold">{Doi2}</h1>
           </div>
         </div>
 
-        <div className="flex items-center justify-between mt-10 px-8">
-            <ul>
-                <li className="flex space-x-2">
-                    <div>Cristiano Ronaldo</div>
-                    <div>90`</div>
-                    <div>A</div>
-                </li>
-                <li className="flex space-x-2">
-                    <div>Cristiano Ronaldo</div>
-                    <div>90`</div>
-                    <div>A</div>
-                </li>
-            </ul>
-            <div>⚽</div>
-            <ul>
-                <li className="flex space-x-2">
-                    <div>Cristiano Ronaldo</div>
-                    <div>90`</div>
-                    <div>A</div>
-                </li>
-                <li className="flex space-x-2">
-                    <div>Cristiano Ronaldo</div>
-                    <div>90`</div>
-                    <div>A</div>
-                </li>
-            </ul>
+        <div className="mt-10 flex items-center justify-between px-8">
+          <ul className=" w-2/5">
+            {Banthang1.map((item, index) => (
+              <li
+                key={index}
+                className="flex space-x-2 text-sm font-semibold text-gray-500"
+              >
+                <div>{item.Ten}</div>
+                <div>{item.ThoiDiem}'</div>
+                <div>{item.Loai}</div>
+              </li>
+            ))}
+          </ul>
+          <div>⚽</div>
+          <ul className=" w-2/5">
+            {Banthang2.map((item, index) => (
+              <li
+                key={index}
+                className="flex justify-end space-x-2 text-sm font-semibold text-gray-500"
+              >
+                <div>{item.Ten}</div>
+                <div>{item.ThoiDiem}'</div>
+                <div>{item.Loai}</div>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </div>
