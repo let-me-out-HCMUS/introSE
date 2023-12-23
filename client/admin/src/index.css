@@ -34,7 +34,7 @@
 /* Match form */
 
 .btn {
-  @apply rounded bg-sky-300 px-4 py-2 font-bold text-white hover:bg-sky-500;
+  @apply rounded bg-green-300 px-4 py-2 font-bold text-white hover:bg-green-500;
 }
 
 .btn-delete {
@@ -46,9 +46,9 @@
 }
 
 .form-group label {
-  @apply block font-bold text-sky-600;
+  @apply block font-bold text-green-600;
 }
 
 .input-field {
-  @apply w-full border-2 border-sky-300 px-2 py-1;
+  @apply w-full border-2 border-green-300 px-2 py-1;
 }

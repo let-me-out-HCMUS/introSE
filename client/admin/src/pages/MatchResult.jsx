@@ -22,16 +22,13 @@ export default function MatchResult({ id }) {
 
   const handleClose = () => {
     setOpeningDialog(false);
-    
   };
 
   const [Doi1, setDoi1] = useState("");
   const [Doi2, setDoi2] = useState("");
 
-  const [Banthang1, setBanthang1] = useState([]);
+  const [Banthang1, setBanthang1] = useState(trandau.Banthang1);
   const [Banthang2, setBanthang2] = useState([]);
-
-  
 
   useEffect(() => {
     setDoi1(trandau.Doi1);
@@ -39,14 +36,19 @@ export default function MatchResult({ id }) {
   }, []);
 
   useEffect(() => {
-    setBanthang1(trandau.Banthang1);
-  }, []);
-
-  useEffect(() => {
     setBanthang2(trandau.Banthang2);
   }, []);
 
-  
+  useEffect(() => {
+    setBanthang1(trandau.Banthang1);
+  }, []);
+
+  const addGoal1 = (goal) => {
+    console.log(goal);
+    goal.id = Banthang1.length + 1;
+    setBanthang1([...Banthang1, goal]);
+    setOpeningDialog(false);
+  };
 
   return (
     <div className="flex w-auto justify-center pt-32">
@@ -67,7 +69,9 @@ export default function MatchResult({ id }) {
             />
             <h1 className="mt-4 font-bold">{Doi1}</h1>
           </div>
-          <div className=" text-5xl tracking-[20px]">{Banthang1.length} - {Banthang2.length}</div>
+          <div className=" text-5xl tracking-[20px]">
+            {Banthang1.length} - {Banthang2.length}
+          </div>
           <div className="text-center">
             <img
               src="https://ssl.gstatic.com/onebox/media/sports/logos/paYnEE8hcrP96neHRNofhQ_96x96.png"
@@ -91,27 +95,14 @@ export default function MatchResult({ id }) {
               </li>
             ))}
 
-            {/* <form action="">
-              <div className="field">
-                <label htmlFor="">Cầu thủ</label>
-                <input type="text" className="w-10"/>
-              </div>
-              <div className="field">
-                <label htmlFor="">Cầu thủ</label>
-                <input type="text" className="w-10"/>
-              </div>
-              <div className="field">
-                <label htmlFor="">Cầu thủ</label>
-                <input type="text" className="w-10"/>
-              </div>
-            </form> */}
-            <button onClick={()=> setOpeningDialog(true)}>
-              Add 
-            </button>
-            <CustomDialog title={'Thêm bàn thắng'} open={openingDialog} onClose={handleClose}>
-              <FormAddGoal submitAdd={handleClose}/>
+            <button onClick={() => setOpeningDialog(true)} className="btn">+</button>
+            <CustomDialog
+              title={"Thêm bàn thắng"}
+              open={openingDialog}
+              onClose={handleClose}
+            >
+              <FormAddGoal submitAdd={addGoal1} />
             </CustomDialog>
-            
           </ul>
           <div>⚽</div>
           <ul className=" w-2/5">
