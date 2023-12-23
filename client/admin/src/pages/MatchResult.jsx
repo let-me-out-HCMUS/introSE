@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { trandau } from "../mocks/match-result";
 import CustomDialog from "../features/common/Dialog";
+
 import FormAddGoal from "../features/match-result/FormAddGoal";
+import FormEditGoal from "../features/match-result/FormEditGoal";
 
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-unescaped-entities */
@@ -17,11 +19,17 @@ export default function MatchResult({ id }) {
   //     }
   //     return false
   // }
+  const [editedGoal1, setEditedGoal1] = useState({});
 
   const [openingDialog, setOpeningDialog] = useState(false);
+  const [openingDialogE, setOpeningDialogE] = useState(false);
 
   const handleClose = () => {
     setOpeningDialog(false);
+  };
+
+  const handleCloseE = () => {
+    setOpeningDialogE(false);
   };
 
   const [Doi1, setDoi1] = useState("");
@@ -48,6 +56,22 @@ export default function MatchResult({ id }) {
     goal.id = Banthang1.length + 1;
     setBanthang1([...Banthang1, goal]);
     setOpeningDialog(false);
+  };
+
+  const deleteGoal1 = (id) => {
+    // console.log(id);
+    setBanthang1(Banthang1.filter((item) => item.id !== id));
+  };
+
+  const editGoal1 = (goal) => {
+    console.log(goal);
+    setBanthang1((Banthang1) => {
+      const index = Banthang1.findIndex((item) => item.id === goal.id);
+      const newBanthang1 = [...Banthang1];
+      newBanthang1[index] = goal;
+      return newBanthang1;
+    });
+    setOpeningDialogE(false);
   };
 
   return (
@@ -92,17 +116,24 @@ export default function MatchResult({ id }) {
                 <div>{item.Ten}</div>
                 <div>{item.ThoiDiem}'</div>
                 <div>{item.Loai}</div>
+                <button
+                  className=" text-red-600"
+                  onClick={() => deleteGoal1(item.id)}
+                >
+                  Xoá
+                </button>
+                <button
+                  className=" text-blue-600"
+                  onClick={() => {setEditedGoal1(item) ;setOpeningDialogE(true)}}
+                >
+                  Sửa
+                </button>
               </li>
             ))}
 
-            <button onClick={() => setOpeningDialog(true)} className="btn">+</button>
-            <CustomDialog
-              title={"Thêm bàn thắng"}
-              open={openingDialog}
-              onClose={handleClose}
-            >
-              <FormAddGoal submitAdd={addGoal1} />
-            </CustomDialog>
+            <button onClick={() => setOpeningDialog(true)} className="btn">
+              +
+            </button>
           </ul>
           <div>⚽</div>
           <ul className=" w-2/5">
@@ -119,6 +150,21 @@ export default function MatchResult({ id }) {
           </ul>
         </div>
       </div>
+      <CustomDialog
+        title={"Thêm bàn thắng"}
+        open={openingDialog}
+        onClose={handleClose}
+      >
+        <FormAddGoal submitAdd={addGoal1} />
+      </CustomDialog>
+
+      <CustomDialog
+        title={"Chỉnh sửa bàn thắng"}
+        open={openingDialogE}
+        onClose={handleCloseE}
+      >
+        <FormEditGoal submitEdit={editGoal1} goal={editedGoal1} />
+      </CustomDialog>
     </div>
   );
 }
