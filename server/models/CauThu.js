@@ -1,10 +1,6 @@
 const mongoose = require("mongoose");
 
 const CauThuSchema = new mongoose.Schema({
-  _id: {
-    type: mongoose.Schema.Types.ObjectId,
-    default: mongoose.Types.ObjectId,
-  },
   Ten: {
     type: String,
     required: true,

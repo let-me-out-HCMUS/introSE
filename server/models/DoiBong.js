@@ -4,6 +4,7 @@ const DoiBongSchema = new mongoose.Schema({
   TenDoiBong: {
     type: String,
     required: true,
+    unique: true,
   },
   Thang: {
     type: Number,

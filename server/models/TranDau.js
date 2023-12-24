@@ -1,10 +1,6 @@
 const mongoose = require("mongoose");
 
 const TranDauSchema = new mongoose.Schema({
-  _id: {
-    type: mongoose.Schema.Types.ObjectId,
-    default: mongoose.Types.ObjectId,
-  },
   Doi1: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "DoiBong",
