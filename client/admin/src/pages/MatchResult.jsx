@@ -19,18 +19,6 @@ export default function MatchResult({ id }) {
   //     }
   //     return false
   // }
-  const [editedGoal1, setEditedGoal1] = useState({});
-
-  const [openingDialog, setOpeningDialog] = useState(false);
-  const [openingDialogE, setOpeningDialogE] = useState(false);
-
-  const handleClose = () => {
-    setOpeningDialog(false);
-  };
-
-  const handleCloseE = () => {
-    setOpeningDialogE(false);
-  };
 
   const [Doi1, setDoi1] = useState("");
   const [Doi2, setDoi2] = useState("");
@@ -50,6 +38,22 @@ export default function MatchResult({ id }) {
   useEffect(() => {
     setBanthang1(trandau.Banthang1);
   }, []);
+
+  const [editedGoal1, setEditedGoal1] = useState({});
+
+  const [openingDialog, setOpeningDialog] = useState(false);
+  const [openingDialogE, setOpeningDialogE] = useState(false);
+
+  const [isEditting, setIsEditting] = useState(false);
+  const isPlayed = false;
+
+  const handleClose = () => {
+    setOpeningDialog(false);
+  };
+
+  const handleCloseE = () => {
+    setOpeningDialogE(false);
+  };
 
   const addGoal1 = (goal) => {
     console.log(goal);
@@ -79,6 +83,22 @@ export default function MatchResult({ id }) {
       {/* <h1 className="mb-10">{time}</h1>
             <h1 className="mb-10">{test}</h1>
             <h1>{isPlayed() ? time : test} {id}</h1> */}
+      <CustomDialog
+        title={"Thêm bàn thắng"}
+        open={openingDialog}
+        onClose={handleClose}
+      >
+        <FormAddGoal submitAdd={addGoal1} />
+      </CustomDialog>
+
+      <CustomDialog
+        title={"Chỉnh sửa bàn thắng"}
+        open={openingDialogE}
+        onClose={handleCloseE}
+      >
+        <FormEditGoal submitEdit={editGoal1} goal={editedGoal1} />
+      </CustomDialog>
+
       <div className="w-full bg-white">
         <div className="flex-start flex">
           <h1>Ngày</h1>
@@ -116,24 +136,32 @@ export default function MatchResult({ id }) {
                 <div>{item.Ten}</div>
                 <div>{item.ThoiDiem}'</div>
                 <div>{item.Loai}</div>
-                <button
-                  className=" text-red-600"
-                  onClick={() => deleteGoal1(item.id)}
-                >
-                  Xoá
-                </button>
-                <button
-                  className=" text-blue-600"
-                  onClick={() => {setEditedGoal1(item) ;setOpeningDialogE(true)}}
-                >
-                  Sửa
-                </button>
+                {isEditting && (
+                  <>
+                    <button
+                      className=" text-green-600"
+                      onClick={() => {
+                        setEditedGoal1(item);
+                        setOpeningDialogE(true);
+                      }}
+                    >
+                      Sửa
+                    </button>
+                    <button
+                      className=" text-red-600"
+                      onClick={() => deleteGoal1(item.id)}
+                    >
+                      Xoá
+                    </button>
+                  </>
+                )}
               </li>
             ))}
-
-            <button onClick={() => setOpeningDialog(true)} className="btn">
-              +
-            </button>
+            {isEditting && (
+              <button onClick={() => setOpeningDialog(true)} className="btn">
+                +
+              </button>
+            )}
           </ul>
           <div>⚽</div>
           <ul className=" w-2/5">
@@ -149,22 +177,16 @@ export default function MatchResult({ id }) {
             ))}
           </ul>
         </div>
-      </div>
-      <CustomDialog
-        title={"Thêm bàn thắng"}
-        open={openingDialog}
-        onClose={handleClose}
-      >
-        <FormAddGoal submitAdd={addGoal1} />
-      </CustomDialog>
 
-      <CustomDialog
-        title={"Chỉnh sửa bàn thắng"}
-        open={openingDialogE}
-        onClose={handleCloseE}
-      >
-        <FormEditGoal submitEdit={editGoal1} goal={editedGoal1} />
-      </CustomDialog>
+        {!isPlayed && (
+          <button
+            className="btn m-auto block"
+            onClick={() => setIsEditting(!isEditting)}
+          >
+            {isEditting ? "Lưu" : "Chỉnh sửa"}
+          </button>
+        )}
+      </div>
     </div>
   );
 }

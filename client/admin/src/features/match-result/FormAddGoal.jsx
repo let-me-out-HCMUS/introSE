@@ -63,7 +63,6 @@ export default function FormAddGoal({ submitAdd }) {
           >
             {Array.from(Array(types).keys()).map((item, index) => (
               <option key={index} value={String.fromCharCode(65 + item)}>
-                {/* {item + 1} */}
                 {String.fromCharCode(65 + item)}
               </option>
             ))}
