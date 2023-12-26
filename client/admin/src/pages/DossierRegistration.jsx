@@ -1,6 +1,8 @@
+import ClubManagement from "../features/registration/ClubManagement"
+
 const DossierRegistration = () => {
   return (
-    <div>DossierRegistration</div>
+    <ClubManagement />
   )
 }
 
