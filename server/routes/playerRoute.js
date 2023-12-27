@@ -6,7 +6,7 @@ const playerController = require("../controllers/playerController");
 router
   .route("/")
   .get(playerController.getAllPlayers)
-  .post(playerController.createPlayer);
+  .post(playerController.uploadImage, playerController.createPlayer);
 router
   .route("/:id")
   .get(playerController.getAPlayer)

@@ -2,6 +2,7 @@ const Match = require("../models/Match");
 const Club = require("../models/Club");
 const catchAsync = require("../utils/catchAsync");
 
+// Get all matches
 exports.getAllMatches = catchAsync(async (req, res, next) => {
   const matches = await Match.find()
     .populate("firstClub")
@@ -15,6 +16,7 @@ exports.getAllMatches = catchAsync(async (req, res, next) => {
   });
 });
 
+// Get a match
 exports.getMatch = catchAsync(async (req, res, next) => {
   const match = await Match.findById(req.params.id)
     .populate("fistClub")
@@ -28,6 +30,7 @@ exports.getMatch = catchAsync(async (req, res, next) => {
   });
 });
 
+// Create a match
 exports.createMatch = catchAsync(async (req, res, next) => {
   // Example request body:
   /*   {
@@ -56,6 +59,7 @@ exports.createMatch = catchAsync(async (req, res, next) => {
   });
 });
 
+// Update a match
 exports.updateMatch = catchAsync(async (req, res, next) => {
   const match = await Match.findOne(req.body.id)
     .populate("firstClub")

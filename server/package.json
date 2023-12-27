@@ -20,6 +20,7 @@
     "express-mongo-sanitize": "^2.2.0",
     "express-rate-limit": "^7.0.1",
     "firebase": "^10.7.1",
+    "firebase-admin": "^12.0.0",
     "helmet": "^7.0.0",
     "hpp": "^0.2.3",
     "jsonwebtoken": "^9.0.2",

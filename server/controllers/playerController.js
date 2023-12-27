@@ -1,7 +1,10 @@
 const Player = require("../models/Player");
 const Club = require("../models/Club");
 const catchAsync = require("../utils/catchAsync");
+const firebase = require("../utils/upload");
+const multer = require("multer");
 
+// Get all players
 exports.getAllPlayers = catchAsync(async (req, res, next) => {
   const players = await Player.find().populate("Club");
 
@@ -13,6 +16,7 @@ exports.getAllPlayers = catchAsync(async (req, res, next) => {
   });
 });
 
+// Get a player
 exports.getAPlayer = catchAsync(async (req, res, next) => {
   const player = await Player.findById(req.params.id).populate("Club");
   res.status(200).json({
@@ -23,6 +27,9 @@ exports.getAPlayer = catchAsync(async (req, res, next) => {
   });
 });
 
+// Create a player
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 exports.createPlayer = catchAsync(async (req, res, next) => {
   // Example request body:
   /*   
@@ -33,12 +40,33 @@ exports.createPlayer = catchAsync(async (req, res, next) => {
     "shirtNum":7,
     "totalGoal":0
 } */
+
   const club = await Club.findOne({ clubName: req.body.clubName });
   if (!club) {
     return res.status(404).json({
       status: "fail",
       message: "Club does not exist",
     });
+  }
+
+  if (req.file) {
+    const { file } = req;
+    const fileName = `${Date.now()}_${file.originalname}`;
+    const blob = firebase.bucket.file(fileName);
+    const blobStream = blob.createWriteStream({
+      metadata: {
+        contentType: req.file.mimetype,
+      },
+    });
+
+    blobStream.on("finish", async () => {
+      // Đặt quyền truy cập đọc công khai thành true
+      await blob.makePublic();
+
+      // TODO: Lấy đường dẫn truy cập công khai
+    });
+
+    blobStream.end(file.buffer);
   }
   req.body.club = club._id;
   const player = await Player.create(req.body);
@@ -50,6 +78,9 @@ exports.createPlayer = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.uploadImage = upload.single("file");
+
+// Update a player
 exports.updatePlayer = catchAsync(async (req, res, next) => {
   const player = Player.findOne(req.body.id);
   if (!player) {

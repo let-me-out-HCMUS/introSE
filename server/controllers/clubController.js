@@ -1,6 +1,7 @@
 const Club = require("../models/Club");
 const catchAsync = require("../utils/catchAsync");
 
+// Get all clubs
 exports.getAllClubs = catchAsync(async (req, res, next) => {
   const club = await Club.find();
   res.status(200).json({
@@ -11,6 +12,7 @@ exports.getAllClubs = catchAsync(async (req, res, next) => {
   });
 });
 
+// Create a club
 exports.createClub = catchAsync(async (req, res, next) => {
   // Example request body:
   /* {
@@ -28,6 +30,7 @@ exports.createClub = catchAsync(async (req, res, next) => {
   });
 });
 
+//  Get a club
 exports.getClub = catchAsync(async (req, res, next) => {
   const team = await Club.findById(req.params.id);
   res.status(200).json({
@@ -38,6 +41,7 @@ exports.getClub = catchAsync(async (req, res, next) => {
   });
 });
 
+// Update a club
 exports.updateMatch = catchAsync(async (req, res, next) => {
   const team = await Club.findOne(req.body.id);
   if (!team) {

@@ -4,6 +4,7 @@ const Match = require("../models/Match");
 const Club = require("../models/Club");
 const catchAsync = require("../utils/catchAsync");
 
+// Get all goals
 exports.getAllGoals = catchAsync(async (req, res, next) => {
   const goals = await Goal.find().populate("player").populate("matchId");
   res.status(200).json({
@@ -14,6 +15,7 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
   });
 });
 
+// Get a goal
 exports.getAGoal = catchAsync(async (req, res, next) => {
   const goal = await Goal.findById(req.params.id)
     .populate("player")
@@ -26,6 +28,7 @@ exports.getAGoal = catchAsync(async (req, res, next) => {
   });
 });
 
+// Create a goal
 exports.createGoal = catchAsync(async (req, res, next) => {
   // Example request body:
   /*   {
@@ -76,6 +79,7 @@ exports.createGoal = catchAsync(async (req, res, next) => {
   });
 });
 
+// Update a goal
 exports.updateGoal = catchAsync(async (req, res, next) => {
   const goal = await Goal.findById(req.params.id);
   if (!goal) {
