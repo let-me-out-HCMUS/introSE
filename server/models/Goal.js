@@ -1,22 +1,22 @@
 const mongoose = require("mongoose");
 
-const BanThangSchema = new mongoose.Schema({
-  _idTranDau: {
+const GoalSchema = new mongoose.Schema({
+  matchId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "TranDau",
+    ref: "Match",
     required: true,
   },
-  CauThuGhiBan: {
+  playerId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "CauThu",
+    ref: "Player",
     required: true,
   },
-  LoaiBanThang: {
+  goalType: {
     type: String,
     enum: ["A", "B", "C"],
     required: true,
   },
-  ThoiDiem: {
+  time: {
     type: Number,
     min: 0,
     max: 96,
@@ -24,6 +24,6 @@ const BanThangSchema = new mongoose.Schema({
   },
 });
 
-const BanThang = mongoose.model("BanThang", BanThangSchema);
+const Goal = mongoose.model("Goal", GoalSchema);
 
-module.exports = BanThang;
+module.exports = Goal;

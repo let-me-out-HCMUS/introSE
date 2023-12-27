@@ -9,11 +9,11 @@ const mongoSanitize = require("express-mongo-sanitize");
 const cookieParser = require("cookie-parser");
 const AppError = require("./utils/AppError");
 const errorController = require("./controllers/errorController");
-const QuyDinhRoute = require("./routes/QuyDinhRoute");
-const BanThangRoute = require("./routes/BanThangRoute");
-const CauThuRoute = require("./routes/CauThuRoute");
-const DoiBongRoute = require("./routes/DoiBongRoute");
-const TranDauRoute = require("./routes/TranDauRoute");
+const clubRoute = require("./routes/clubRoute");
+const matchRoute = require("./routes/matchRoute");
+const goalRoute = require("./routes/goalRoute");
+const ruleRoute = require("./routes/ruleRoute");
+const playerRoute = require("./routes/playerRoute");
 
 const app = express();
 
@@ -56,11 +56,11 @@ app.use(
 app.use(cookieParser());
 
 // Routes
-app.use("/api/quydinh", QuyDinhRoute);
-app.use("/api/banthang", BanThangRoute);
-app.use("/api/cauthu", CauThuRoute);
-app.use("/api/doibong", DoiBongRoute);
-app.use("/api/trandau", TranDauRoute);
+app.use("/api/rules", ruleRoute);
+app.use("/api/goals", goalRoute);
+app.use("/api/players", playerRoute);
+app.use("/api/clubs", clubRoute);
+app.use("/api/matchs", matchRoute);
 
 // Handle when no match any routes
 app.all("*", (req, res, next) =>

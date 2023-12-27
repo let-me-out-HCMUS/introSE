@@ -1,57 +1,58 @@
 const mongoose = require("mongoose");
 
-const QuyDinhSchema = new mongoose.Schema({
-  CauThu: {
-    TuoiToiThieu: {
+const RuleSchema = new mongoose.Schema({
+  club: {
+    minAge: {
       type: Number,
       required: true,
     },
-    TuoiToiDa: {
+    maxAge: {
       type: Number,
       required: true,
     },
-    SoLuongToiThieu: {
+    maxForeigners: {
       type: Number,
       required: true,
     },
-    SoLuongToiDa: {
+    minPlayers: {
       type: Number,
       required: true,
     },
-    SoLuongCauThuNuocNgoaiToiDa: {
-      type: Number,
-      required: true,
-    },
-  },
-  BanThang: {
-    SoLuongLoaiBanThang: {
-      type: Number,
-      required: true,
-    },
-    ThoiDiemGhiBanToiDa: {
+    maxPlayers: {
       type: Number,
       required: true,
     },
   },
-  XepHang: {
-    DiemThang: {
+  goal: {
+    quantityType: {
       type: Number,
       required: true,
     },
-    DiemThua: {
+    maxTime: {
       type: Number,
       required: true,
     },
-    DiemHoa: {
+  },
+  point: {
+    win: {
       type: Number,
       required: true,
     },
-    ThuTuUuTienXepHang: {
-      type: String,
+    lose: {
+      type: Number,
+      required: true,
     },
+    draw: {
+      type: Number,
+      required: true,
+    },
+  },
+  piority: {
+    type: String,
+    required: true,
   },
 });
 
-const QuyDinh = mongoose.model("QuyDinh", QuyDinhSchema);
+const Rule = mongoose.model("Rule", RuleSchema);
 
-module.exports = QuyDinh;
+module.exports = Rule;

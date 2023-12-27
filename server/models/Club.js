@@ -1,33 +1,33 @@
 const mongoose = require("mongoose");
 
-const DoiBongSchema = new mongoose.Schema({
-  TenDoiBong: {
+const ClubSchema = new mongoose.Schema({
+  clubName: {
     type: String,
     required: true,
     unique: true,
   },
-  Thang: {
+  won: {
     type: Number,
     default: 0,
   },
-  Thua: {
+  lost: {
     type: Number,
     default: 0,
   },
-  Hoa: {
+  drawn: {
     type: Number,
     default: 0,
   },
-  HieuSo: {
+  gd: {
     type: Number,
     default: 0,
   },
-  Hang: {
+  rank: {
     type: Number,
     default: 0,
   },
 });
 
-const DoiBong = mongoose.model("DoiBong", DoiBongSchema);
+const Club = mongoose.model("Club", ClubSchema);
 
-module.exports = DoiBong;
+module.exports = Club;
