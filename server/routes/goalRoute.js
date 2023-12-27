@@ -7,6 +7,9 @@ router
   .route("/")
   .get(goalController.getAllGoals)
   .post(goalController.createGoal);
-router.route("/:id").get(goalController.getAGoal);
+router
+  .route("/:id")
+  .get(goalController.getAGoal)
+  .put(goalController.updateGoal);
 
 module.exports = router;

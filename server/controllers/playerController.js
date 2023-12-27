@@ -37,12 +37,42 @@ exports.createPlayer = catchAsync(async (req, res, next) => {
   if (!club) {
     return res.status(404).json({
       status: "fail",
-      message: "Cau lac bo khong ton tai",
+      message: "Club does not exist",
     });
   }
   req.body.club = club._id;
   const player = await Player.create(req.body);
   res.status(201).json({
+    status: "success",
+    data: {
+      player,
+    },
+  });
+});
+
+exports.updatePlayer = catchAsync(async (req, res, next) => {
+  const player = Player.findOne(req.body.id);
+  if (!player) {
+    return res.status(404).json({
+      status: "fail",
+      message: "Player does not exist",
+    });
+  }
+  const club = await Club.findOne({ clubName: req.body.clubName });
+  if (!club) {
+    return res.status(404).json({
+      status: "fail",
+      message: "Club does not exist",
+    });
+  }
+  req.body.club = club._id;
+  player.name = req.body.name;
+  player.type = req.body.type;
+  player.club = req.body.club;
+  player.shirtNum = req.body.shirtNum;
+  player.totalGoal = req.body.totalGoal;
+  await player.save();
+  res.status(200).json({
     status: "success",
     data: {
       player,

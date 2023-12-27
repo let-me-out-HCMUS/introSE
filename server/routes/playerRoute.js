@@ -7,6 +7,9 @@ router
   .route("/")
   .get(playerController.getAllPlayers)
   .post(playerController.createPlayer);
-router.route("/:id").get(playerController.getAPlayer);
+router
+  .route("/:id")
+  .get(playerController.getAPlayer)
+  .put(playerController.updatePlayer);
 
 module.exports = router;

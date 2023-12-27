@@ -7,6 +7,9 @@ router
   .route("/")
   .get(clubController.getAllClubs)
   .post(clubController.createClub);
-router.route("/:id").get(clubController.getClub);
+router
+  .route("/:id")
+  .get(clubController.getClub)
+  .put(clubController.updateMatch);
 
 module.exports = router;

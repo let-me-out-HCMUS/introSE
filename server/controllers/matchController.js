@@ -41,7 +41,7 @@ exports.createMatch = catchAsync(async (req, res, next) => {
   if (!firstClub || !secondClub) {
     return res.status(404).json({
       status: "fail",
-      message: "Cau lac bo khong ton tai",
+      message: "Club does not exist",
     });
   }
   req.body.firstClub = firstClub._id;
@@ -49,6 +49,29 @@ exports.createMatch = catchAsync(async (req, res, next) => {
   const match = await Match.create(req.body);
 
   res.status(201).json({
+    status: "success",
+    data: {
+      match,
+    },
+  });
+});
+
+exports.updateMatch = catchAsync(async (req, res, next) => {
+  const match = await Match.findOne(req.body.id)
+    .populate("firstClub")
+    .populate("secondClub");
+  if (!match) {
+    return res.status(404).json({
+      status: "fail",
+      message: "Match does not exist",
+    });
+  }
+  match.firstClub = req.body.firstClub;
+  match.secondClub = req.body.secondClub;
+  match.time = req.body.time;
+  match.stadium = req.body.stadium;
+  await match.save();
+  res.status(200).json({
     status: "success",
     data: {
       match,

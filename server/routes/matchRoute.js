@@ -7,6 +7,9 @@ router
   .route("/")
   .get(matchController.getAllMatches)
   .post(matchController.createMatch);
-router.route("/:id").get(matchController.getMatch);
+router
+  .route("/:id")
+  .get(matchController.getMatch)
+  .put(matchController.updateMatch);
 
 module.exports = router;

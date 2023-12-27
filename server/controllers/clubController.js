@@ -37,3 +37,23 @@ exports.getClub = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+exports.updateMatch = catchAsync(async (req, res, next) => {
+  const team = await Club.findOne(req.body.id);
+  if (!team) {
+    return res.status(404).json({
+      status: "fail",
+      message: "Club does not exist",
+    });
+  }
+  const newTeam = await Club.findByIdAndUpdate(req.body.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
+  res.status(200).json({
+    status: "success",
+    data: {
+      newTeam,
+    },
+  });
+});

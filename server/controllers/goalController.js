@@ -47,7 +47,7 @@ exports.createGoal = catchAsync(async (req, res, next) => {
   if (!match) {
     return res.status(404).json({
       status: "fail",
-      message: "Tran dau khong ton tai",
+      message: "Match does not exist",
     });
   }
   // Find player
@@ -55,7 +55,7 @@ exports.createGoal = catchAsync(async (req, res, next) => {
   if (!player) {
     return res.status(404).json({
       status: "fail",
-      message: "Cau thu khong ton tai",
+      message: "Player does not exist",
     });
   }
 
@@ -69,6 +69,25 @@ exports.createGoal = catchAsync(async (req, res, next) => {
 
   const goal = await Goal.create(goadObj);
   res.status(201).json({
+    status: "success",
+    data: {
+      goal,
+    },
+  });
+});
+
+exports.updateGoal = catchAsync(async (req, res, next) => {
+  const goal = await Goal.findById(req.params.id);
+  if (!goal) {
+    return res.status(404).json({
+      status: "fail",
+      message: "Goal does not exist",
+    });
+  }
+  goal.time = req.body.time;
+  goal.goalType = req.body.goalType;
+  await goal.save();
+  res.status(200).json({
     status: "success",
     data: {
       goal,
