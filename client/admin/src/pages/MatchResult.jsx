@@ -45,7 +45,8 @@ export default function MatchResult({ id }) {
   const [openingDialogE, setOpeningDialogE] = useState(false);
 
   const [isEditting, setIsEditting] = useState(false);
-  const isPlayed = false;
+  const today = new Date();
+  const isPlayed = today > trandau.NgayThiDau;
 
   const handleClose = () => {
     setOpeningDialog(false);
@@ -101,8 +102,9 @@ export default function MatchResult({ id }) {
 
       <div className="w-full bg-white">
         <div className="flex-start flex">
-          <h1>Ngày</h1>
-          <p>21/12 - {id}</p>
+          <h1>ID:{id} Ngày {trandau.NgayThiDau.getDate()} - {trandau.NgayThiDau.getMonth()+1}</h1>
+          
+          {!isPlayed && <p>Trận đấu chưa diễn ra</p>}
         </div>
         <div className="mt-10 flex items-center justify-around">
           <div className=" text-center">
@@ -114,7 +116,7 @@ export default function MatchResult({ id }) {
             <h1 className="mt-4 font-bold">{Doi1}</h1>
           </div>
           <div className=" text-5xl tracking-[20px]">
-            {Banthang1.length} - {Banthang2.length}
+            {isPlayed ? <>{Banthang1.length} - {Banthang2.length}</> : "-"}
           </div>
           <div className="text-center">
             <img
@@ -126,59 +128,61 @@ export default function MatchResult({ id }) {
           </div>
         </div>
 
-        <div className="mt-10 flex justify-between px-8">
-          <ul className=" w-2/5">
-            {Banthang1.map((item, index) => (
-              <li
-                key={index}
-                className="flex space-x-2 text-sm font-semibold text-gray-500"
-              >
-                <div>{item.Ten}</div>
-                <div>{item.ThoiDiem}'</div>
-                <div>{item.Loai}</div>
-                {isEditting && (
-                  <>
-                    <button
-                      className=" text-green-600"
-                      onClick={() => {
-                        setEditedGoal1(item);
-                        setOpeningDialogE(true);
-                      }}
-                    >
-                      Sửa
-                    </button>
-                    <button
-                      className=" text-red-600"
-                      onClick={() => deleteGoal1(item.id)}
-                    >
-                      Xoá
-                    </button>
-                  </>
-                )}
-              </li>
-            ))}
-            {isEditting && (
-              <button onClick={() => setOpeningDialog(true)} className="btn">
-                +
-              </button>
-            )}
-          </ul>
-          <div>⚽</div>
-          <ul className=" w-2/5">
-            {Banthang2.map((item, index) => (
-              <li
-                key={index}
-                className="flex justify-end space-x-2 text-sm font-semibold text-gray-500"
-              >
-                <div>{item.Ten}</div>
-                <div>{item.ThoiDiem}'</div>
-                <div>{item.Loai}</div>
-              </li>
-            ))}
-          </ul>
-        </div>
+        {isPlayed && (
+          <div className="mt-10 flex justify-between px-8">
+            <ul className=" w-2/5">
+              {Banthang1.map((item, index) => (
+                <li
+                  key={index}
+                  className="flex space-x-2 text-sm font-semibold text-gray-500"
+                >
+                  <div>{item.Ten}</div>
+                  <div>{item.ThoiDiem}'</div>
+                  <div>{item.Loai}</div>
+                  {isEditting && (
+                    <>
+                      <button
+                        className=" text-green-600"
+                        onClick={() => {
+                          setEditedGoal1(item);
+                          setOpeningDialogE(true);
+                        }}
+                      >
+                        Sửa
+                      </button>
+                      <button
+                        className=" text-red-600"
+                        onClick={() => deleteGoal1(item.id)}
+                      >
+                        Xoá
+                      </button>
+                    </>
+                  )}
+                </li>
+              ))}
+              {isEditting && (
+                <button onClick={() => setOpeningDialog(true)} className="btn">
+                  +
+                </button>
+              )}
+            </ul>
+            <div>⚽</div>
+            <ul className=" w-2/5">
+              {Banthang2.map((item, index) => (
+                <li
+                  key={index}
+                  className="flex justify-end space-x-2 text-sm font-semibold text-gray-500"
+                >
+                  <div>{item.Ten}</div>
+                  <div>{item.ThoiDiem}'</div>
+                  <div>{item.Loai}</div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
-        {!isPlayed && (
+        {isPlayed && (
           <button
             className="btn m-auto block"
             onClick={() => setIsEditting(!isEditting)}
