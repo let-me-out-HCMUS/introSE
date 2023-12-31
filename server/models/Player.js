@@ -27,6 +27,10 @@ const PlayerSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
+  image: {
+    type: String,
+    default: "",
+  },
 });
 
 const Player = mongoose.model("Player", PlayerSchema);

@@ -1,7 +1,7 @@
 const Player = require("../models/Player");
 const Club = require("../models/Club");
 const catchAsync = require("../utils/catchAsync");
-const firebase = require("../utils/upload");
+const bucket = require("../utils/upload");
 const multer = require("multer");
 
 // Get all players
@@ -30,6 +30,7 @@ exports.getAPlayer = catchAsync(async (req, res, next) => {
 // Create a player
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
+exports.uploadImage = upload.single("file");
 exports.createPlayer = catchAsync(async (req, res, next) => {
   // Example request body:
   /*   
@@ -40,7 +41,6 @@ exports.createPlayer = catchAsync(async (req, res, next) => {
     "shirtNum":7,
     "totalGoal":0
 } */
-
   const club = await Club.findOne({ clubName: req.body.clubName });
   if (!club) {
     return res.status(404).json({
@@ -48,11 +48,11 @@ exports.createPlayer = catchAsync(async (req, res, next) => {
       message: "Club does not exist",
     });
   }
-
+  let publicUrl = "";
   if (req.file) {
     const { file } = req;
     const fileName = `${Date.now()}_${file.originalname}`;
-    const blob = firebase.bucket.file(fileName);
+    const blob = bucket.file(fileName);
     const blobStream = blob.createWriteStream({
       metadata: {
         contentType: req.file.mimetype,
@@ -64,21 +64,37 @@ exports.createPlayer = catchAsync(async (req, res, next) => {
       await blob.makePublic();
 
       // TODO: Lấy đường dẫn truy cập công khai
+      publicUrl = await blob.getSignedUrl({
+        action: "read",
+        expires: "03-09-2025", // Thời gian hết hạn của đường dẫn ký
+      });
+      const player = await Player.create({
+        name: req.body.name,
+        type: req.body.type,
+        club: club._id,
+        shirtNum: req.body.shirtNum,
+        totalGoal: req.body.totalGoal,
+        image: publicUrl[0],
+      });
+      res.status(201).json({
+        status: "success",
+        data: {
+          player,
+        },
+      });
     });
-
     blobStream.end(file.buffer);
+  } else {
+    req.body.club = club._id;
+    const player = await Player.create(req.body);
+    res.status(201).json({
+      status: "success",
+      data: {
+        player,
+      },
+    });
   }
-  req.body.club = club._id;
-  const player = await Player.create(req.body);
-  res.status(201).json({
-    status: "success",
-    data: {
-      player,
-    },
-  });
 });
-
-exports.uploadImage = upload.single("file");
 
 // Update a player
 exports.updatePlayer = catchAsync(async (req, res, next) => {
