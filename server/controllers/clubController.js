@@ -85,7 +85,7 @@ exports.getClub = catchAsync(async (req, res, next) => {
 });
 
 // Update a club
-exports.updateMatch = catchAsync(async (req, res, next) => {
+exports.updateClub = catchAsync(async (req, res, next) => {
   const team = await Club.findOne(req.body.id);
   if (!team) {
     return res.status(404).json({
