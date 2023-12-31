@@ -6,7 +6,7 @@ const clubController = require("../controllers/clubController");
 router
   .route("/")
   .get(clubController.getAllClubs)
-  .post(clubController.createClub);
+  .post(clubController.uploadImage, clubController.createClub);
 router
   .route("/:id")
   .get(clubController.getClub)

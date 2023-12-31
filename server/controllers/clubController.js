@@ -1,5 +1,7 @@
 const Club = require("../models/Club");
 const catchAsync = require("../utils/catchAsync");
+const bucket = require("../utils/upload");
+const multer = require("multer");
 
 // Get all clubs
 exports.getAllClubs = catchAsync(async (req, res, next) => {
@@ -13,6 +15,9 @@ exports.getAllClubs = catchAsync(async (req, res, next) => {
 });
 
 // Create a club
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+exports.uploadImage = upload.single("file");
 exports.createClub = catchAsync(async (req, res, next) => {
   // Example request body:
   /* {
@@ -21,13 +26,51 @@ exports.createClub = catchAsync(async (req, res, next) => {
     "lost":10,
     "drawn":0
 } */
-  const team = await Club.create(req.body);
-  res.status(201).json({
-    status: "success",
-    data: {
-      team,
-    },
-  });
+  let publicUrl = "";
+  if (req.file) {
+    const { file } = req;
+    const fileName = `${Date.now()}_${file.originalname}`;
+    const blob = bucket.file(fileName);
+    const blobStream = blob.createWriteStream({
+      metadata: {
+        contentType: req.file.mimetype,
+      },
+    });
+    blobStream.on("error", (err) => {
+      next(err);
+    });
+    blobStream.on("finish", async () => {
+      await blob.makePublic();
+
+      // TODO: Lấy đường dẫn truy cập công khai
+      publicUrl = await blob.getSignedUrl({
+        action: "read",
+        expires: "03-09-2025", // Thời gian hết hạn của đường dẫn ký
+      });
+      const club = await Club.create({
+        clubName: req.body.clubName,
+        won: req.body.won,
+        lost: req.body.lost,
+        drawn: req.body.drawn,
+        image: publicUrl[0],
+      });
+      res.status(201).json({
+        status: "success",
+        data: {
+          club,
+        },
+      });
+    });
+    blobStream.end(req.file.buffer);
+  } else {
+    const club = await Club.create(req.body);
+    res.status(201).json({
+      status: "success",
+      data: {
+        club,
+      },
+    });
+  }
 });
 
 //  Get a club

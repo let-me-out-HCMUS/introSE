@@ -59,6 +59,10 @@ exports.createPlayer = catchAsync(async (req, res, next) => {
       },
     });
 
+    blobStream.on("error", (err) => {
+      next(err);
+    });
+
     blobStream.on("finish", async () => {
       // Đặt quyền truy cập đọc công khai thành true
       await blob.makePublic();
