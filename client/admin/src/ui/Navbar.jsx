@@ -14,8 +14,8 @@ export const Navbar = () => {
             link: "/"
         },
         {
-            name: "Lịch thi đấu",
-            link: "/matches"
+            name: "Lập lịch thi đấu",
+            link: "/schedules"
         },
         {
             name: "Bảng xếp hạng",
