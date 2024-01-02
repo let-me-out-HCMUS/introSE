@@ -10,6 +10,7 @@ router
 router
   .route("/:id")
   .get(matchController.getMatch)
-  .put(matchController.updateMatch);
+  .put(matchController.updateMatch)
+  .delete(matchController.deleteMatch);
 
 module.exports = router;

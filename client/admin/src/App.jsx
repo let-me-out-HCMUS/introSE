@@ -43,6 +43,8 @@ function App() {
             <Route path="/clubs" element={<ClubPage />} />
             <Route path="/change-rule" element={<ChangeRule />} />
             <Route path="/schedules" element={<MatchSchedule />} />
+            <Route path="/match-result/:id" element={<MatchResult/>} />
+
             {/* Another route add from here */}
             <Route path = "/matches" element={<MatchResult id={1}/>} />
             {/* All invalid route will render PageNotFound page */}

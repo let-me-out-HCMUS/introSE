@@ -101,9 +101,9 @@ export default function MatchResult({ id }) {
       </CustomDialog>
 
       <div className="w-full bg-white">
-        <div className="flex-start flex">
-          <h1>ID:{id} Ngày {trandau.NgayThiDau.getDate()} - {trandau.NgayThiDau.getMonth()+1}</h1>
-          
+        <div className="block ml-5">
+          <h1>ID:{id} - Ngày {trandau.NgayThiDau.getDate()} - {trandau.NgayThiDau.getMonth()+1}</h1>
+          <h1>Sân vận động: {trandau.San}</h1>
           {!isPlayed && <p>Trận đấu chưa diễn ra</p>}
         </div>
         <div className="mt-10 flex items-center justify-around">

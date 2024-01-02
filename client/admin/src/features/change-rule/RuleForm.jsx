@@ -1,24 +1,57 @@
-import { useState } from "react";
-import { rule } from "../../mocks/rule";
+import { useEffect, useState } from "react";
+// import { rule } from "../../mocks/rule";
 import { useForm } from "react-hook-form";
+import {useQuery} from "@tanstack/react-query";
+import {getRule} from "../../services/apiRule";
 
 export default function RuleForm() {
+  const {data} = useQuery(["wtf"], ()=> getRule());
+
   const [isEditting, setIsEditting] = useState(false);
+  // const [rule, setRule] = useState({});
+  
+  
+  
+  
+  useEffect(() => {
+    if (data) {
+      setValue("club.minAge", data.club.minAge);
+      setValue("club.maxAge", data.club.maxAge);
+      setValue("club.maxForeigners", data.club.maxForeigners);
+      setValue("club.minPlayers", data.club.minPlayers);
+      setValue("club.maxPlayers", data.club.maxPlayers);
+      setValue("goal.quantityType", data.goal.quantityType);
+      setValue("goal.maxTime", data.goal.maxTime);
+      setValue("point.win", data.point.win);
+      setValue("point.draw", data.point.draw);
+      setValue("point.lose", data.point.lose);
+      // setValue("point.priority", data.point.priority);
+      setValue("point.priority[0]", data.point.priority[0]);
+      setValue("point.priority[1]", data.point.priority[1]);
+      setValue("point.priority[2]", data.point.priority[2]);
+      setValue("point.priority[3]", data.point.priority[3]);
+      
+
+    }
+    console.log(data);
+    
+  }, [data]);
 
   const {
     register,
     handleSubmit,
     watch,
     reset,
+    setValue,
     formState: { errors },
-  } = useForm({ defaultValues: rule });
+  } = useForm();
 
   const watchPriority = watch("point.priority");
 
   // console.log(watchPriority);
   //   Todo: submit data to server
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = (newdata) => {
+    console.log(newdata);
     setIsEditting(false);
   };
 
@@ -295,19 +328,19 @@ export default function RuleForm() {
             <button
               onClick={() => {
                 setIsEditting(false);
-                reset(rule);
+                reset(data);
               }}
               type="button"
               className="rounded bg-slate-500 px-4 py-2 font-bold text-white hover:bg-slate-700"
             >
-              Cancel
+              Huỷ
             </button>
 
             <button
               type="submit"
               className="ml-4 rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-700"
             >
-              Submit
+              Lưu
             </button>
           </>
         )}
