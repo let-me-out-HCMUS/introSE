@@ -130,3 +130,18 @@ exports.updatePlayer = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+// Delete a player
+exports.deletePlayer = catchAsync(async (req, res, next) => {
+  const player = await Player.findByIdAndDelete(req.params.id);
+  if (!player) {
+    return res.status(404).json({
+      status: "fail",
+      message: "Player does not exist",
+    });
+  }
+  res.status(204).json({
+    status: "success",
+    data: null,
+  });
+});

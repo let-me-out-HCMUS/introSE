@@ -10,6 +10,6 @@ router
 router
   .route("/:id")
   .get(playerController.getAPlayer)
-  .put(playerController.updatePlayer);
-
+  .put(playerController.updatePlayer)
+  .delete(playerController.deletePlayer);
 module.exports = router;
