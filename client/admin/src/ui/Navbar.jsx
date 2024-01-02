@@ -8,32 +8,32 @@ export const Navbar = () => {
     setSelectPage(i);
   };
 
-  const navItems = [
-    {
-      name: "Trang chủ",
-      link: "/",
-    },
-    {
-      name: "Lịch thi đấu",
-      link: "/matches",
-    },
-    {
-      name: "Bảng xếp hạng",
-      link: "/rank",
-    },
-    {
-      name: "Lập hồ sơ đăng ký",
-      link: "/register",
-    },
-    {
-      name: "Thông tin cầu thủ",
-      link: "/players",
-    },
-    {
-      name: "Thay đổi quy định",
-      link: "/change-rule",
-    },
-  ];
+    const navItems = [
+        {
+            name: "Trang chủ",
+            link: "/"
+        },
+        {
+            name: "Lập lịch thi đấu",
+            link: "/schedules"
+        },
+        {
+            name: "Bảng xếp hạng",
+            link: "/rank"
+        },
+        {
+            name: "Lập hồ sơ đăng ký",
+            link: "/register"
+        },
+        {
+            name: "Thông tin cầu thủ",
+            link: "/players"
+        },
+        {
+            name: "Thay đổi quy định",
+            link: "/change-rule"
+        },
+    ]
 
   return (
     <div className="flex justify-evenly px-20 py-4">
