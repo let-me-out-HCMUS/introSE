@@ -4,11 +4,11 @@
 
 /* Rule Form */
 .group-rule h1 {
-  @apply text-2xl font-bold;
+  @apply text-2xl font-bold mb-2;
 }
 
 .rule-content {
-  @apply m-4;
+  @apply mb-4 ml-12;
 }
 
 .rule-half {
@@ -16,7 +16,7 @@
 }
 
 .field {
-  @apply w-full;
+  @apply w-full mb-2;
 }
 
 .field input {
