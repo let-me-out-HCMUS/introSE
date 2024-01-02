@@ -14,7 +14,7 @@ import ClubPage from "./pages/ClubPage";
 import PlayerDetails from "./features/players/PlayerDetails";
 import ChangeRule from "./pages/ChangeRule";
 
-// import MatchResult from "./pages/MatchResult";
+import MatchResult from "./pages/MatchResult";
 
 import MatchSchedule from "./pages/MatchSchedule";
 
@@ -43,6 +43,8 @@ function App() {
             <Route path="/clubs" element={<ClubPage />} />
             <Route path="/change-rule" element={<ChangeRule />} />
             <Route path="/schedules" element={<MatchSchedule />} />
+            <Route path="/match-result/:id" element={<MatchResult/>} />
+
             {/* Another route add from here */}
             {/* <Route path = "matches" element={<MatchResult id={1}/>} /> */}
             {/* All invalid route will render PageNotFound page */}

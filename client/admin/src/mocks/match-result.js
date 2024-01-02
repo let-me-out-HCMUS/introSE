@@ -4,7 +4,7 @@ export const trandau =
     id: 1,
     Doi1: 'Real Madrid',
     Doi2: 'Barcelona',
-    NgayThiDau: new Date('2023-3-14'),
+    NgayThiDau: new Date('2024-3-14'),
     San: 'Santiago Bernabeu',
     TySo: '2-1',
     Banthang1: [
