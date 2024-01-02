@@ -8,6 +8,12 @@ const xss = require("xss-clean");
 const mongoSanitize = require("express-mongo-sanitize");
 const cookieParser = require("cookie-parser");
 const AppError = require("./utils/AppError");
+const errorController = require("./controllers/errorController");
+const clubRoute = require("./routes/clubRoute");
+const matchRoute = require("./routes/matchRoute");
+const goalRoute = require("./routes/goalRoute");
+const ruleRoute = require("./routes/ruleRoute");
+const playerRoute = require("./routes/playerRoute");
 
 const app = express();
 
@@ -49,9 +55,17 @@ app.use(
 );
 app.use(cookieParser());
 
+// Routes
+app.use("/api/rules", ruleRoute);
+app.use("/api/goals", goalRoute);
+app.use("/api/players", playerRoute);
+app.use("/api/clubs", clubRoute);
+app.use("/api/matchs", matchRoute);
+
 // Handle when no match any routes
 app.all("*", (req, res, next) =>
   next(new AppError(`Can't find ${req.originalUrl} on this server !`, 404)),
 );
 
+app.use(errorController);
 module.exports = app;
