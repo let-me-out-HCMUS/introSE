@@ -7,7 +7,7 @@ exports.getRule = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: "success",
     data: {
-      rule,
+      rule: rule[0],
     },
   });
 });
