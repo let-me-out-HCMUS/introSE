@@ -98,3 +98,11 @@ exports.updateGoal = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+exports.deleteGoal = catchAsync(async (req, res, next) => {
+  await Goal.findByIdAndDelete(req.params.id);
+  res.status(204).json({
+    status: "success",
+    data: null,
+  });
+});

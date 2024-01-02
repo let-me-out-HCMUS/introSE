@@ -19,7 +19,7 @@ exports.getAllMatches = catchAsync(async (req, res, next) => {
 // Get a match
 exports.getMatch = catchAsync(async (req, res, next) => {
   const match = await Match.findById(req.params.id)
-    .populate("fistClub")
+    .populate("firstClub")
     .populate("secondClub");
 
   res.status(200).json({
@@ -80,5 +80,13 @@ exports.updateMatch = catchAsync(async (req, res, next) => {
     data: {
       match,
     },
+  });
+});
+
+exports.deleteMatch = catchAsync(async (req, res, next) => {
+  await Match.findByIdAndDelete(req.params.id);
+  res.status(204).json({
+    status: "success",
+    data: null,
   });
 });
