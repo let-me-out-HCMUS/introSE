@@ -1,11 +1,9 @@
 import PlayerTable from "../features/players/PlayerTable";
 
-function PlayerPage() {
+export default function PlayerPage() {
   return (
-    <div className="flex w-auto justify-center pt-32	">
+    <div className="flex justify-center py-16	">
       <PlayerTable />
     </div>
   );
 }
-
-export default PlayerPage;
