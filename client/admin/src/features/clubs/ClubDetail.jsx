@@ -3,9 +3,7 @@ import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
 export default function ClubDetail() {
   return (
     <>
-      <Card
-        sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
-      >
+      <Card sx={{ display: "flex", alignItems: "center" }}>
         <CardMedia
           component="img"
           image="https://hanoifc.com.vn/images/logo-v2.png"
