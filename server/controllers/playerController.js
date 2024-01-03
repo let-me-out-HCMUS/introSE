@@ -45,6 +45,7 @@ exports.createPlayer = catchAsync(async (req, res, next) => {
     "name":"Cristiano Ronaldo",
     "type":"Ngoài nước",
     "clubName":"Manchester United",
+    "dob":"1985-02-05",
     "shirtNum":7,
     "totalGoal":0
 } */
