@@ -2,10 +2,18 @@ const Club = require("../models/Club");
 const catchAsync = require("../utils/catchAsync");
 const bucket = require("../utils/upload");
 const multer = require("multer");
+const APIFeatures = require("../utils/apiFeature");
 
 // Get all clubs
 exports.getAllClubs = catchAsync(async (req, res, next) => {
-  const club = await Club.find();
+  // Build query
+  const features = new APIFeatures(Club.find(), req.query)
+    .filter()
+    .sort()
+    .limit()
+    .paginate();
+
+  const club = await features.query;
   res.status(200).json({
     status: "success",
     data: {
