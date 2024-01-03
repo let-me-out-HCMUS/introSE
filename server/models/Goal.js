@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 
 const GoalSchema = new mongoose.Schema({
-  matchId: {
+  match: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Match",
     required: true,
   },
-  playerId: {
+  player: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Player",
     required: true,
@@ -24,7 +24,7 @@ const GoalSchema = new mongoose.Schema({
   },
   isOwnGoal: {
     type: Boolean,
-    default: false,
+    default: true,
   },
 });
 
