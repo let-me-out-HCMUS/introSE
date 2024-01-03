@@ -71,6 +71,20 @@ exports.createGoal = catchAsync(async (req, res, next) => {
   };
 
   const goal = await Goal.create(goadObj);
+
+  // Update match point
+  let firstClubPoint = Number(match.result.split("-")[0]);
+  let secondClubPoint = Number(match.result.split("-")[1]);
+  if (player.club.toString() === firstClub._id.toString()) {
+    if (!goal.isOwnGoal) firstClubPoint += 1;
+    else secondClubPoint += 1;
+  } else if (player.club.toString() === secondClub._id.toString()) {
+    if (!goal.isOwnGoal) secondClubPoint += 1;
+    else firstClubPoint += 1;
+  }
+  match.result = `${firstClubPoint}-${secondClubPoint}`;
+  await match.save();
+
   res.status(201).json({
     status: "success",
     data: {

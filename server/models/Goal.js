@@ -22,6 +22,10 @@ const GoalSchema = new mongoose.Schema({
     max: 96,
     required: true,
   },
+  isOwnGoal: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const Goal = mongoose.model("Goal", GoalSchema);
