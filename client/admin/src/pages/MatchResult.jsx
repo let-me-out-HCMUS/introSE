@@ -1,35 +1,45 @@
 import { useState, useEffect } from "react";
 import { trandau } from "../mocks/match-result";
 import CustomDialog from "../features/common/Dialog";
-
+import { useParams } from 'react-router-dom';
+import { useQuery } from "@tanstack/react-query";
+import { getMatchById } from "../services/apiMatch";
 import FormAddGoal from "../features/match-result/FormAddGoal";
 import FormEditGoal from "../features/match-result/FormEditGoal";
 
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-unescaped-entities */
-export default function MatchResult({ id }) {
-  // const date = new Date();
-  // const time = date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate()
-  // var test = new Date(2023,0,1)
-  // console.log(test)
+export default function MatchResult() {
+  const id = useParams().id;
+  const { data } = useQuery(["match"], () => getMatchById(id));
 
-  // const  isPlayed = () => {
-  //     if(date> test){
-  //         return true
-  //     }
-  //     return false
-  // }
+  const [match, setMatch] = useState(null);
 
   const [Doi1, setDoi1] = useState("");
   const [Doi2, setDoi2] = useState("");
-
   const [Banthang1, setBanthang1] = useState(trandau.Banthang1);
   const [Banthang2, setBanthang2] = useState([]);
-
+  const [time, setTime] = useState(new Date());
+  
   useEffect(() => {
-    setDoi1(trandau.Doi1);
-    setDoi2(trandau.Doi2);
-  }, []);
+    if (data) {
+      setMatch(data);
+      setDoi1(data.firstClub.clubName);
+      setDoi2(data.secondClub.clubName);
+      setTime(new Date(data.time));
+      // console.log(time);
+      // console.log(match);
+    }
+  }, [data]);
+
+  
+  console.log(time) ;
+  
+
+  // useEffect(() => {
+  //   setDoi1(match?.firstClub?.clubName);
+  //   setDoi2(trandau.Doi2);
+  // }, [match]);
 
   useEffect(() => {
     setBanthang2(trandau.Banthang2);
@@ -46,7 +56,7 @@ export default function MatchResult({ id }) {
 
   const [isEditting, setIsEditting] = useState(false);
   const today = new Date();
-  const isPlayed = today > trandau.NgayThiDau;
+  const isPlayed = time ? today > time : false;
 
   const handleClose = () => {
     setOpeningDialog(false);
@@ -102,12 +112,12 @@ export default function MatchResult({ id }) {
 
       <div className="w-full bg-white">
         <div className="block ml-5">
-          <h1>ID:{id} - Ngày {trandau.NgayThiDau.getDate()} - {trandau.NgayThiDau.getMonth()+1}</h1>
-          <h1>Sân vận động: {trandau.San}</h1>
+          <h1>Ngày {time.getDate()} - {time.getMonth()+1}</h1>
+          <h1>Sân vận động: {match?.stadium}</h1>
           {!isPlayed && <p>Trận đấu chưa diễn ra</p>}
         </div>
         <div className="mt-10 flex items-center justify-around">
-          <div className=" text-center">
+          <div className=" text-center w-40">
             <img
               src="https://ssl.gstatic.com/onebox/media/sports/logos/Th4fAVAZeCJWRcKoLW7koA_96x96.png"
               alt="logo"
@@ -116,9 +126,9 @@ export default function MatchResult({ id }) {
             <h1 className="mt-4 font-bold">{Doi1}</h1>
           </div>
           <div className=" text-5xl tracking-[20px]">
-            {isPlayed ? <>{Banthang1.length} - {Banthang2.length}</> : "-"}
+            {isPlayed ? <div className="w-full text-center">{match?.result}</div> : "-"}
           </div>
-          <div className="text-center">
+          <div className="text-center w-40">
             <img
               src="https://ssl.gstatic.com/onebox/media/sports/logos/paYnEE8hcrP96neHRNofhQ_96x96.png"
               alt="logo"
