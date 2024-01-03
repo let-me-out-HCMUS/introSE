@@ -21,14 +21,7 @@ const ClubManagement = () => {
             { id: 9, shirtNum: 7, type: 'Trong nước', name: 'Harvey', dob: '2023-12-12', note: 'Quá đẹp trai' },
           ]
     );
-    const clubForm = useForm();
     const PlayerForm = useForm();
-    
-
-    const onSubmitClub = (data) => {
-        console.log(data);
-        toast.success('Tạo câu lạc bộ thành công');
-    }
 
     const onSubmitPlayer = (data) => {
         setPlayers([...players, {
@@ -48,7 +41,7 @@ const ClubManagement = () => {
     <Box sx={{ flexGrow: 1 }} className="pt-10">
       <Grid container spacing={2}>
         <Grid xs={4} className="border-r-4 border-gray-300">
-          <LeftSide clubForm={clubForm} onSubmitClub={onSubmitClub}/>
+          <LeftSide players={players} />
         </Grid>
         <Grid xs={8}>
             <RightSide PlayerForm={PlayerForm} players={players} onSubmitPlayer={onSubmitPlayer}/>

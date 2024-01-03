@@ -10,9 +10,11 @@ import AppLayout from "./ui/AppLayout";
 import RankPage from "./pages/RankPage";
 import PlayerPage from "./pages/PlayerPage";
 import DossierRegistration from "./pages/DossierRegistration";
+import ClubPage from "./pages/ClubPage";
+import PlayerDetails from "./features/players/PlayerDetails";
 import ChangeRule from "./pages/ChangeRule";
 
-// import MatchResult from "./pages/MatchResult";
+import MatchResult from "./pages/MatchResult";
 
 import MatchSchedule from "./pages/MatchSchedule";
 
@@ -37,10 +39,14 @@ function App() {
             <Route path="/rank" element={<RankPage />} />
             <Route path="/register" element={<DossierRegistration />} />
             <Route path="/players" element={<PlayerPage />} />
+            <Route path="/players/:id" element={<PlayerDetails />} />
+            <Route path="/clubs" element={<ClubPage />} />
             <Route path="/change-rule" element={<ChangeRule />} />
             <Route path="/schedules" element={<MatchSchedule />} />
+            <Route path="/match-result/:id" element={<MatchResult/>} />
+
             {/* Another route add from here */}
-            {/* <Route path = "matches" element={<MatchResult id={1}/>} /> */}
+            <Route path = "/matches" element={<MatchResult id={1}/>} />
             {/* All invalid route will render PageNotFound page */}
             <Route path="*" element={<PageNotFound />} />
           </Route>

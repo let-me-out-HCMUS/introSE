@@ -104,3 +104,11 @@ exports.updateClub = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+exports.deleteClub = catchAsync(async (req, res, next) => {
+  await Club.findByIdAndDelete(req.params.id);
+  res.status(204).json({
+    status: "success",
+    data: null,
+  });
+});

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
@@ -49,7 +50,7 @@ if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:3001"],
+    origin: ["http://localhost:3000", "http://localhost:3001", "http://localhost:5173"],
     credentials: true,
   }),
 );

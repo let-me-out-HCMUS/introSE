@@ -46,10 +46,10 @@ const RuleSchema = new mongoose.Schema({
       type: Number,
       required: true,
     },
-  },
-  piority: {
-    type: String,
-    required: true,
+    priority: {
+      type: Array,
+      required: true,
+    },
   },
 });
 

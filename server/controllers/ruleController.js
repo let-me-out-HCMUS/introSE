@@ -1,20 +1,20 @@
 const Rule = require("../models/Rule");
 const catchAsync = require("../utils/catchAsync");
 
-// Get all rules
+// Get rules
 exports.getRule = catchAsync(async (req, res, next) => {
-  const rule = await Rule.find();
+  const rule = await Rule.findById(req.params.id);
   res.status(200).json({
     status: "success",
     data: {
-      rule,
+      rule: rule,
     },
   });
 });
 
-// Create a rule
-exports.createRule = catchAsync(async (req, res, next) => {
-  const rule = await Rule.create(req.body);
+// Update rule
+exports.updateRule = catchAsync(async (req, res, next) => {
+  const rule = await Rule.findByIdAndUpdate(req.params.id, req.body);
   res.status(200).json({
     status: "success",
     data: {
