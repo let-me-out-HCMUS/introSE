@@ -16,7 +16,7 @@ const MatchSchema = new mongoose.Schema({
     required: true,
   },
   stadium: { type: String },
-  result: { type: String },
+  result: { type: String, default: "0-0" },
 });
 
 const Match = mongoose.model("Match", MatchSchema);
