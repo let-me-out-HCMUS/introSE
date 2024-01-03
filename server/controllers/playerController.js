@@ -6,7 +6,7 @@ const multer = require("multer");
 
 // Get all players
 exports.getAllPlayers = catchAsync(async (req, res, next) => {
-  const players = await Player.find().populate("Club");
+  const players = await Player.find().populate("club");
 
   res.status(200).json({
     status: "success",
@@ -18,7 +18,7 @@ exports.getAllPlayers = catchAsync(async (req, res, next) => {
 
 // Get a player
 exports.getAPlayer = catchAsync(async (req, res, next) => {
-  const player = await Player.findById(req.params.id).populate("Club");
+  const player = await Player.findById(req.params.id).populate("club");
   res.status(200).json({
     status: "success",
     data: {
