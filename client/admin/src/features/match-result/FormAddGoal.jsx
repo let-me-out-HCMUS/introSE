@@ -1,14 +1,24 @@
 import { useForm } from "react-hook-form";
 import { Cauthu } from "../../mocks/match-result";
+import { getRule } from "../../services/apiRule";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 /* eslint-disable react/prop-types */
 export default function FormAddGoal({ submitAdd }) {
-  const types = 4;
+  const { data } = useQuery(["rule"], () => getRule());
+  const [rule, setRule] = useState(null);
+  useEffect(() => {
+    if (data) {
+      setRule(data);
+    }
+  }, [data]);
 
+  
+  
   const {
     register,
     handleSubmit,
     // watch,
-
     formState: { errors },
   } = useForm();
 
@@ -18,11 +28,6 @@ export default function FormAddGoal({ submitAdd }) {
       <form onSubmit={handleSubmit(submitAdd)} className="min-w-[300px]">
         <div className="form-group">
           <label htmlFor="name">Họ và tên</label>
-          {/* <input
-            type="text"
-            className=" input-field"
-            {...register("Ten", { required: true })}
-          /> */}
             <select
                 {...register("Ten", {
                 required: true,
@@ -39,35 +44,39 @@ export default function FormAddGoal({ submitAdd }) {
         </div>
 
         <div className="form-group">
-          <label htmlFor="name">Thời điểm ghi bàn</label>
+          <label htmlFor="">Thời điểm ghi bàn</label>
           <input
             className=" input-field"
             type="number"
-            {...register("ThoiDiem", { required: true, min: 1, max: 120 })}
+            {...register("ThoiDiem", { required: true, min:1, max: rule?.goal.maxTime })}
           />
           {errors.ThoiDiem && <p className="error-field">*Không hợp lệ*</p>}
         </div>
 
         <div className="form-group !flex">
-          <label htmlFor="name">Loại bàn thắng: </label>
-          {/* <input
-            type="text"
-            className=" input-field"
-            {...register("Loai", { required: true })}
-          /> */}
+          <label htmlFor="">Loại bàn thắng: </label>
           <select
             {...register("Loai", {
               required: true,
             })}
             className="rounded border-2 border-green-300 ml-4"
           >
-            {Array.from(Array(types).keys()).map((item, index) => (
+            {Array.from(Array(rule?.goal.quantityType).keys()).map((item, index) => (
               <option key={index} value={String.fromCharCode(65 + item)}>
                 {String.fromCharCode(65 + item)}
               </option>
             ))}
           </select>
           {errors.Ten && <p className="error-field">*Không hợp lệ*</p>}
+        </div>
+
+        <div className="form-group !flex">
+          <label htmlFor="">Phản lưới nhà: </label>
+          <input
+            className=" ml-4"
+            type="checkbox"
+            {...register("Phanluoi")}
+          />
         </div>
 
         <div className="inline-flex w-full flex-row justify-end pt-4">

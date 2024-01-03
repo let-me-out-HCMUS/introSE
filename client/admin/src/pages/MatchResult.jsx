@@ -32,9 +32,7 @@ export default function MatchResult() {
     }
   }, [data]);
 
-  
-  console.log(time) ;
-  
+
 
   // useEffect(() => {
   //   setDoi1(match?.firstClub?.clubName);

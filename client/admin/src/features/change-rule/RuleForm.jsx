@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
 
 export default function RuleForm() {
-  const { data } = useQuery(["wtf"], () => getRule());
+  const { data } = useQuery(["rule"], () => getRule());
 
   const { mutate } = useMutation({
     mutationFn: (data) => {
