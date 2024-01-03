@@ -2,10 +2,24 @@ import { useEffect, useState } from "react";
 // import { rule } from "../../mocks/rule";
 import { useForm } from "react-hook-form";
 import {useQuery} from "@tanstack/react-query";
-import {getRule} from "../../services/apiRule";
+import {getRule, updateRule} from "../../services/apiRule";
+import toast from 'react-hot-toast';
+import { useMutation } from '@tanstack/react-query';
 
 export default function RuleForm() {
   const {data} = useQuery(["wtf"], ()=> getRule());
+
+  const {mutate} = useMutation({
+    mutationFn: (data) => {
+      updateRule(data)
+    },
+    onSuccess: () => {
+        toast.success('Lưu thành công');
+    },
+    onError: () => {
+        toast.error('Lưu thấp bại');
+    }
+});
 
   const [isEditting, setIsEditting] = useState(false);
   // const [rule, setRule] = useState({});
@@ -52,11 +66,12 @@ export default function RuleForm() {
   //   Todo: submit data to server
   const onSubmit = (newdata) => {
     console.log(newdata);
+    mutate(newdata);
     setIsEditting(false);
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="relative mx-auto px-16">
+    <form onSubmit={handleSubmit(onSubmit)} className="relative mx-auto px-16 bg-white py-4">
       <div className="group-rule">
         <h1>Cầu thủ</h1>
         <div className="rule-content flex w-full">
@@ -224,7 +239,6 @@ export default function RuleForm() {
                 <option value="points">Điểm</option>
                 <option value="goalDifference">Hiệu số</option>
                 <option value="totalGoals">Tổng bàn thắng</option>
-                <option value="headToHead">Đối kháng</option>
               </select>
             </div>
             <div className="field inline-flex">
