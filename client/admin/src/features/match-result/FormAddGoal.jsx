@@ -1,18 +1,28 @@
 import { useForm } from "react-hook-form";
-import { Cauthu } from "../../mocks/match-result";
-import { getRule } from "../../services/apiRule";
-import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-/* eslint-disable react/prop-types */
-export default function FormAddGoal({ submitAdd }) {
-  const { data } = useQuery(["rule"], () => getRule());
-  const [rule, setRule] = useState(null);
-  useEffect(() => {
-    if (data) {
-      setRule(data);
-    }
-  }, [data]);
+import { useQuery } from "@tanstack/react-query";
+import { getRule } from "../../services/apiRule";
+import { getPlayersClub } from "../../services/apiPlayers";
 
+/* eslint-disable react/prop-types */
+export default function FormAddGoal({ submitAdd, clubId }) {
+  const { data: ruleData } = useQuery(["rule"], async () => await getRule());
+  const { data: playerData } = useQuery(["player"], async () => await getPlayersClub(clubId));
+
+  const [rule, setRule] = useState(null);
+  const [players, setPlayers] = useState([]);
+  useEffect(() => {
+    if (ruleData) {
+      setRule(ruleData);
+    }
+  }, [ruleData]);
+
+  useEffect(() => {
+    if (playerData) {
+      setPlayers(playerData);
+      console.log(playerData);
+    }
+  }, [playerData]);
   
   
   const {
@@ -34,9 +44,9 @@ export default function FormAddGoal({ submitAdd }) {
                 })}
                 className="input-field"
             >
-                {Cauthu.map((item, index) => (
-                <option key={index} value={item.Ten}>
-                    {item.Ten}
+                {players.map((item, index) => (
+                <option key={index} value={item.name}>
+                    {item.name}
                 </option>
                 ))}
             </select>

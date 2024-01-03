@@ -4,6 +4,7 @@ import CustomDialog from "../features/common/Dialog";
 import { useParams } from 'react-router-dom';
 import { useQuery } from "@tanstack/react-query";
 import { getMatchById } from "../services/apiMatch";
+import { getGoalsMatch } from "../services/apiGoal";
 import FormAddGoal from "../features/match-result/FormAddGoal";
 import FormEditGoal from "../features/match-result/FormEditGoal";
 
@@ -11,42 +12,48 @@ import FormEditGoal from "../features/match-result/FormEditGoal";
 /* eslint-disable react/no-unescaped-entities */
 export default function MatchResult() {
   const id = useParams().id;
-  const { data } = useQuery(["match"], () => getMatchById(id));
+  const { data: matchData } = useQuery(["match"], () => getMatchById(id));
+  const { data: goalData } = useQuery(["goal"], () => getGoalsMatch(id));
+  
 
   const [match, setMatch] = useState(null);
 
   const [Doi1, setDoi1] = useState("");
   const [Doi2, setDoi2] = useState("");
-  const [Banthang1, setBanthang1] = useState(trandau.Banthang1);
+  const [Banthang1, setBanthang1] = useState([]);
   const [Banthang2, setBanthang2] = useState([]);
   const [time, setTime] = useState(new Date());
   
   useEffect(() => {
-    if (data) {
-      setMatch(data);
-      setDoi1(data.firstClub.clubName);
-      setDoi2(data.secondClub.clubName);
-      setTime(new Date(data.time));
+    if (matchData) {
+      setMatch(matchData);
+      setDoi1(matchData.firstClub.clubName);
+      setDoi2(matchData.secondClub.clubName);
+      setTime(new Date(matchData.time));
       // console.log(time);
       // console.log(match);
     }
-  }, [data]);
-
-
-
-  // useEffect(() => {
-  //   setDoi1(match?.firstClub?.clubName);
-  //   setDoi2(trandau.Doi2);
-  // }, [match]);
+  }, [matchData]);
 
   useEffect(() => {
     setBanthang2(trandau.Banthang2);
   }, []);
 
-  useEffect(() => {
-    setBanthang1(trandau.Banthang1);
-  }, []);
+  // console.log(item.player.club.clubName, Doi2
+  // console.log(goalData)
 
+  useEffect(() => {
+    if (goalData) {
+
+      setBanthang1(goalData.filter((item) =>item.player.club.clubName === Doi2));
+      // setBanthang1(goalData)
+      // setBanthang2(goalData.filter((item) => item.clubId === match?.secondClub._id));
+    }
+    // console.log('bt1',Banthang1)
+    // setBanthang1(trandau.Banthang1);
+  }, [goalData]);
+
+  // console.log('bt1',Banthang1)
   const [editedGoal1, setEditedGoal1] = useState({});
 
   const [openingDialog, setOpeningDialog] = useState(false);
@@ -97,7 +104,7 @@ export default function MatchResult() {
         open={openingDialog}
         onClose={handleClose}
       >
-        <FormAddGoal submitAdd={addGoal1} />
+        <FormAddGoal submitAdd={addGoal1} clubId={match?.firstClub._id} />
       </CustomDialog>
 
       <CustomDialog
@@ -144,9 +151,9 @@ export default function MatchResult() {
                   key={index}
                   className="flex space-x-2 text-sm font-semibold text-gray-500"
                 >
-                  <div>{item.Ten}</div>
-                  <div>{item.ThoiDiem}'</div>
-                  <div>{item.Loai}</div>
+                  <div>{item.player.name}</div>
+                  <div>{item.time}'</div>
+                  <div>{item.goalType}</div>
                   {isEditting && (
                     <>
                       <button

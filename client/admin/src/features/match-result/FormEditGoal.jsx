@@ -1,8 +1,20 @@
 import { useForm } from "react-hook-form";
-import { Cauthu } from "../../mocks/match-result";
+import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getRule } from "../../services/apiRule";
+
 /* eslint-disable react/prop-types */
 export default function FormEditGoal({ submitEdit, goal }) {
-  const types = 4;
+  const { data: ruleData } = useQuery(["rule"], async () => await getRule());
+  
+
+  const [rule, setRule] = useState(null);
+  
+  useEffect(() => {
+    if (ruleData) {
+      setRule(ruleData);
+    }
+  }, [ruleData]);
 
   const {
     register,
@@ -16,23 +28,7 @@ export default function FormEditGoal({ submitEdit, goal }) {
   return (
     <>
       <form onSubmit={handleSubmit(submitEdit)} className="min-w-[300px]">
-        <div className="form-group">
-          <label htmlFor="name">Họ và tên</label>
-            <select
-                {...register("Ten", {
-                required: true,
-                })}
-                className="input-field"
-            >
-                {Cauthu.map((item, index) => (
-                <option key={index} value={item.Ten}>
-                    {item.Ten}
-                </option>
-                ))}
-            </select>
-          {errors.Ten && <p className="error-field">*Không hợp lệ*</p>}
-        </div>
-
+    
         <div className="form-group">
           <label htmlFor="name">Thời điểm ghi bàn</label>
           <input
@@ -56,7 +52,7 @@ export default function FormEditGoal({ submitEdit, goal }) {
             })}
             className="rounded border-2 border-green-300 ml-4"
           >
-            {Array.from(Array(types).keys()).map((item, index) => (
+            {Array.from(Array(rule?.goal.quantityType).keys()).map((item, index) => (
               <option key={index} value={String.fromCharCode(65 + item)}>
                 {/* {item + 1} */}
                 {String.fromCharCode(65 + item)}
@@ -68,7 +64,7 @@ export default function FormEditGoal({ submitEdit, goal }) {
 
         <div className="inline-flex w-full flex-row justify-end pt-4">
           <button className="btn ml-2" type="submit">
-            Thêm
+            Xác nhận
           </button>
         </div>
       </form>
