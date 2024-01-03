@@ -12,7 +12,14 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
     .sort()
     .limit()
     .paginate();
-  const goals = await features.query;
+
+  const goals = await features.query.populate({
+    path: "player",
+    populate: {
+      path: "club",
+      model: "Club",
+    },
+  });
   res.status(200).json({
     status: "success",
     data: {
@@ -24,7 +31,13 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
 // Get a goal
 exports.getAGoal = catchAsync(async (req, res, next) => {
   const goal = await Goal.findById(req.params.id)
-    .populate("player")
+    .populate({
+      path: "player",
+      populate: {
+        path: "club",
+        model: "Club",
+      },
+    })
     .populate("match");
   res.status(200).json({
     status: "success",

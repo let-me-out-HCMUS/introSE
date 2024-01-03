@@ -11,7 +11,9 @@ exports.getAllMatches = catchAsync(async (req, res, next) => {
     .sort()
     .limit()
     .paginate();
-  const matches = await features.query;
+  const matches = await features.query
+    .populate("firstClub")
+    .populate("secondClub");
 
   res.status(200).json({
     status: "success",

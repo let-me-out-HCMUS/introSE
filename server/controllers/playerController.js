@@ -13,7 +13,8 @@ exports.getAllPlayers = catchAsync(async (req, res, next) => {
     .sort()
     .limit()
     .paginate();
-  const players = await features.query;
+
+  const players = await features.query.populate("club");
 
   res.status(200).json({
     status: "success",
