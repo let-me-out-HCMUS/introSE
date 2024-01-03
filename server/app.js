@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
@@ -8,6 +9,12 @@ const xss = require("xss-clean");
 const mongoSanitize = require("express-mongo-sanitize");
 const cookieParser = require("cookie-parser");
 const AppError = require("./utils/AppError");
+const errorController = require("./controllers/errorController");
+const clubRoute = require("./routes/clubRoute");
+const matchRoute = require("./routes/matchRoute");
+const goalRoute = require("./routes/goalRoute");
+const ruleRoute = require("./routes/ruleRoute");
+const playerRoute = require("./routes/playerRoute");
 
 const app = express();
 
@@ -43,15 +50,23 @@ if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:3001"],
+    origin: ["http://localhost:3000", "http://localhost:3001", "http://localhost:5173"],
     credentials: true,
   }),
 );
 app.use(cookieParser());
+
+// Routes
+app.use("/api/rules", ruleRoute);
+app.use("/api/goals", goalRoute);
+app.use("/api/players", playerRoute);
+app.use("/api/clubs", clubRoute);
+app.use("/api/matchs", matchRoute);
 
 // Handle when no match any routes
 app.all("*", (req, res, next) =>
   next(new AppError(`Can't find ${req.originalUrl} on this server !`, 404)),
 );
 
+app.use(errorController);
 module.exports = app;
