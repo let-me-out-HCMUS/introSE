@@ -31,6 +31,10 @@ const PlayerSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
+  dob: {
+    type: Date,
+    required: true,
+  },
 });
 
 const Player = mongoose.model("Player", PlayerSchema);

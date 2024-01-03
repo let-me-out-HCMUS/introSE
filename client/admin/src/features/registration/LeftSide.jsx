@@ -8,10 +8,11 @@ import toast from 'react-hot-toast';
 import { useMutation } from '@tanstack/react-query';
 import {createClub} from '../../services/apiClubs';
 
-const LeftSide = () => {
-    const {mutate} = useMutation({
-        mutationFn: (data) => {
-            createClub(data.clubName, data.file)
+const LeftSide = ({players}) => {
+
+    const {mutate: mutateCreateClub} = useMutation({
+        mutationFn: async (data) => {
+            createClub(data.clubName, data.file, data.players)
         },
         onSuccess: () => {
             toast.success('Tạo câu lạc bộ thành công');
@@ -22,9 +23,14 @@ const LeftSide = () => {
     });
     const [selectedImage, setSelectedImage] = useState(null);
     const clubForm = useForm();
-    const onSubmitClub = async (data) => {
-        // TODO: ADD Players
-        mutate({clubName: data.clubName, file: selectedImage});
+
+    const registerOpts = {
+        clubName: {required: 'Tên câu lạc bộ không được để trống'},
+        file: {required: 'Ảnh đại diện không được để trống'},
+    }
+
+    const onSubmitClub = (data) => {
+        mutateCreateClub({clubName: data.clubName, file: selectedImage, players: players});
     }
 
   return (
@@ -56,8 +62,11 @@ const LeftSide = () => {
                     id="outlined-basic"
                     label="Tên CLB"
                     type="text"
-                    {...clubForm.register("clubName")}
+                    {...clubForm.register("clubName", registerOpts.clubName)}
                 />
+                {
+                    clubForm.formState.errors.clubName && <p className='text-red-500 text-xs'>{clubForm.formState.errors.clubName.message}</p>
+                }
             </div>
             <div className='mt-20'>
                 <Button size='large' color='success' onClick={clubForm.handleSubmit(onSubmitClub)} variant="contained">Tạo câu lạc bộ</Button>

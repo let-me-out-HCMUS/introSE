@@ -39,6 +39,8 @@ exports.createPlayer = catchAsync(async (req, res, next) => {
     "type":"Ngoài nước",
     "clubName":"Manchester United",
     "shirtNum":7,
+    "dob":"2021-10-10",
+    "note" : "Quá đẹp trai",
     "totalGoal":0
 } */
   const club = await Club.findOne({ clubName: req.body.clubName });
@@ -79,6 +81,7 @@ exports.createPlayer = catchAsync(async (req, res, next) => {
         shirtNum: req.body.shirtNum,
         totalGoal: req.body.totalGoal,
         image: publicUrl[0],
+        dob: req.body.dob,
       });
       res.status(201).json({
         status: "success",
