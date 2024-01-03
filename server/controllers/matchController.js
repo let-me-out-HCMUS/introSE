@@ -1,12 +1,17 @@
 const Match = require("../models/Match");
 const Club = require("../models/Club");
 const catchAsync = require("../utils/catchAsync");
+const APIFeatures = require("../utils/apiFeature");
 
 // Get all matches
 exports.getAllMatches = catchAsync(async (req, res, next) => {
-  const matches = await Match.find()
-    .populate("firstClub")
-    .populate("secondClub");
+  // Build query
+  const features = new APIFeatures(Match.find(), req.query)
+    .filter()
+    .sort()
+    .limit()
+    .paginate();
+  const matches = await features.query;
 
   res.status(200).json({
     status: "success",

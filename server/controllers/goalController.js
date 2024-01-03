@@ -3,10 +3,16 @@ const Player = require("../models/Player");
 const Match = require("../models/Match");
 const Club = require("../models/Club");
 const catchAsync = require("../utils/catchAsync");
-
+const APIFeatures = require("../utils/apiFeature");
 // Get all goals
 exports.getAllGoals = catchAsync(async (req, res, next) => {
-  const goals = await Goal.find().populate("player").populate("match");
+  // Build query
+  const features = new APIFeatures(Goal.find(), req.query)
+    .filter()
+    .sort()
+    .limit()
+    .paginate();
+  const goals = await features.query;
   res.status(200).json({
     status: "success",
     data: {
@@ -115,6 +121,12 @@ exports.updateGoal = catchAsync(async (req, res, next) => {
 
 exports.deleteGoal = catchAsync(async (req, res, next) => {
   const goal = await Goal.findById(req.params.id).populate("player");
+  if (!goal) {
+    return res.status(404).json({
+      status: "fail",
+      message: "Goal does not exist",
+    });
+  }
   // Update match result
   const match = await Match.findById(goal.match);
   let firstClubPoint = Number(match.result.split("-")[0]);
