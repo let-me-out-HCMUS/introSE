@@ -37,9 +37,9 @@ export const getAllPlayers = async () => {
 };
 
 export const getPlayersWithConditionalChecking = async (clubId) => {
-  if (clubId) {
-    return await getPlayersByClubId(clubId);
-  } else {
+  if (clubId === "all") {
     return await getAllPlayers();
+  } else {
+    return await getPlayersByClubId(clubId);
   }
 };

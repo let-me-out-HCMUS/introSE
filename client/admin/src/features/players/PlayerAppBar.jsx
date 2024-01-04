@@ -1,5 +1,4 @@
 import {
-  Button,
   FormControl,
   Grid,
   InputLabel,
@@ -14,10 +13,6 @@ import { getClubs } from "../../services/apiClubs";
 export default function PlayerAppBar({ club, setClub }) {
   const handleChange = (event) => {
     setClub(event.target.value);
-  };
-
-  const handleDeleteFilter = () => {
-    setClub(undefined);
   };
 
   const { isLoading, isError, data, error } = useQuery({
@@ -50,6 +45,7 @@ export default function PlayerAppBar({ club, setClub }) {
         <FormControl fullWidth>
           <InputLabel>Club</InputLabel>
           <Select value={club} label="Club" onChange={handleChange}>
+            <MenuItem value={"all"}>-- Tất cả --</MenuItem>
             {clubs.map((item) => (
               <MenuItem value={item.id} key={item.id}>
                 {item.clubName}
@@ -57,17 +53,6 @@ export default function PlayerAppBar({ club, setClub }) {
             ))}
           </Select>
         </FormControl>
-      </Grid>
-      <Grid item xs={4}>
-        <Button
-          variant="contained"
-          color="success"
-          fullWidth
-          onClick={handleDeleteFilter}
-          sx={{ marginX: 2, paddingTop: 1 }}
-        >
-          Xóa filter
-        </Button>
       </Grid>
     </Grid>
   );

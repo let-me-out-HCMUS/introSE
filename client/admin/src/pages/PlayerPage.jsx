@@ -4,7 +4,7 @@ import { useState } from "react";
 import PlayerTable from "../features/players/PlayerTable";
 
 export default function PlayerPage() {
-  const [club, setClub] = useState();
+  const [club, setClub] = useState("all");
 
   return (
     <Box
