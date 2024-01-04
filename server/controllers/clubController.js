@@ -3,6 +3,7 @@ const catchAsync = require("../utils/catchAsync");
 const bucket = require("../utils/upload");
 const multer = require("multer");
 const APIFeatures = require("../utils/apiFeature");
+const Player = require("../models/Player");
 
 // Get all clubs
 exports.getAllClubs = catchAsync(async (req, res, next) => {
@@ -114,7 +115,14 @@ exports.updateClub = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteClub = catchAsync(async (req, res, next) => {
-  await Club.findByIdAndDelete(req.params.id);
+  const club = await Club.findByIdAndDelete(req.params.id);
+  if (!club) {
+    return res.status(404).json({
+      status: "fail",
+      message: "Club does not exist",
+    });
+  }
+  Player.deleteMany({ club: req.params.id });
   res.status(204).json({
     status: "success",
     data: null,
