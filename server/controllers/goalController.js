@@ -87,6 +87,7 @@ exports.createGoal = catchAsync(async (req, res, next) => {
     player: player._id,
     time: req.body.time,
     goalType: req.body.goalType,
+    isOwnGoal: req.body.isOwnGoal,
   };
 
   const goal = await Goal.create(goadObj);
