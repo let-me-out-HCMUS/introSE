@@ -1,10 +1,6 @@
 import { axiosClientFormData, axiosClient } from "./axiosClient";
 import { createPlayer } from "./apiPlayers";
 
-export const getClubs = async () => {
-    const response = await axiosClient.get('/clubs');
-    return response;
-};
 
 export const createClub = async (clubName, stadium, file, players) => {
     const formData = new FormData();
@@ -26,7 +22,6 @@ export const createClub = async (clubName, stadium, file, players) => {
 
   await Promise.all(promiseArray);
 };
-
 export const getClubs = async () => {
   const response = await axiosClient.get("/clubs");
 
