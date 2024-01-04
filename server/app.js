@@ -4,7 +4,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 const helmet = require("helmet");
 const hpp = require("hpp");
-const rateLimit = require("express-rate-limit");
+// const rateLimit = require("express-rate-limit");
 const xss = require("xss-clean");
 const mongoSanitize = require("express-mongo-sanitize");
 const cookieParser = require("cookie-parser");
@@ -35,13 +35,13 @@ app.use(
 );
 
 // RATE LIMIT
-const limiter = rateLimit({
-  max: process.env.MAX_RATE_LIMIT,
-  windowMs: process.env.MAX_RATE_LIMIT_TIME * 60 * 1000, // unit: minutes
-  message: `Too many requests from this IP, please try again after ${process.env.MAX_RATE_LIMIT_TIME} minutes !`,
-});
+// const limiter = rateLimit({
+//   max: process.env.MAX_RATE_LIMIT,
+//   windowMs: process.env.MAX_RATE_LIMIT_TIME * 60 * 1000, // unit: minutes
+//   message: `Too many requests from this IP, please try again after ${process.env.MAX_RATE_LIMIT_TIME} minutes !`,
+// });
 
-app.use("/api", limiter);
+// app.use("/api", limiter);
 
 // set environment
 if (process.env.NODE_ENV === "development") app.use(morgan("dev"));

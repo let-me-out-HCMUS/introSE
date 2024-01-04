@@ -13,7 +13,6 @@ const GoalSchema = new mongoose.Schema({
   },
   goalType: {
     type: String,
-    enum: ["A", "B", "C"],
     required: true,
   },
   time: {
