@@ -4,6 +4,7 @@ const bucket = require("../utils/upload");
 const multer = require("multer");
 const APIFeatures = require("../utils/apiFeature");
 const Player = require("../models/Player");
+const Match = require("../models/Match");
 
 // Get all clubs
 exports.getAllClubs = catchAsync(async (req, res, next) => {
@@ -14,6 +15,24 @@ exports.getAllClubs = catchAsync(async (req, res, next) => {
     .limit()
     .paginate();
 
+  // Update won, lost, drawn
+  const matches = await Match.find();
+  matches.forEach(async (match) => {
+    const firstClub = await Club.findById(match.firstClub);
+    const secondClub = await Club.findById(match.secondClub);
+    if (match.firstClubScore > match.secondClubScore) {
+      firstClub.won++;
+      secondClub.lost++;
+    } else if (match.firstClubScore < match.secondClubScore) {
+      firstClub.lost++;
+      secondClub.won++;
+    } else {
+      firstClub.drawn++;
+      secondClub.drawn++;
+    }
+    await firstClub.save();
+    await secondClub.save();
+  });
   const club = await features.query;
   res.status(200).json({
     status: "success",
