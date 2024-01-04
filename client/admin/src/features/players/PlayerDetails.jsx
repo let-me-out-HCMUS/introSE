@@ -8,7 +8,7 @@ import {
   LinearProgress,
   Typography,
 } from "@mui/material";
-import PlayerGoalTable from "./PlayerGoalTable";
+// import PlayerGoalTable from "./PlayerGoalTable";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getPlayerByPlayerId } from "../../services/apiPlayers";
@@ -71,6 +71,12 @@ export default function PlayerDetails() {
           </CardContent>
           <CardContent>
             <Typography variant="h5" color="text.secondary" component="div">
+              Loại cầu thủ: {player.type}
+            </Typography>
+          </CardContent>
+
+          <CardContent>
+            <Typography variant="h5" color="text.secondary" component="div">
               Tổng số bàn thắng: {player.totalGoal}
             </Typography>
           </CardContent>
@@ -78,15 +84,6 @@ export default function PlayerDetails() {
       </Card>
 
       <Divider sx={{ my: 4 }} />
-
-      <Typography
-        component="div"
-        variant="h4"
-        sx={{ fontWeight: "bold", margin: 2 }}
-      >
-        Số bàn thắng trong từng trận
-      </Typography>
-      <PlayerGoalTable />
     </div>
   );
 }

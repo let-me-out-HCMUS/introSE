@@ -27,7 +27,6 @@ export default function PlayerTable({ clubId }) {
     return <div>Error: {error.message}</div>;
   }
 
-  console.log(data);
   const players = data;
 
   return (

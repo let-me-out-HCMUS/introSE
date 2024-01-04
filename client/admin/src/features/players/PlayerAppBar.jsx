@@ -2,21 +2,32 @@ import {
   FormControl,
   Grid,
   InputLabel,
+  LinearProgress,
   MenuItem,
   Select,
-  TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getClubs } from "../../services/apiClubs";
 
-import { clubs } from "../../mocks/clubPage";
-
-export default function PlayerAppBar() {
-  const [club, setClub] = useState("");
-
+export default function PlayerAppBar({ club, setClub }) {
   const handleChange = (event) => {
     setClub(event.target.value);
   };
+  const { isLoading, isError, data, error } = useQuery({
+    queryKey: ["clubs"],
+    queryFn: getClubs,
+  });
+
+  if (isLoading) {
+    return <LinearProgress color="success" />;
+  }
+
+  if (isError) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  const clubs = data.club;
 
   return (
     <Grid container spacing={2}>
@@ -35,20 +46,23 @@ export default function PlayerAppBar() {
           <Select value={club} label="Club" onChange={handleChange}>
             {clubs.map((item) => (
               <MenuItem value={item.id} key={item.id}>
-                {item.name}
+                {item.clubName}
               </MenuItem>
             ))}
           </Select>
         </FormControl>
       </Grid>
-      <Grid item xs={4}>
+      {/* <Grid item xs={4}>
         <TextField
           fullWidth
           id="outlined-basic"
           label="Tên cầu thủ"
           variant="outlined"
+          onChangeCapture={(e) => {
+            console.log(e.target.value);
+          }}
         />
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 }
