@@ -22,8 +22,15 @@ export const createClub = async (clubName, stadium, file, players) => {
 
   await Promise.all(promiseArray);
 };
+
 export const getClubs = async () => {
   const response = await axiosClient.get("/clubs");
+
+  return response.data;
+};
+
+export const getClubsForRanking = async () => {
+  const response = await axiosClient.get("/clubs/ranking");
 
   return response.data;
 };

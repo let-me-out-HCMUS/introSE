@@ -4,6 +4,9 @@ const router = express.Router();
 const clubController = require("../controllers/clubController");
 
 router
+  .route("/ranking")
+  .get(clubController.getAllClubsWithTotalGoal);
+router
   .route("/")
   .get(clubController.getAllClubs)
   .post(clubController.uploadImage, clubController.createClub);

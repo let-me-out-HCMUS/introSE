@@ -1,22 +1,24 @@
-export default function ranking(clubs, rule) {
+// import { getClubs } from "../services/apiClubs";
+import { getMatchUp } from "../services/apiMatch";
+export default async function ranking(clubs, rule) {
     // console.log('ruleranking',rule);
     // console.log(rule.point)
-    
     // clubs.forEach(club =>{ club["points"] = 0});
-    
-    clubs.forEach(club => {
+
+
+    clubs.forEach((club) => {
         club.points = rule.point.win * club.won + rule.point.draw * club.drawn + rule.point.lose * club.lost;
     });
-
+    // console.log('rank', clubs);
     for (let i = 0; i < clubs.length - 1; i++) {
         for (let j = i + 1; j < clubs.length; j++) {
-            var res = compare(clubs[i], clubs[j], rule, 0);
+            var res = await compare(clubs[i], clubs[j], rule, 0);
             if (res === 0) {
-                res = compare(clubs[i], clubs[j], rule, 1);
+                res = await compare(clubs[i], clubs[j], rule, 1);
                 if (res === 0) {
-                    res = compare(clubs[i], clubs[j], rule, 2);
+                    res = await compare(clubs[i], clubs[j], rule, 2);
                     if (res === 0) {
-                        res = compare(clubs[i], clubs[j], rule, 3);
+                        res = await compare(clubs[i], clubs[j], rule, 3);
                     }
                 }
             }
@@ -27,11 +29,11 @@ export default function ranking(clubs, rule) {
             }
         }
     }
-    console.log('rank', clubs);
+    // console.log('rank', clubs);
     return clubs;
 }
 
-function compare(a, b, rule, time) {
+async function compare(a, b, rule, time) {
     var res = 0;
     switch (rule.point.priority[time]) {
         case 'points':
@@ -42,16 +44,11 @@ function compare(a, b, rule, time) {
             break;
         case 'totalGoals':
             // res = b.gf - a.gf;
+            res = b.totalGoal - a.totalGoal;
             break;
-        case 'headToHead':
-            // clubs.sort((a, b) => {
-            //     let headToHead = 0;
-            //     if (a.headToHead[b.id]) {
-            //         headToHead = a.headToHead[b.id].win - a.headToHead[b.id].lose;
-            //     }
-            //     return headToHead;
-            // });
-            break;
+        // case 'headToHead':
+        //     res = await compareMatchUp(a, b);
+        //     break;
         default:
             break;
     }

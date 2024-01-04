@@ -83,6 +83,33 @@ exports.createClub = catchAsync(async (req, res, next) => {
     });
   }
 });
+
+exports.getAllClubsWithTotalGoal = catchAsync(async (req, res, next) => {
+  // get all clubs
+  const clubs = await Club.find();
+
+  // get all players
+  const players = await Player.find();
+
+
+  const clubWithTotalGoal = clubs.map((club) => {
+    const totalGoal = players
+      .filter((player) => player.club.toString() === club._id.toString())
+      .reduce((total, player) => total + player.totalGoal, 0);
+    return {
+      ...club.toObject(),
+      totalGoal,
+    };
+  });
+
+  res.status(200).json({
+    status: "success",
+    data: {
+      clubWithTotalGoal,
+    },
+  });
+});
+
 //  Get a club
 exports.getClub = catchAsync(async (req, res, next) => {
   const club = await Club.findById(req.params.id);

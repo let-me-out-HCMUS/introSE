@@ -44,7 +44,8 @@ app.use(
 // app.use("/api", limiter);
 
 // set environment
-if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
+// if (process.env.NODE_ENV === "development") 
+app.use(morgan("dev"));
 
 // middleware
 app.use(express.json());
