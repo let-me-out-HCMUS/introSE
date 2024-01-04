@@ -40,7 +40,8 @@ export default function FormAddGoal({ submitAdd, clubId }) {
   useEffect(() => {
     if (watch("playerid"))
       setValue("player", players.find((item) => item.id === watch("playerid")));
-    setValue("player", players[0]);
+    else
+      setValue("player", players[0]);
   },[watch("playerid"),players])
 
 //   TODO: list players in club to input

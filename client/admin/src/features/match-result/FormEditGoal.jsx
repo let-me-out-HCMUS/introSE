@@ -49,6 +49,7 @@ export default function FormEditGoal({ submitEdit, goal }) {
             {...register("goalType", {
               required: true,
             })}
+            defaultValue={goal.goalType}
             className="rounded border-2 border-green-300 ml-4"
           >
             {Array.from(Array(rule?.goal.quantityType).keys()).map((item, index) => (
