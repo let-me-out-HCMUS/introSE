@@ -6,7 +6,6 @@ import { getRule } from "../../services/apiRule";
 /* eslint-disable react/prop-types */
 export default function FormEditGoal({ submitEdit, goal }) {
   const { data: ruleData } = useQuery(["rule"], async () => await getRule());
-  
 
   const [rule, setRule] = useState(null);
   
@@ -34,7 +33,7 @@ export default function FormEditGoal({ submitEdit, goal }) {
           <input
             className=" input-field"
             type="number"
-            {...register("ThoiDiem", { required: true, min: 1, max: 120 })}
+            {...register("time", { required: true, min: 1, max: 120 })}
           />
           {errors.ThoiDiem && <p className="error-field">*Không hợp lệ*</p>}
         </div>
@@ -47,7 +46,7 @@ export default function FormEditGoal({ submitEdit, goal }) {
             {...register("Loai", { required: true })}
           /> */}
           <select
-            {...register("Loai", {
+            {...register("goalType", {
               required: true,
             })}
             className="rounded border-2 border-green-300 ml-4"

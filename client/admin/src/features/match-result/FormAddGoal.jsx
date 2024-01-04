@@ -58,7 +58,7 @@ export default function FormAddGoal({ submitAdd, clubId }) {
           <input
             className=" input-field"
             type="number"
-            {...register("ThoiDiem", { required: true, min:1, max: rule?.goal.maxTime })}
+            {...register("time", { required: true, min:1, max: rule?.goal.maxTime })}
           />
           {errors.ThoiDiem && <p className="error-field">*Không hợp lệ*</p>}
         </div>
@@ -66,7 +66,7 @@ export default function FormAddGoal({ submitAdd, clubId }) {
         <div className="form-group !flex">
           <label htmlFor="">Loại bàn thắng: </label>
           <select
-            {...register("Loai", {
+            {...register("goalType", {
               required: true,
             })}
             className="rounded border-2 border-green-300 ml-4"
@@ -85,7 +85,7 @@ export default function FormAddGoal({ submitAdd, clubId }) {
           <input
             className=" ml-4"
             type="checkbox"
-            {...register("Phanluoi")}
+            {...register("isOwnGoal")}
           />
         </div>
 

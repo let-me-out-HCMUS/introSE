@@ -4,3 +4,9 @@ export const getGoalsMatch = async (id) => {
     const res = await axiosClient.get(`/goals?match=${id}`);
     return res.data.goals;
 }
+
+export const updateGoal = async (id, data) => {
+    console.log('data',data);
+    const res = await axiosClient.put(`/goals/${id}`, data);
+    return res.data.goal;
+}

@@ -17,7 +17,7 @@ export default function RuleForm() {
       toast.success("Lưu thành công");
     },
     onError: () => {
-      toast.error("Lưu thấp bại");
+      toast.error("Lưu thất bại");
     },
   });
 
@@ -42,7 +42,7 @@ export default function RuleForm() {
       setValue("point.priority[2]", data.point.priority[2]);
       setValue("point.priority[3]", data.point.priority[3]);
     }
-    console.log(data);
+    // console.log(data);
   }, [data]);
 
   const {
@@ -59,7 +59,7 @@ export default function RuleForm() {
   // console.log(watchPriority);
   //   Todo: submit data to server
   const onSubmit = (newdata) => {
-    console.log(newdata);
+    // console.log(newdata);
     mutate(newdata);
     setIsEditting(false);
   };

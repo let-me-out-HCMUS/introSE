@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import { trandau } from "../mocks/match-result";
-import CustomDialog from "../features/common/Dialog";
+import toast from "react-hot-toast";
 import { useParams } from 'react-router-dom';
 import { useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { getMatchById } from "../services/apiMatch";
-import { getGoalsMatch } from "../services/apiGoal";
+import { getGoalsMatch, updateGoal } from "../services/apiGoal";
+
+import CustomDialog from "../features/common/Dialog";
 import FormAddGoal from "../features/match-result/FormAddGoal";
 import FormEditGoal from "../features/match-result/FormEditGoal";
 
@@ -14,6 +17,18 @@ export default function MatchResult() {
   const id = useParams().id;
   const { data: matchData } = useQuery(["match"], () => getMatchById(id));
   const { data: goalData } = useQuery(["goal"], () => getGoalsMatch(id));
+
+  const { mutate: updateG } = useMutation({
+    mutationFn: (data) => {
+      updateGoal(data.id,data);
+    },
+    onSuccess: () => {
+      toast.success("Lưu thành công");
+    },
+    onError: () => {
+      toast.error("Lưu thất bại");
+    },
+  });
   
 
   const [match, setMatch] = useState(null);
@@ -83,14 +98,20 @@ export default function MatchResult() {
     setBanthang1(Banthang1.filter((item) => item.id !== id));
   };
 
+  // Handle edit goal team 1
   const editGoal1 = (goal) => {
-    console.log(goal);
+    // goal.firstClub = match?.firstClub.clubName;
+    // goal.secondClub = match?.secondClub.clubName;
+    // goal.player = goal.player.name;
+    console.log('goal edit',goal);
+    updateG(goal,123);
     setBanthang1((Banthang1) => {
       const index = Banthang1.findIndex((item) => item.id === goal.id);
       const newBanthang1 = [...Banthang1];
       newBanthang1[index] = goal;
       return newBanthang1;
     });
+    
     setOpeningDialogE(false);
   };
 
@@ -154,6 +175,7 @@ export default function MatchResult() {
                   <div>{item.player.name}</div>
                   <div>{item.time}'</div>
                   <div>{item.goalType}</div>
+                  {item.isOwnGoal && <div>(og)</div>}
                   {isEditting && (
                     <>
                       <button
