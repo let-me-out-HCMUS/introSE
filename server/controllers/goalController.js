@@ -121,9 +121,11 @@ exports.updateGoal = catchAsync(async (req, res, next) => {
       message: "Goal does not exist",
     });
   }
+  // Patch goal
   goal.time = req.body.time;
   goal.goalType = req.body.goalType;
   await goal.save();
+
   res.status(200).json({
     status: "success",
     data: {
