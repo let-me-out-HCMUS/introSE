@@ -5,6 +5,7 @@ const multer = require("multer");
 const APIFeatures = require("../utils/apiFeature");
 const Player = require("../models/Player");
 const Match = require("../models/Match");
+const Goal = require("../models/Goal");
 
 // Get all clubs
 exports.getAllClubs = catchAsync(async (req, res, next) => {
@@ -33,6 +34,7 @@ exports.getAllClubs = catchAsync(async (req, res, next) => {
     await firstClub.save();
     await secondClub.save();
   });
+
   const club = await features.query;
   res.status(200).json({
     status: "success",
@@ -105,10 +107,17 @@ exports.createClub = catchAsync(async (req, res, next) => {
 //  Get a club
 exports.getClub = catchAsync(async (req, res, next) => {
   const team = await Club.findById(req.params.id);
+  // return total goals
+  const goals = await Goal.find({ club: req.params.id });
+  let totalGoal = 0;
+  goals.forEach((goal) => {
+    totalGoal += 1;
+  });
   res.status(200).json({
     status: "success",
     data: {
       team,
+      totalGoal,
     },
   });
 });
