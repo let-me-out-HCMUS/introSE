@@ -36,7 +36,7 @@ export default function ClubDetail() {
       updateClub({ id, ...data });
     },
     onSuccess: () => {
-      toast.success("Chỉnh sửa thành công");
+      toast.success("Chỉnh sửa thành công, vui lòng tải lại trang");
     },
     onError: () => {
       toast.error("Chỉnh sửa thất bại");
