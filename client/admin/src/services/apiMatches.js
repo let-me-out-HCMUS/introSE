@@ -6,6 +6,12 @@ export const getAllMatches = async () => {
 };
 
 export const get5NearestMatches = async () => {};
+export const get5NearestMatches = async () => {
+  const response = await axiosClient.get(
+    "/matches?sort=time&limit=5&fromNow=true",
+  );
+  return response;
+};
 
 export const createMatch = async (match) => {
   const response = await axiosClient.post("/matches", match);

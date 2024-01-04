@@ -23,7 +23,7 @@ const GoalSchema = new mongoose.Schema({
   },
   isOwnGoal: {
     type: Boolean,
-    default: true,
+    default: false,
   },
 });
 
