@@ -11,6 +11,7 @@ export default function FormAddGoal({ submitAdd, clubId }) {
 
   const [rule, setRule] = useState(null);
   const [players, setPlayers] = useState([]);
+  // console.log('clubid',clubId);
 
   useEffect(() => {
     if (ruleData) {
@@ -23,7 +24,7 @@ export default function FormAddGoal({ submitAdd, clubId }) {
       setPlayers(playerData);
       console.log(playerData);
     }
-  }, [playerData]);
+  }, [playerData, clubId]);
 
   
   

@@ -1,11 +1,16 @@
 import { useState, useEffect } from "react";
-import { trandau } from "../mocks/match-result";
+// import { trandau } from "../mocks/match-result";
 import toast from "react-hot-toast";
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { useMutation } from "@tanstack/react-query";
 import { getMatchById } from "../services/apiMatch";
-import { getGoalsMatch, updateGoal, addGoal, deleteGoal } from "../services/apiGoal";
+import {
+  getGoalsMatch,
+  updateGoal,
+  addGoal,
+  deleteGoal,
+} from "../services/apiGoal";
 
 import CustomDialog from "../features/common/Dialog";
 import FormAddGoal from "../features/match-result/FormAddGoal";
@@ -17,7 +22,7 @@ export default function MatchResult() {
   const id = useParams().id;
   const { data: matchData } = useQuery(["match"], () => getMatchById(id));
   const { data: goalData } = useQuery(["goal"], () => getGoalsMatch(id));
-  
+
   const { mutate: addG } = useMutation({
     mutationFn: async (data) => {
       const res = await addGoal(data);
@@ -25,7 +30,9 @@ export default function MatchResult() {
     },
     onSuccess: (goal) => {
       goal.player = addedGoalPlayer;
-      setBanthang1([...Banthang1, goal]);
+      if (selectedClub === match?.firstClub._id)
+        setBanthang1([...Banthang1, goal]);
+      else setBanthang2([...Banthang2, goal]);
       toast.success("Thêm thành công");
     },
     onError: () => {
@@ -35,7 +42,7 @@ export default function MatchResult() {
 
   const { mutate: updateG } = useMutation({
     mutationFn: (data) => {
-      updateGoal(data.id,data);
+      updateGoal(data.id, data);
     },
     onSuccess: () => {
       toast.success("Lưu thành công");
@@ -66,7 +73,7 @@ export default function MatchResult() {
   const [time, setTime] = useState(new Date());
 
   const [addedGoalPlayer, setAddedGoalPlayer] = useState(null);
-  
+
   useEffect(() => {
     if (matchData) {
       setMatch(matchData);
@@ -78,17 +85,21 @@ export default function MatchResult() {
     }
   }, [matchData]);
 
-  useEffect(() => {
-    setBanthang2(trandau.Banthang2);
-  }, []);
+  // useEffect(() => {
+  //   setBanthang2(trandau.Banthang2);
+  // }, []);
 
   // console.log(item.player.club.clubName, Doi2
   // console.log(goalData)
 
   useEffect(() => {
     if (goalData) {
-
-      setBanthang1(goalData.filter((item) =>item.player.club.clubName === Doi1));
+      setBanthang1(
+        goalData.filter((item) => item.player.club.clubName === Doi1),
+      );
+      setBanthang2(
+        goalData.filter((item) => item.player.club.clubName === Doi2),
+      );
       // setBanthang1(goalData)
       // setBanthang2(goalData.filter((item) => item.clubId === match?.secondClub._id));
     }
@@ -98,8 +109,10 @@ export default function MatchResult() {
 
   // console.log('bt1',Banthang1)
   const [editedGoal1, setEditedGoal1] = useState({});
+  const [selectedClub, setSelectedClub] = useState(null);
 
   const [openingDialog, setOpeningDialog] = useState(false);
+  const [openingDialog1, setOpeningDialog1] = useState(false);
   const [openingDialogE, setOpeningDialogE] = useState(false);
 
   const [isEditting, setIsEditting] = useState(false);
@@ -110,6 +123,10 @@ export default function MatchResult() {
     setOpeningDialog(false);
   };
 
+  const handleClose1 = () => {
+    setOpeningDialog1(false);
+  };
+
   const handleCloseE = () => {
     setOpeningDialogE(false);
   };
@@ -117,54 +134,68 @@ export default function MatchResult() {
   const addGoal1 = async (goal) => {
     // console.log(goal);
     const goalToSubmit = {
-      "firstClub": match?.firstClub.clubName,
-      "secondClub": match?.secondClub.clubName,
-      "player": goal.player.name,
-      "time": goal.time,
-      "goalType": goal.goalType,
-      "isOwnGoal": goal.isOwnGoal,
-    }
+      firstClub: match?.firstClub.clubName,
+      secondClub: match?.secondClub.clubName,
+      player: goal.player.name,
+      time: goal.time,
+      goalType: goal.goalType,
+      isOwnGoal: goal.isOwnGoal,
+    };
     // console.log(goalToSubmit);
     setOpeningDialog(false);
+    setOpeningDialog1(false);
     addG(goalToSubmit);
     setAddedGoalPlayer(goal.player);
-    console.log('goal',goal);
+    console.log("goal", goal);
     // setBanthang1([...Banthang1, goal]);
   };
 
   const deleteGoal1 = (id) => {
     console.log(id);
-    setBanthang1(Banthang1.filter((item) => item.id !== id));
+    if (selectedClub === match?.firstClub._id)
+      setBanthang1(Banthang1.filter((item) => item.id !== id));
+    else setBanthang2(Banthang2.filter((item) => item.id !== id));
     deleteG(id);
   };
 
   // Handle edit goal team 1
   const editGoal1 = (goal) => {
     const goalToSubmit = {
-      "goalType": goal.goalType,
-      "time": goal.time,
-      "id": goal.id,
-    }
+      goalType: goal.goalType,
+      time: goal.time,
+      id: goal.id,
+    };
     updateG(goalToSubmit);
     goal.player = editedGoal1.player;
-    setBanthang1((Banthang1) => {
-      return Banthang1.map((item) => item.id === goal.id ? goal : item);
-    });
-    
+    if (selectedClub === match?.firstClub._id)
+      setBanthang1((Banthang1) => {
+        return Banthang1.map((item) => (item.id === goal.id ? goal : item));
+      });
+    else {
+      setBanthang2((Banthang2) => {
+        return Banthang2.map((item) => (item.id === goal.id ? goal : item));
+      });
+    }
+
     setOpeningDialogE(false);
   };
 
   return (
     <div className="flex w-auto justify-center pt-32">
-      {/* <h1 className="mb-10">{time}</h1>
-            <h1 className="mb-10">{test}</h1>
-            <h1>{isPlayed() ? time : test} {id}</h1> */}
       <CustomDialog
         title={"Thêm bàn thắng"}
         open={openingDialog}
         onClose={handleClose}
       >
         <FormAddGoal submitAdd={addGoal1} clubId={match?.firstClub._id} />
+      </CustomDialog>
+
+      <CustomDialog
+        title={"Thêm bàn thắng 2"}
+        open={openingDialog1}
+        onClose={handleClose1}
+      >
+        <FormAddGoal submitAdd={addGoal1} clubId={match?.secondClub._id} />
       </CustomDialog>
 
       <CustomDialog
@@ -176,13 +207,15 @@ export default function MatchResult() {
       </CustomDialog>
 
       <div className="w-full bg-white">
-        <div className="block ml-5 mt-4">
-          <h1>Ngày {time.getDate()} - {time.getMonth()+1}</h1>
+        <div className="ml-5 mt-4 block">
+          <h1>
+            Ngày {time.getDate()} - {time.getMonth() + 1}
+          </h1>
           <h1>Sân vận động: {match?.stadium}</h1>
           {!isPlayed && <p>Trận đấu chưa diễn ra</p>}
         </div>
         <div className="mt-10 flex items-center justify-around">
-          <div className=" text-center w-40">
+          <div className=" w-40 text-center">
             <img
               src="https://ssl.gstatic.com/onebox/media/sports/logos/Th4fAVAZeCJWRcKoLW7koA_96x96.png"
               alt="logo"
@@ -190,10 +223,20 @@ export default function MatchResult() {
             />
             <h1 className="mt-4 font-bold">{Doi1}</h1>
           </div>
-          <div className=" text-5xl tracking-[20px]">
-            {isPlayed ? <div className="w-full text-center">{match?.result}</div> : "-"}
+          <div className=" text-5xl">
+            {isPlayed ? (
+              <div className="w-full">
+                {Banthang1?.filter((goal) => !goal.isOwnGoal).length +
+                  Banthang2?.filter((goal) => goal.isOwnGoal).length}{" "}
+                -{" "}
+                {Banthang2?.filter((goal) => !goal.isOwnGoal).length +
+                  Banthang1?.filter((goal) => goal.isOwnGoal).length}
+              </div>
+            ) : (
+              "-"
+            )}
           </div>
-          <div className="text-center w-40">
+          <div className="w-40 text-center">
             <img
               src="https://ssl.gstatic.com/onebox/media/sports/logos/paYnEE8hcrP96neHRNofhQ_96x96.png"
               alt="logo"
@@ -220,6 +263,7 @@ export default function MatchResult() {
                       <button
                         className=" text-green-600"
                         onClick={() => {
+                          setSelectedClub(match?.firstClub._id);
                           setEditedGoal1(item);
                           setOpeningDialogE(true);
                         }}
@@ -228,7 +272,10 @@ export default function MatchResult() {
                       </button>
                       <button
                         className=" text-red-600"
-                        onClick={() => deleteGoal1(item.id)}
+                        onClick={() => {
+                          setSelectedClub(match?.firstClub._id);
+                          deleteGoal1(item.id);
+                        }}
                       >
                         Xoá
                       </button>
@@ -237,30 +284,71 @@ export default function MatchResult() {
                 </li>
               ))}
               {isEditting && (
-                <button onClick={() => setOpeningDialog(true)} className="btn">
+                <button
+                  onClick={() => {
+                    setSelectedClub(match?.firstClub._id);
+                    setOpeningDialog(true);
+                  }}
+                  className="btn"
+                >
                   +
                 </button>
               )}
             </ul>
             <div>⚽</div>
             <ul className=" w-2/5">
-              {Banthang2.map((item, index) => (
+              {Banthang2.map((item) => (
                 <li
-                  key={index}
+                  key={item.id}
                   className="flex justify-end space-x-2 text-sm font-semibold text-gray-500"
                 >
-                  <div>{item.Ten}</div>
-                  <div>{item.ThoiDiem}'</div>
-                  <div>{item.Loai}</div>
+                  <div>{item.player.name}</div>
+                  <div>{item.time}'</div>
+                  <div>{item.goalType}</div>
+                  {item.isOwnGoal && <div>(og)</div>}
+                  {isEditting && (
+                    <>
+                      <button
+                        className=" text-green-600"
+                        onClick={() => {
+                          setSelectedClub(match?.secondClub._id);
+                          setEditedGoal1(item);
+                          setOpeningDialogE(true);
+                        }}
+                      >
+                        Sửa
+                      </button>
+                      <button
+                        className=" text-red-600"
+                        onClick={() => {
+                          setSelectedClub(match?.secondClub._id);
+                          deleteGoal1(item.id);
+                        }}
+                      >
+                        Xoá
+                      </button>
+                    </>
+                  )}
                 </li>
               ))}
+              {isEditting && (
+                <button
+                  onClick={() => {
+                    setSelectedClub(match?.secondClub._id);
+                    setOpeningDialog1(true);
+                  }}
+                  className="btn float-right"
+                >
+                  +
+                </button>
+              )}
             </ul>
           </div>
         )}
 
         {isPlayed && (
           <button
-            className="btn m-auto block my-4"
+            className="btn m-auto my-4 block"
             onClick={() => setIsEditting(!isEditting)}
           >
             {isEditting ? "Lưu" : "Chỉnh sửa"}
