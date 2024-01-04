@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import { useMutation } from "@tanstack/react-query";
 
 export default function RuleForm() {
-  const { data } = useQuery(["rule"], () => getRule());
+  const { data, refetch } = useQuery(["rule"], () => getRule(), { refetchOnWindowFocus: true});
 
   const { mutate } = useMutation({
     mutationFn: (data) => {
@@ -25,6 +25,7 @@ export default function RuleForm() {
   // const [rule, setRule] = useState({});
 
   useEffect(() => {
+    refetch();
     if (data) {
       setValue("club.minAge", data.club.minAge);
       setValue("club.maxAge", data.club.maxAge);
@@ -41,8 +42,8 @@ export default function RuleForm() {
       setValue("point.priority[1]", data.point.priority[1]);
       setValue("point.priority[2]", data.point.priority[2]);
       setValue("point.priority[3]", data.point.priority[3]);
+      // console.log(data);
     }
-    // console.log(data);
   }, [data]);
 
   const {
@@ -59,7 +60,7 @@ export default function RuleForm() {
   // console.log(watchPriority);
   //   Todo: submit data to server
   const onSubmit = (newdata) => {
-    // console.log(newdata);
+    console.log(newdata);
     mutate(newdata);
     setIsEditting(false);
   };

@@ -17,6 +17,8 @@ import ChangeRule from "./pages/ChangeRule";
 import MatchResult from "./pages/MatchResult";
 
 import MatchSchedule from "./pages/MatchSchedule";
+import MatchesPage from "./pages/MatchesPage";
+
 import ClubDetail from "./features/clubs/ClubDetail";
 
 const queryClient = new QueryClient({
@@ -44,8 +46,8 @@ function App() {
             <Route path="/clubs/:id" element={<ClubDetail />} />
             <Route path="/change-rule" element={<ChangeRule />} />
             <Route path="/schedules" element={<MatchSchedule />} />
-            <Route path="/match-result/:id" element={<MatchResult />} />
-
+            <Route path="/match-result/:id" element={<MatchResult/>} />
+            <Route path="/matches" element={<MatchesPage />} />
             {/* Another route add from here */}
             {/* All invalid route will render PageNotFound page */}
             <Route path="*" element={<PageNotFound />} />
@@ -69,7 +71,7 @@ function App() {
             fontSize: "16px",
             maxWidth: "500px",
             padding: "16px 24px",
-            backgroundColor: "var(--color-grey-0)",
+            backgroundColor: "white",
             color: "var(--color-grey-700)",
           },
         }}

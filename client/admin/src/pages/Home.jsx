@@ -26,7 +26,7 @@ function Home() {
       </div>
       <div className="mt-14 px-10">
           <div className="flex justify-between">
-            <p className="font-bold">Các trận đấu gần nhất</p>
+            <p className="font-bold">Các trận đấu sắp diễn ra</p>
             <Link className="text-gray-600" to="/matches">Xem tất cả</Link>
           </div>
       </div>
