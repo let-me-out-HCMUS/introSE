@@ -1,14 +1,38 @@
-import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  CardMedia,
+  Divider,
+  Typography,
+} from "@mui/material";
+import PlayerTable from "../players/PlayerTable";
+import { useParams } from "react-router-dom";
 
 export default function ClubDetail() {
+  // get current club id from url
+  const { id } = useParams();
+
+  // query club by id
+  // const { data: club, isLoading } = useQuery(["clubs", id], () =>
+  //   clubApi.get(id)
+  // );
+
+  const club = {
+    id,
+    name: "Hà Nội FC",
+    logo: "https://hanoifc.com.vn/images/logo-v2.png",
+    stadium: "Hàng Đẫy",
+  };
+
   return (
     <>
       <Card sx={{ display: "flex", alignItems: "center" }}>
         <CardMedia
           component="img"
-          image="https://hanoifc.com.vn/images/logo-v2.png"
+          image={club.logo}
           sx={{
-            width: 500,
+            width: 300,
             padding: 5,
           }}
         />
@@ -28,7 +52,7 @@ export default function ClubDetail() {
               variant="h2"
               sx={{ fontWeight: "bold" }}
             >
-              Hà Nội FC
+              {club.name}
             </Typography>
           </CardContent>
           <CardContent>
@@ -37,11 +61,15 @@ export default function ClubDetail() {
               color="text.secondary"
               component="div"
             >
-              Sân nhà: Hàng Đẫy
+              {club.stadium}
             </Typography>
           </CardContent>
         </Box>
       </Card>
+
+      <Divider sx={{ margin: "20px 0" }} />
+
+      <PlayerTable from={club.id} />
     </>
   );
 }
