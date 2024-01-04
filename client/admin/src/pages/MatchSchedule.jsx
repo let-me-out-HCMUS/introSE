@@ -80,7 +80,7 @@ export default function NestedList() {
   useEffect(() => {
     if (!clubsFromApi) return;
 
-    setClubs(clubsFromApi.data.club);
+    setClubs(clubsFromApi.club);
 
     const matches = generateSchedule(clubs, startDate);
     setMatchesInfo(matches);
