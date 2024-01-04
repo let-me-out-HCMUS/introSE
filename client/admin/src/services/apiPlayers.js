@@ -1,22 +1,27 @@
-import { axiosClientFormData } from './axiosClient';
+import { axiosClient, axiosClientFormData } from "./axiosClient";
 
 export const createPlayer = async (player, clubName) => {
-    const formData = new FormData();
+  const formData = new FormData();
 
-    if (!player.image) {
-        throw new Error('File is undefined');
-    }
+  if (!player.image) {
+    throw new Error("File is undefined");
+  }
 
-    // prepare body data
-    formData.append('clubName', clubName);
-    formData.append('file', player.image);
-    formData.append('name', player.name);
-    formData.append('shirtNum', player.shirtNum);
-    formData.append('type', player.type);
-    formData.append('dob', player.dob);
-    formData.append('note', player.note);
+  // prepare body data
+  formData.append("clubName", clubName);
+  formData.append("file", player.image);
+  formData.append("name", player.name);
+  formData.append("shirtNum", player.shirtNum);
+  formData.append("type", player.type);
+  formData.append("dob", player.dob);
+  formData.append("note", player.note);
 
-    const res = await axiosClientFormData.post('/players', formData);
+  const res = await axiosClientFormData.post("/players", formData);
 
-    return res;
-}
+  return res;
+};
+
+export const getPlayersByClubId = async (clubId) => {
+  const res = await axiosClient.get(`/players?club=${clubId}`);
+  return res.data.players;
+};

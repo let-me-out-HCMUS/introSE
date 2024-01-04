@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import ClubTable from "../features/clubs/ClubTable";
 
 import { getClubs } from "../services/apiClubs";
-import { CircularProgress } from "@mui/material";
+import { LinearProgress } from "@mui/material";
 
 export default function ClubPage() {
   // use query to get clubs
@@ -12,7 +12,7 @@ export default function ClubPage() {
   });
 
   if (isLoading) {
-    return <CircularProgress />;
+    return <LinearProgress color="success" />;
   }
 
   if (isError) {

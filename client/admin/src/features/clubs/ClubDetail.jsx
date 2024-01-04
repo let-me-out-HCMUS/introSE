@@ -3,8 +3,8 @@ import {
   Card,
   CardContent,
   CardMedia,
-  CircularProgress,
   Divider,
+  LinearProgress,
   Typography,
 } from "@mui/material";
 import PlayerTable from "../players/PlayerTable";
@@ -20,7 +20,7 @@ export default function ClubDetail() {
   });
 
   if (isLoading) {
-    return <CircularProgress />;
+    return <LinearProgress color="success" />;
   }
 
   if (isError) {
@@ -73,7 +73,7 @@ export default function ClubDetail() {
 
       <Divider sx={{ margin: "20px 0" }} />
 
-      <PlayerTable from={club.id} />
+      <PlayerTable clubId={id} />
     </>
   );
 }
