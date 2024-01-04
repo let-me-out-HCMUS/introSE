@@ -18,7 +18,7 @@ function RankPage() {
       if (ranks)  
       {
         console.log('ranks',ranks);
-        setRankInfo(ranking(ranks,rule))
+        ranking(ranks,rule).then((res) => setRankInfo(res));
       }
       // .then((res) => setRankInfo(res));
     };

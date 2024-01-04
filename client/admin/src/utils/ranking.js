@@ -1,7 +1,9 @@
-export default function ranking(clubs, rule) {
+// import { getClubs } from "../services/apiClubs";
+import { getMatchUp } from "../services/apiMatch";
+
+export default async function ranking(clubs, rule) {
     // console.log('ruleranking',rule);
     // console.log(rule.point)
-    
     // clubs.forEach(club =>{ club["points"] = 0});
     
     clubs.forEach(club => {
@@ -10,13 +12,13 @@ export default function ranking(clubs, rule) {
 
     for (let i = 0; i < clubs.length - 1; i++) {
         for (let j = i + 1; j < clubs.length; j++) {
-            var res = compare(clubs[i], clubs[j], rule, 0);
+            var res = await compare(clubs[i], clubs[j], rule, 0);
             if (res === 0) {
-                res = compare(clubs[i], clubs[j], rule, 1);
+                res = await compare(clubs[i], clubs[j], rule, 1);
                 if (res === 0) {
-                    res = compare(clubs[i], clubs[j], rule, 2);
+                    res = await compare(clubs[i], clubs[j], rule, 2);
                     if (res === 0) {
-                        res = compare(clubs[i], clubs[j], rule, 3);
+                        res = await compare(clubs[i], clubs[j], rule, 3);
                     }
                 }
             }
@@ -31,7 +33,7 @@ export default function ranking(clubs, rule) {
     return clubs;
 }
 
-function compare(a, b, rule, time) {
+async function compare(a, b, rule, time) {
     var res = 0;
     switch (rule.point.priority[time]) {
         case 'points':
@@ -41,19 +43,33 @@ function compare(a, b, rule, time) {
             res = b.gd - a.gd;
             break;
         case 'totalGoals':
-            // res = b.gf - a.gf;
+            res = b.gf - a.gf;
             break;
         case 'headToHead':
-            // clubs.sort((a, b) => {
-            //     let headToHead = 0;
-            //     if (a.headToHead[b.id]) {
-            //         headToHead = a.headToHead[b.id].win - a.headToHead[b.id].lose;
-            //     }
-            //     return headToHead;
-            // });
+            res = await compareMatchUp(a, b);
             break;
         default:
             break;
     }
     return res;
 }
+
+async function compareMatchUp(a, b) {
+    const firstMatch = await getMatchUp(a.id, b.id);
+    const secondMatch = await getMatchUp(b.id, a.id);
+    var res = 0
+
+    const fMatch = firstMatch.result.split('-');
+    if (fMatch[1] > fMatch[0]) {
+        res = +1;
+    }
+    else res -= 1;
+
+    const sMatch = secondMatch.result.split('-');
+    if (sMatch[0] < sMatch[1]) {
+        res = -1;
+    }
+    else res += 1;
+    return res;
+}
+
