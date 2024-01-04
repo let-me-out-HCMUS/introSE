@@ -36,7 +36,7 @@ export default function ClubDetail() {
       updateClub({ id, ...data });
     },
     onSuccess: () => {
-      toast.success("Chỉnh sửa thành công");
+      toast.success("Chỉnh sửa thành công, vui lòng tải lại trang");
     },
     onError: () => {
       toast.error("Chỉnh sửa thất bại");
@@ -51,7 +51,6 @@ export default function ClubDetail() {
     return <div>Error: {error.message}</div>;
   }
 
-  console.log(data);
   const club = data.club;
 
   const handleClickOpen = () => {
@@ -63,6 +62,16 @@ export default function ClubDetail() {
   };
 
   const handleSubmit = () => {
+    if (clubName === "") {
+      toast.error("Tên câu lạc bộ không được để trống");
+      return;
+    }
+
+    if (stadium === "") {
+      toast.error("Sân nhà không được để trống");
+      return;
+    }
+
     setOpen(false);
     mutate({ clubName, stadium });
   };
