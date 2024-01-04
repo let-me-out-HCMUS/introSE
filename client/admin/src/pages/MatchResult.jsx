@@ -17,6 +17,7 @@ export default function MatchResult() {
   const id = useParams().id;
   const { data: matchData } = useQuery(["match"], () => getMatchById(id));
   const { data: goalData } = useQuery(["goal"], () => getGoalsMatch(id));
+  
 
   const { mutate: updateG } = useMutation({
     mutationFn: (data) => {
@@ -87,8 +88,16 @@ export default function MatchResult() {
   };
 
   const addGoal1 = (goal) => {
-    console.log(goal);
-    goal.id = Banthang1.length + 1;
+    // console.log(goal);
+    const goalToSubmit = {
+      "firstClub": match?.firstClub.clubName,
+      "secondClub": match?.secondClub.clubName,
+      "player": goal.player.name,
+      "time": goal.time,
+      "goalType": goal.goalType,
+      "isOwnGoal": goal.isOwnGoal,
+    }
+    console.log(goalToSubmit);
     setBanthang1([...Banthang1, goal]);
     setOpeningDialog(false);
   };
@@ -100,11 +109,8 @@ export default function MatchResult() {
 
   // Handle edit goal team 1
   const editGoal1 = (goal) => {
-    // goal.firstClub = match?.firstClub.clubName;
-    // goal.secondClub = match?.secondClub.clubName;
-    // goal.player = goal.player.name;
-    console.log('goal edit',goal);
-    updateG(goal,123);
+    goal.player.name = goal.name;
+    updateG(goal);
     setBanthang1((Banthang1) => {
       const index = Banthang1.findIndex((item) => item.id === goal.id);
       const newBanthang1 = [...Banthang1];

@@ -11,6 +11,7 @@ export default function FormAddGoal({ submitAdd, clubId }) {
 
   const [rule, setRule] = useState(null);
   const [players, setPlayers] = useState([]);
+
   useEffect(() => {
     if (ruleData) {
       setRule(ruleData);
@@ -23,14 +24,24 @@ export default function FormAddGoal({ submitAdd, clubId }) {
       console.log(playerData);
     }
   }, [playerData]);
+
   
   
   const {
     register,
     handleSubmit,
-    // watch,
+    setValue,
+    watch,
     formState: { errors },
   } = useForm();
+
+  
+
+  useEffect(() => {
+    if (watch("playerid"))
+      setValue("player", players.find((item) => item.id === watch("playerid")));
+    setValue("player", players[0]);
+  },[watch("playerid"),players])
 
 //   TODO: list players in club to input
   return (
@@ -39,13 +50,12 @@ export default function FormAddGoal({ submitAdd, clubId }) {
         <div className="form-group">
           <label htmlFor="name">Họ và tên</label>
             <select
-                {...register("Ten", {
-                required: true,
+                {...register("playerid", {
                 })}
                 className="input-field"
             >
                 {players.map((item, index) => (
-                <option key={index} value={item.name}>
+                <option key={index} value={item.id}>
                     {item.name}
                 </option>
                 ))}

@@ -7,6 +7,11 @@ export const getGoalsMatch = async (id) => {
 
 export const updateGoal = async (id, data) => {
     console.log('data',data);
-    const res = await axiosClient.put(`/goals/${id}`, data);
+    const res = await axiosClient.patch(`/goals/${id}`, data);
+    return res.data.goal;
+}
+
+export const addGoal = async (data) => {
+    const res = await axiosClient.post(`/goals`, data);
     return res.data.goal;
 }
