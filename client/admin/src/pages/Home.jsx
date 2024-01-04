@@ -1,20 +1,28 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { matches } from "../mocks/homePage";
 import Match from "../features/home/Match";
 import BannerImage from "../assets/images/home_banner.png";
+import { useQuery } from "@tanstack/react-query";
+import { get5NearestMatches } from "../services/apiMatches";
+import { convertDateFormatFromISODate } from "../utils/convertDateFormat";
 
 function Home() {
+  const {data} = useQuery(["5-nearest-matches"], get5NearestMatches, {
+    staleTime: Infinity,
+  })
   const [matchesInfo, setMatchesInfo] = useState([]);
 
 
-  // load matches information
   useEffect(() => {
-    setMatchesInfo(matches);
-  }, [matchesInfo])
+    if (!data)
+      return;
+
+    setMatchesInfo(data.data.matches); 
+  }, [data])
+
 
   return (
-    <div className="px-16 py-16 mx-auto">
+    <div className="px-8 py-16 mx-auto">
       <div className="bg-green-800 flex w-full h-80">
         <div className="px-10 py-10">
           <img width={350} height={350} src={BannerImage} alt="tuyenVN" />
@@ -31,9 +39,18 @@ function Home() {
           </div>
       </div>
       <div className="pt-10">
-        {matchesInfo.map((match, index) => {
-          // TODO: change key from index to matchId
-          return <Match key={index} matchInfo={match} />
+        {matchesInfo.map((match) => {
+          const matchRender = {
+            firstClub: match.firstClub.clubName,
+            secondClub: match.secondClub.clubName,
+            firstClubLogo: match.firstClub.image,
+            secondClubLogo: match.secondClub.image,
+            time: convertDateFormatFromISODate(new Date(match.time)),
+            stadium: match.stadium,
+            matchId: match._id,
+          }
+          
+          return <Match key={match._id} matchInfo={matchRender} />
         })}
       </div>
     </div>

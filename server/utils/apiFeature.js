@@ -6,7 +6,7 @@ class APIFeatures {
 
   filter() {
     const queryObj = { ...this.queryString };
-    const excludedFields = ["page", "sort", "limit", "fields"];
+    const excludedFields = ["page", "sort", "limit", "fields", "fromNow"];
     excludedFields.forEach((el) => delete queryObj[el]);
 
     let queryStr = JSON.stringify(queryObj);
@@ -43,6 +43,12 @@ class APIFeatures {
 
     this.query = this.query.skip(skip).limit(limit);
 
+    return this;
+  }
+
+  fromNow() {
+    if (this.queryString.fromNow === "true")
+      this.query = this.query.find({ time: { $gte: new Date() } });
     return this;
   }
 }

@@ -10,7 +10,8 @@ exports.getAllMatches = catchAsync(async (req, res, next) => {
     .filter()
     .sort()
     .limit()
-    .paginate();
+    .paginate()
+    .fromNow();
   const matches = await features.query
     .populate("firstClub")
     .populate("secondClub");

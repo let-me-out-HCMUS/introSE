@@ -9,12 +9,12 @@ const Match = ({matchInfo}) => {
     <div className="h-[100px] mb-5 text-gray-500 flex justify-between items-center px-10 rounded-md bg-white">
           <div className="flex w-[60%] leading-[45px]">
             <div className="flex w-5/12 cursor-pointer">
-                <img className="rounded-full mr-3 w-[45px]" src={matchInfo.firstClubLogo} alt="logo" />
+                <img className="rounded-full mr-3 w-[45px] h-[45px]" src={matchInfo.firstClubLogo} alt="logo" />
                 <span>{matchInfo.firstClub}</span>
             </div>
             <span className="px-8 font-extrabold text-blue-800">VS</span>
             <div className="flex cursor-pointer">
-                <img className="rounded-full mr-3 w-[45px]" src={matchInfo.secondClubLogo} alt="logo" />
+                <img className="rounded-full mr-3 w-[45px] h-[45px]" src={matchInfo.secondClubLogo} alt="logo" />
                 <span>{matchInfo.secondClub}</span>
             </div>
           </div>
