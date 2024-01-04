@@ -73,7 +73,6 @@ function RankTable({ rankedClubs }) {
                     <b className="ml-4">{row.clubName}</b>
                   </div>
               </TableCell>
-              <TableCell></TableCell>
               {/* <TableCell align="center">{row.played}</TableCell> */}
               <TableCell align="center">{row.won}</TableCell>
               <TableCell align="center">{row.drawn}</TableCell>

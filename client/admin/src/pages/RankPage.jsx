@@ -7,35 +7,33 @@ import RankTable from "../features/ranking/RankTable.jsx";
 import ranking from "../utils/ranking.js";
 function RankPage() {
   const [rankInfo, setRankInfo] = useState([]);
-  
-  const { data: ruleData, refetch } = useQuery(["rule"], () => getRule());
-  const { data: clubsData } = useQuery(["clubs"], () => getClubs());
-  
+
+  const { data: ruleData } = useQuery(["rule"], () => getRule(), {
+    staleTime: Infinity,
+  });
+  const { data: clubsData } = useQuery(["clubs"], () => getClubs(), {
+    staleTime: Infinity,
+  });
+
   useEffect(() => {
-    refetch();
     const fetchRankInfo = (rule) => {
-      // setRankInfo(ranks.sort((a, b) => b.points - a.points));
-      if (ranks)  
-      {
+      if (ranks) {
         // console.log('ranks',ranks);
         ranking(ranks, rule).then((res) => setRankInfo(res));
       }
-      // .then((res) => setRankInfo(res));
     };
 
-    var ranks = []
-    if (clubsData){
-      ranks = clubsData.data.club
-      console.log(clubsData)
+    var ranks = [];
+    if (clubsData) {
+      ranks = clubsData?.data.club;
+      // console.log(clubsData)
     }
 
     if (ruleData) {
-      const rule = ruleData
+      const rule = ruleData;
       fetchRankInfo(rule);
     }
-
-    
-  }, [rankInfo, ruleData]);
+  }, [clubsData, ruleData]);
 
   // console.log(rankInfo);
 

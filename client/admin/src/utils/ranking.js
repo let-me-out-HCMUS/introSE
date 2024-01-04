@@ -1,16 +1,16 @@
 // import { getClubs } from "../services/apiClubs";
 import { getMatchUp } from "../services/apiMatch";
-
+import { getClubById } from "../services/apiClubs";
 export default async function ranking(clubs, rule) {
     // console.log('ruleranking',rule);
     // console.log(rule.point)
     // clubs.forEach(club =>{ club["points"] = 0});
-    
-    clubs.forEach((club,index) => {
+
+    clubs.forEach((club) => {
         club.points = rule.point.win * club.won + rule.point.draw * club.drawn + rule.point.lose * club.lost;
         
     });
-    console.log('rank', clubs);
+    // console.log('rank', clubs);
     for (let i = 0; i < clubs.length - 1; i++) {
         for (let j = i + 1; j < clubs.length; j++) {
             var res = await compare(clubs[i], clubs[j], rule, 0);
@@ -30,7 +30,7 @@ export default async function ranking(clubs, rule) {
             }
         }
     }
-    console.log('rank', clubs);
+    // console.log('rank', clubs);
     return clubs;
 }
 
@@ -44,7 +44,8 @@ async function compare(a, b, rule, time) {
             res = b.gd - a.gd;
             break;
         case 'totalGoals':
-            res = b.gf - a.gf;
+            // res = b.gf - a.gf;
+            res = await compareTotalGoal(a, b);
             break;
         case 'headToHead':
             res = await compareMatchUp(a, b);
@@ -56,6 +57,7 @@ async function compare(a, b, rule, time) {
 }
 
 async function compareMatchUp(a, b) {
+
     const firstMatch = await getMatchUp(a.id, b.id);
     const secondMatch = await getMatchUp(b.id, a.id);
     var res = 0
@@ -74,3 +76,9 @@ async function compareMatchUp(a, b) {
     return res;
 }
 
+async function compareTotalGoal(a, b) {
+    const goalA = await getClubById(a.id).totalGoal;
+    const goalB = await getClubById(b.id).totalGoal;
+    // console.log('goal', goalA, goalB);
+    return goalB - goalA;
+}

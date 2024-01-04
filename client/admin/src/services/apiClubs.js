@@ -27,3 +27,9 @@ export const createClub = async (clubName, stadium, file, players) => {
 
     await Promise.all(promiseArray);
 }
+
+export const getClubById = async (id) => {
+    const response = await axiosClient.get(`/clubs/${id}`);
+  
+    return response.data;
+};
