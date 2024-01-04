@@ -62,24 +62,24 @@ function RankTable({ rankedClubs }) {
         </TableHead>
         <TableBody>
           {rankedClubs.map((row, index) => (
-            <TableRow key={row.club}>
+            <TableRow key={row.id}>
               <TableCell component="th" scope="row" align="center">
                 {index + 1}
               </TableCell>
-              <TableCell>{row.club}</TableCell>
+              <TableCell>{row.clubName}</TableCell>
               <TableCell align="center">{row.played}</TableCell>
               <TableCell align="center">{row.won}</TableCell>
-              <TableCell align="center">{row.draw}</TableCell>
+              <TableCell align="center">{row.drawn}</TableCell>
               <TableCell align="center">{row.lost}</TableCell>
               <TableCell align="center">{row.gf}</TableCell>
               <TableCell align="center">{row.ga}</TableCell>
               <TableCell align="center">{row.gd}</TableCell>
               <TableCell align="center">{row.points}</TableCell>
-              <TableCell align="center">
+              {/* <TableCell align="center">
                 <Stack spacing={1} direction="row">
-                  {renderResult(row.last5)}
+                  renderResult(row.last5)
                 </Stack>
-              </TableCell>
+              </TableCell> */}
             </TableRow>
           ))}
         </TableBody>
