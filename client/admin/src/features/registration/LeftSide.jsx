@@ -8,7 +8,7 @@ import toast from 'react-hot-toast';
 import { useMutation } from '@tanstack/react-query';
 import {createClub} from '../../services/apiClubs';
 
-const LeftSide = ({players}) => {
+const LeftSide = ({rules, players}) => {
 
     const {mutate: mutateCreateClub} = useMutation({
         mutationFn: async (data) => {
@@ -30,6 +30,19 @@ const LeftSide = ({players}) => {
     }
 
     const onSubmitClub = (data) => {
+        // check rules
+        if (players.length < rules.minPlayers || players.length > rules.maxPlayers){
+            toast.error(`Số lượng cầu thủ phải từ ${rules.minPlayers} đến ${rules.maxPlayers}`);
+            return;
+        }
+
+        // check max foreign player
+        const foreignPlayers = players.filter((item) => item.type === 'Ngoài nước');
+        if (foreignPlayers.length > rules.maxForeigners){
+            toast.error(`Số lượng cầu thủ ngoại quốc tối đa là ${rules.maxForeigners}`);
+            return;
+        }
+
         mutateCreateClub({clubName: data.clubName, file: selectedImage, players: players});
     }
 
