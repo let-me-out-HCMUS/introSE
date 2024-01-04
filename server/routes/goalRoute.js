@@ -10,7 +10,7 @@ router
 router
   .route("/:id")
   .get(goalController.getAGoal)
-  .put(goalController.updateGoal)
+  .patch(goalController.updateGoal)
   .delete(goalController.deleteGoal);
 
 module.exports = router;

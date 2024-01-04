@@ -1,16 +1,22 @@
 import { axiosClientFormData, axiosClient } from "./axiosClient";
 import { createPlayer } from "./apiPlayers";
 
-export const createClub = async (clubName, file, players) => {
-  const formData = new FormData();
+export const getClubs = async () => {
+    const response = await axiosClient.get('/clubs');
+    return response;
+};
+
+export const createClub = async (clubName, stadium, file, players) => {
+    const formData = new FormData();
 
   if (!file) {
     throw new Error("File is undefined");
   }
 
-  // prepare body data
-  formData.append("file", file);
-  formData.append("clubName", clubName);
+    // prepare body data
+    formData.append('file', file);
+    formData.append('clubName', clubName);
+    formData.append('stadium', stadium);
 
   await axiosClientFormData.post("/clubs", formData);
 

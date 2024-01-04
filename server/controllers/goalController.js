@@ -3,10 +3,23 @@ const Player = require("../models/Player");
 const Match = require("../models/Match");
 const Club = require("../models/Club");
 const catchAsync = require("../utils/catchAsync");
-
+const APIFeatures = require("../utils/apiFeature");
 // Get all goals
 exports.getAllGoals = catchAsync(async (req, res, next) => {
-  const goals = await Goal.find().populate("player").populate("match");
+  // Build query
+  const features = new APIFeatures(Goal.find(), req.query)
+    .filter()
+    .sort()
+    .limit()
+    .paginate();
+
+  const goals = await features.query.populate({
+    path: "player",
+    populate: {
+      path: "club",
+      model: "Club",
+    },
+  });
   res.status(200).json({
     status: "success",
     data: {
@@ -18,7 +31,13 @@ exports.getAllGoals = catchAsync(async (req, res, next) => {
 // Get a goal
 exports.getAGoal = catchAsync(async (req, res, next) => {
   const goal = await Goal.findById(req.params.id)
-    .populate("player")
+    .populate({
+      path: "player",
+      populate: {
+        path: "club",
+        model: "Club",
+      },
+    })
     .populate("match");
   res.status(200).json({
     status: "success",
@@ -68,10 +87,12 @@ exports.createGoal = catchAsync(async (req, res, next) => {
     player: player._id,
     time: req.body.time,
     goalType: req.body.goalType,
+    isOwnGoal: req.body.isOwnGoal,
   };
 
   const goal = await Goal.create(goadObj);
-
+  player.totalGoal += 1;
+  await player.save();
   // Update match point
   let firstClubPoint = Number(match.result.split("-")[0]);
   let secondClubPoint = Number(match.result.split("-")[1]);
@@ -102,9 +123,11 @@ exports.updateGoal = catchAsync(async (req, res, next) => {
       message: "Goal does not exist",
     });
   }
+  // Patch goal
   goal.time = req.body.time;
   goal.goalType = req.body.goalType;
   await goal.save();
+
   res.status(200).json({
     status: "success",
     data: {
@@ -115,6 +138,12 @@ exports.updateGoal = catchAsync(async (req, res, next) => {
 
 exports.deleteGoal = catchAsync(async (req, res, next) => {
   const goal = await Goal.findById(req.params.id).populate("player");
+  if (!goal) {
+    return res.status(404).json({
+      status: "fail",
+      message: "Goal does not exist",
+    });
+  }
   // Update match result
   const match = await Match.findById(goal.match);
   let firstClubPoint = Number(match.result.split("-")[0]);

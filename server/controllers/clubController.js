@@ -2,10 +2,40 @@ const Club = require("../models/Club");
 const catchAsync = require("../utils/catchAsync");
 const bucket = require("../utils/upload");
 const multer = require("multer");
+const APIFeatures = require("../utils/apiFeature");
+const Player = require("../models/Player");
+const Match = require("../models/Match");
+const Goal = require("../models/Goal");
 
 // Get all clubs
 exports.getAllClubs = catchAsync(async (req, res, next) => {
-  const club = await Club.find();
+  // Build query
+  const features = new APIFeatures(Club.find(), req.query)
+    .filter()
+    .sort()
+    .limit()
+    .paginate();
+
+  // Update won, lost, drawn
+  const matches = await Match.find();
+  matches.forEach(async (match) => {
+    const firstClub = await Club.findById(match.firstClub);
+    const secondClub = await Club.findById(match.secondClub);
+    if (match.firstClubScore > match.secondClubScore) {
+      firstClub.won++;
+      secondClub.lost++;
+    } else if (match.firstClubScore < match.secondClubScore) {
+      firstClub.lost++;
+      secondClub.won++;
+    } else {
+      firstClub.drawn++;
+      secondClub.drawn++;
+    }
+    await firstClub.save();
+    await secondClub.save();
+  });
+
+  const club = await features.query;
   res.status(200).json({
     status: "success",
     data: {
@@ -49,6 +79,7 @@ exports.createClub = catchAsync(async (req, res, next) => {
       });
       const club = await Club.create({
         clubName: req.body.clubName,
+        stadium: req.body.stadium,
         won: req.body.won,
         lost: req.body.lost,
         drawn: req.body.drawn,
@@ -76,10 +107,17 @@ exports.createClub = catchAsync(async (req, res, next) => {
 //  Get a club
 exports.getClub = catchAsync(async (req, res, next) => {
   const team = await Club.findById(req.params.id);
+  // return total goals
+  const goals = await Goal.find({ club: req.params.id });
+  let totalGoal = 0;
+  goals.forEach((goal) => {
+    totalGoal += 1;
+  });
   res.status(200).json({
     status: "success",
     data: {
       team,
+      totalGoal,
     },
   });
 });
@@ -106,7 +144,14 @@ exports.updateClub = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteClub = catchAsync(async (req, res, next) => {
-  await Club.findByIdAndDelete(req.params.id);
+  const club = await Club.findByIdAndDelete(req.params.id);
+  if (!club) {
+    return res.status(404).json({
+      status: "fail",
+      message: "Club does not exist",
+    });
+  }
+  Player.deleteMany({ club: req.params.id });
   res.status(204).json({
     status: "success",
     data: null,

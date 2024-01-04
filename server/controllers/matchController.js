@@ -1,10 +1,17 @@
 const Match = require("../models/Match");
 const Club = require("../models/Club");
 const catchAsync = require("../utils/catchAsync");
+const APIFeatures = require("../utils/apiFeature");
 
 // Get all matches
 exports.getAllMatches = catchAsync(async (req, res, next) => {
-  const matches = await Match.find()
+  // Build query
+  const features = new APIFeatures(Match.find(), req.query)
+    .filter()
+    .sort()
+    .limit()
+    .paginate();
+  const matches = await features.query
     .populate("firstClub")
     .populate("secondClub");
 
@@ -84,7 +91,8 @@ exports.updateMatch = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteMatch = catchAsync(async (req, res, next) => {
-  await Match.findByIdAndDelete(req.params.id);
+  // delete all match
+  await Match.deleteMany({});
   res.status(204).json({
     status: "success",
     data: null,

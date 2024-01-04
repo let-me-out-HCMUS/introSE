@@ -1,16 +1,49 @@
 import { useForm } from "react-hook-form";
-import { Cauthu } from "../../mocks/match-result";
-/* eslint-disable react/prop-types */
-export default function FormAddGoal({ submitAdd }) {
-  const types = 4;
+import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getRule } from "../../services/apiRule";
+import { getPlayersClub } from "../../services/apiPlayers";
 
+/* eslint-disable react/prop-types */
+export default function FormAddGoal({ submitAdd, clubId }) {
+  const { data: ruleData } = useQuery(["rule"], async () => await getRule());
+  const { data: playerData } = useQuery(["player"], async () => await getPlayersClub(clubId));
+
+  const [rule, setRule] = useState(null);
+  const [players, setPlayers] = useState([]);
+  // console.log('clubid',clubId);
+
+  useEffect(() => {
+    if (ruleData) {
+      setRule(ruleData);
+    }
+  }, [ruleData]);
+
+  useEffect(() => {
+    if (playerData) {
+      setPlayers(playerData);
+      // console.log(playerData);
+    }
+  }, [playerData, clubId]);
+
+  
+  
   const {
     register,
     handleSubmit,
-    // watch,
-
+    setValue,
+    watch,
     formState: { errors },
   } = useForm();
+
+  
+
+  useEffect(() => {
+    if (watch("playerid"))
+      setValue("player", players.find((item) => item.id === watch("playerid")));
+    else
+      setValue("player", players[0]);
+  },[watch("playerid"),players])
 
 //   TODO: list players in club to input
   return (
@@ -18,20 +51,14 @@ export default function FormAddGoal({ submitAdd }) {
       <form onSubmit={handleSubmit(submitAdd)} className="min-w-[300px]">
         <div className="form-group">
           <label htmlFor="name">Họ và tên</label>
-          {/* <input
-            type="text"
-            className=" input-field"
-            {...register("Ten", { required: true })}
-          /> */}
             <select
-                {...register("Ten", {
-                required: true,
+                {...register("playerid", {
                 })}
                 className="input-field"
             >
-                {Cauthu.map((item, index) => (
-                <option key={index} value={item.Ten}>
-                    {item.Ten}
+                {players.map((item, index) => (
+                <option key={index} value={item.id}>
+                    {item.name}
                 </option>
                 ))}
             </select>
@@ -39,35 +66,39 @@ export default function FormAddGoal({ submitAdd }) {
         </div>
 
         <div className="form-group">
-          <label htmlFor="name">Thời điểm ghi bàn</label>
+          <label htmlFor="">Thời điểm ghi bàn</label>
           <input
             className=" input-field"
             type="number"
-            {...register("ThoiDiem", { required: true, min: 1, max: 120 })}
+            {...register("time", { required: true, min:1, max: rule?.goal.maxTime })}
           />
           {errors.ThoiDiem && <p className="error-field">*Không hợp lệ*</p>}
         </div>
 
         <div className="form-group !flex">
-          <label htmlFor="name">Loại bàn thắng: </label>
-          {/* <input
-            type="text"
-            className=" input-field"
-            {...register("Loai", { required: true })}
-          /> */}
+          <label htmlFor="">Loại bàn thắng: </label>
           <select
-            {...register("Loai", {
+            {...register("goalType", {
               required: true,
             })}
             className="rounded border-2 border-green-300 ml-4"
           >
-            {Array.from(Array(types).keys()).map((item, index) => (
+            {Array.from(Array(rule?.goal.quantityType).keys()).map((item, index) => (
               <option key={index} value={String.fromCharCode(65 + item)}>
                 {String.fromCharCode(65 + item)}
               </option>
             ))}
           </select>
           {errors.Ten && <p className="error-field">*Không hợp lệ*</p>}
+        </div>
+
+        <div className="form-group !flex">
+          <label htmlFor="">Phản lưới nhà: </label>
+          <input
+            className=" ml-4"
+            type="checkbox"
+            {...register("isOwnGoal")}
+          />
         </div>
 
         <div className="inline-flex w-full flex-row justify-end pt-4">
