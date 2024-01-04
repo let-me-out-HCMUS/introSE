@@ -4,6 +4,7 @@ const bucket = require("../utils/upload");
 const multer = require("multer");
 const APIFeatures = require("../utils/apiFeature");
 const Player = require("../models/Player");
+const Match = require("../models/Match");
 
 // Get all clubs
 exports.getAllClubs = catchAsync(async (req, res, next) => {
@@ -84,17 +85,38 @@ exports.createClub = catchAsync(async (req, res, next) => {
 });
 //  Get a club
 exports.getClub = catchAsync(async (req, res, next) => {
-  const team = await Club.findById(req.params.id);
+  const club = await Club.findById(req.params.id);
   let totalGoal = 0;
   // Calc total goal
   const players = await Player.find({ club: req.params.id });
   players.forEach((player) => {
     totalGoal += player.totalGoal;
   });
+
+  // Calc total won, win rate
+  const matches = await Match.find({
+    $or: [{ firstClub: req.params.id }, { secondClub: req.params.id }],
+  });
+  let totalWon = 0;
+  let totalLost = 0;
+  let totalDrawn = 0;
+  matches.forEach((match) => {
+    if (match.result && match.time < new Date().toISOString()) {
+      const firstClubPoint = Number(match.result.split("-")[0]);
+      const secondClubPoint = Number(match.result.split("-")[1]);
+      if (firstClubPoint > secondClubPoint) totalWon += 1;
+      else if (firstClubPoint < secondClubPoint) totalLost += 1;
+      else totalDrawn += 1;
+    }
+  });
+  club.won = totalWon;
+  club.lost = totalLost;
+  club.drawn = totalDrawn;
+
   res.status(200).json({
     status: "success",
     data: {
-      team,
+      club,
       totalGoal,
     },
   });
