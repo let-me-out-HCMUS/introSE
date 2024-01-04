@@ -1,32 +1,29 @@
 import { useEffect, useState } from "react";
 // import { rule } from "../../mocks/rule";
 import { useForm } from "react-hook-form";
-import {useQuery} from "@tanstack/react-query";
-import {getRule, updateRule} from "../../services/apiRule";
-import toast from 'react-hot-toast';
-import { useMutation } from '@tanstack/react-query';
+import { useQuery } from "@tanstack/react-query";
+import { getRule, updateRule } from "../../services/apiRule";
+import toast from "react-hot-toast";
+import { useMutation } from "@tanstack/react-query";
 
 export default function RuleForm() {
-  const {data} = useQuery(["wtf"], ()=> getRule());
+  const { data } = useQuery(["rule"], () => getRule());
 
-  const {mutate} = useMutation({
+  const { mutate } = useMutation({
     mutationFn: (data) => {
-      updateRule(data)
+      updateRule(data);
     },
     onSuccess: () => {
-        toast.success('Lưu thành công');
+      toast.success("Lưu thành công");
     },
     onError: () => {
-        toast.error('Lưu thấp bại');
-    }
-});
+      toast.error("Lưu thất bại");
+    },
+  });
 
   const [isEditting, setIsEditting] = useState(false);
   // const [rule, setRule] = useState({});
-  
-  
-  
-  
+
   useEffect(() => {
     if (data) {
       setValue("club.minAge", data.club.minAge);
@@ -44,11 +41,8 @@ export default function RuleForm() {
       setValue("point.priority[1]", data.point.priority[1]);
       setValue("point.priority[2]", data.point.priority[2]);
       setValue("point.priority[3]", data.point.priority[3]);
-      
-
     }
-    console.log(data);
-    
+    // console.log(data);
   }, [data]);
 
   const {
@@ -65,13 +59,16 @@ export default function RuleForm() {
   // console.log(watchPriority);
   //   Todo: submit data to server
   const onSubmit = (newdata) => {
-    console.log(newdata);
+    // console.log(newdata);
     mutate(newdata);
     setIsEditting(false);
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="relative mx-auto px-16 bg-white py-4">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="relative mx-auto bg-white px-16 py-4"
+    >
       <div className="group-rule">
         <h1>Cầu thủ</h1>
         <div className="rule-content flex w-full">

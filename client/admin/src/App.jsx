@@ -46,7 +46,6 @@ function App() {
             <Route path="/match-result/:id" element={<MatchResult/>} />
 
             {/* Another route add from here */}
-            <Route path = "/matches" element={<MatchResult id={1}/>} />
             {/* All invalid route will render PageNotFound page */}
             <Route path="*" element={<PageNotFound />} />
           </Route>

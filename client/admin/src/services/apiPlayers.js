@@ -1,3 +1,4 @@
+import axiosClient  from './axiosClient';
 import { axiosClientFormData } from './axiosClient';
 
 export const createPlayer = async (player, clubName) => {
@@ -19,4 +20,9 @@ export const createPlayer = async (player, clubName) => {
     const res = await axiosClientFormData.post('/players', formData);
 
     return res;
+}
+
+export const getPlayersClub = async (id) => {
+    const res = await axiosClient.get(`/players?club=${id}`);
+    return res.data.players;
 }
