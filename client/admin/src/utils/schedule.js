@@ -23,19 +23,19 @@ function generateDoubleRoundRobin(clubs, startDate){
             }
 
             roundMatches.push({
-                firstClub: clubs[home].name,
-                firstClubLogo: clubs[home].logo,
-                secondClub: clubs[away].name,
-                secondClubLogo: clubs[away].logo,
+                firstClub: clubs[home].clubName,
+                firstClubLogo: clubs[home].image,
+                secondClub: clubs[away].clubName,
+                secondClubLogo: clubs[away].image,
                 stadium: clubs[home].stadium,
                 time: date.toLocaleDateString("vi-VN"),
             })
 
             returnRoundMatches.push({
-                firstClub: clubs[away].name,
-                firstClubLogo: clubs[away].logo,
-                secondClub: clubs[home].name,
-                secondClubLogo: clubs[home].logo,
+                firstClub: clubs[away].clubName,
+                firstClubLogo: clubs[away].image,
+                secondClub: clubs[home].clubName,
+                secondClubLogo: clubs[home].image,
                 stadium: clubs[away].stadium,
                 time: dateForReturnMatches.toLocaleDateString("vi-VN"),
             })

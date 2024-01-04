@@ -8,23 +8,29 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import TextField from "@mui/material/TextField";
 
-import { clubsMock } from "../mocks/clubs";
 import MatchRound from "../features/schedule/MatchRound";
 import generateSchedule from "../utils/schedule";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { createMatch } from "../services/apiMatches";
+import { getClubs } from "../services/apiClubs";
+
+import {convertDateFormatFromInput} from "../utils/convertDateFormat";
 
 export default function NestedList() {
   const {mutate} = useMutation({
     mutationFn: async (data) => {
-      const promiseArray = data.matches.map(match  => {
-        createMatch({
-          firstClub: match.firstClub,
-          secondClub: match.secondClub,
-          time: match.time,
-          stadium: match.stadium,
-        });
-      });
+      const promiseArray = [];
+
+      for (let i = 0; i < data.matches.length; i++) {
+        promiseArray.concat(promiseArray, data.matches[i].map(match => {
+          return createMatch({
+            firstClub: match.firstClub,
+            secondClub: match.secondClub,
+            time: convertDateFormatFromInput(match.time),
+            stadium: match.stadium,
+          });
+        }));
+      }
 
       await Promise.all(promiseArray);
     },
@@ -35,6 +41,11 @@ export default function NestedList() {
       toast.error("Tạo lịch thi đấu thất bại");
     },
   })
+
+  const {data: clubsFromApi} = useQuery(["clubs"], getClubs, {
+    staleTime: Infinity,
+  });
+
   const [clubs, setClubs] = useState([]);
   const [startDate, setStartDate] = useState(null);
   const [isSeasonStarted, setIsSeasonStarted] = useState(true);
@@ -67,14 +78,16 @@ export default function NestedList() {
 
   // load matches information
   useEffect(() => {
-    setClubs(clubsMock);
+    if (!clubsFromApi) return;
 
-    const matches = generateSchedule(clubsMock, startDate);
+    setClubs(clubsFromApi.data.club);
+
+    const matches = generateSchedule(clubs, startDate);
     setMatchesInfo(matches);
-  }, [clubs]);
+  }, [clubsFromApi]);
 
   const handleRegenerateSchedule = (startDate) => {
-    const matches = generateSchedule(clubsMock, startDate);
+    const matches = generateSchedule(clubs, startDate);
     setIsSeasonStarted(false);
     setMatchesInfo(matches);
 
