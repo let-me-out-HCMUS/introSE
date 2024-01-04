@@ -80,8 +80,9 @@ export default function MatchResult() {
       setDoi1(matchData.firstClub.clubName);
       setDoi2(matchData.secondClub.clubName);
       setTime(new Date(matchData.time));
+
       // console.log(time);
-      // console.log(match);
+      // console.log(matchData);
     }
   }, [matchData]);
 
@@ -146,12 +147,12 @@ export default function MatchResult() {
     setOpeningDialog1(false);
     addG(goalToSubmit);
     setAddedGoalPlayer(goal.player);
-    console.log("goal", goal);
+    // console.log("goal", goal);
     // setBanthang1([...Banthang1, goal]);
   };
 
   const deleteGoal1 = (id) => {
-    console.log(id);
+    // console.log(id);
     if (selectedClub === match?.firstClub._id)
       setBanthang1(Banthang1.filter((item) => item.id !== id));
     else setBanthang2(Banthang2.filter((item) => item.id !== id));
@@ -217,7 +218,7 @@ export default function MatchResult() {
         <div className="mt-10 flex items-center justify-around">
           <div className=" w-40 text-center">
             <img
-              src="https://ssl.gstatic.com/onebox/media/sports/logos/Th4fAVAZeCJWRcKoLW7koA_96x96.png"
+              src = {match?.firstClub.image}
               alt="logo"
               className=" m-auto h-20 w-20"
             />
@@ -238,7 +239,7 @@ export default function MatchResult() {
           </div>
           <div className="w-40 text-center">
             <img
-              src="https://ssl.gstatic.com/onebox/media/sports/logos/paYnEE8hcrP96neHRNofhQ_96x96.png"
+              src = {match?.secondClub.image}
               alt="logo"
               className=" m-auto h-20 w-20"
             />
