@@ -13,7 +13,7 @@ router
 router
   .route("/:id")
   .get(clubController.getClub)
-  .put(clubController.updateClub)
+  .patch(clubController.updateClub)
   .delete(clubController.deleteClub);
 
 module.exports = router;

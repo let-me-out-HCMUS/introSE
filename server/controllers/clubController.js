@@ -1,7 +1,7 @@
+const multer = require("multer");
 const Club = require("../models/Club");
 const catchAsync = require("../utils/catchAsync");
 const bucket = require("../utils/upload");
-const multer = require("multer");
 const APIFeatures = require("../utils/apiFeature");
 const Player = require("../models/Player");
 const Match = require("../models/Match");
@@ -153,21 +153,21 @@ exports.getClub = catchAsync(async (req, res, next) => {
 
 // Update a club
 exports.updateClub = catchAsync(async (req, res, next) => {
-  const team = await Club.findOne(req.body.id);
+  const team = await Club.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
   if (!team) {
     return res.status(404).json({
       status: "fail",
       message: "Club does not exist",
     });
   }
-  const newTeam = await Club.findByIdAndUpdate(req.body.id, req.body, {
-    new: true,
-    runValidators: true,
-  });
+
   res.status(200).json({
     status: "success",
     data: {
-      newTeam,
+      team,
     },
   });
 });
