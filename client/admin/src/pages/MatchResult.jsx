@@ -23,6 +23,10 @@ export default function MatchResult() {
   const { data: matchData } = useQuery(["match"], () => getMatchById(id));
   const { data: goalData } = useQuery(["goal"], () => getGoalsMatch(id));
 
+  // console.log('match',matchData);
+  // console.log('goal',goalData);
+  
+
   const { mutate: addG } = useMutation({
     mutationFn: async (data) => {
       const res = await addGoal(data);
@@ -71,7 +75,7 @@ export default function MatchResult() {
   const [Banthang1, setBanthang1] = useState([]);
   const [Banthang2, setBanthang2] = useState([]);
   const [time, setTime] = useState(new Date());
-
+  
   const [addedGoalPlayer, setAddedGoalPlayer] = useState(null);
 
   useEffect(() => {
@@ -138,7 +142,7 @@ export default function MatchResult() {
     // console.log(id);
     if (clubid === match?.firstClub._id)
     {
-      console.log('immediately')
+      // console.log('immediately')
       setBanthang1(Banthang1.filter((item) => item.id !== id));
     }
     else setBanthang2(Banthang2.filter((item) => item.id !== id));

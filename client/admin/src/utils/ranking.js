@@ -1,23 +1,23 @@
-export default function ranking(clubs, rule){
-    console.log('ruleranking',rule);
+export default function ranking(clubs, rule) {
+    // console.log('ruleranking',rule);
     // console.log(rule.point)
-
-    clubs.forEach(club => {
-        club.points = rule.point.win * club.won + rule.point.draw * club.draw + rule.point.lose * club.lost;
-    });    
-    // console.log('clubs',clubs);
     
-    for (let i = 0; i < clubs.length-1; i++) {
-        for (let j = i+1; j < clubs.length; j++) {
-            var res = compare(clubs[i], clubs[j], rule,0);
-            if (res === 0 ){
-                
-                res = compare(clubs[i], clubs[j], rule,1);
-                if (res === 0 ){
-                    res = compare(clubs[i], clubs[j], rule,2);
-                    // if (res === 0 ){
-                    //     res = compare(clubs[i], clubs[j], rule,3);
-                    // }
+    // clubs.forEach(club =>{ club["points"] = 0});
+    
+    clubs.forEach(club => {
+        club.points = rule.point.win * club.won + rule.point.draw * club.drawn + rule.point.lose * club.lost;
+    });
+
+    for (let i = 0; i < clubs.length - 1; i++) {
+        for (let j = i + 1; j < clubs.length; j++) {
+            var res = compare(clubs[i], clubs[j], rule, 0);
+            if (res === 0) {
+                res = compare(clubs[i], clubs[j], rule, 1);
+                if (res === 0) {
+                    res = compare(clubs[i], clubs[j], rule, 2);
+                    if (res === 0) {
+                        res = compare(clubs[i], clubs[j], rule, 3);
+                    }
                 }
             }
             if (res > 0) {
@@ -27,7 +27,7 @@ export default function ranking(clubs, rule){
             }
         }
     }
-    console.log('clubs',clubs);
+    console.log('rank', clubs);
     return clubs;
 }
 
@@ -41,17 +41,17 @@ function compare(a, b, rule, time) {
             res = b.gd - a.gd;
             break;
         case 'totalGoals':
-            res = b.gf - a.gf;
+            // res = b.gf - a.gf;
             break;
-        // case 'headToHead':
-        //     clubs.sort((a, b) => {
-        //         let headToHead = 0;
-        //         if (a.headToHead[b.id]) {
-        //             headToHead = a.headToHead[b.id].win - a.headToHead[b.id].lose;
-        //         }
-        //         return headToHead;
-        //     });
-        //     break;
+        case 'headToHead':
+            // clubs.sort((a, b) => {
+            //     let headToHead = 0;
+            //     if (a.headToHead[b.id]) {
+            //         headToHead = a.headToHead[b.id].win - a.headToHead[b.id].lose;
+            //     }
+            //     return headToHead;
+            // });
+            break;
         default:
             break;
     }
