@@ -86,13 +86,6 @@ export default function MatchResult() {
     }
   }, [matchData]);
 
-  // useEffect(() => {
-  //   setBanthang2(trandau.Banthang2);
-  // }, []);
-
-  // console.log(item.player.club.clubName, Doi2
-  // console.log(goalData)
-
   useEffect(() => {
     if (goalData) {
       setBanthang1(
@@ -101,11 +94,7 @@ export default function MatchResult() {
       setBanthang2(
         goalData.filter((item) => item.player.club.clubName === Doi2),
       );
-      // setBanthang1(goalData)
-      // setBanthang2(goalData.filter((item) => item.clubId === match?.secondClub._id));
     }
-    // console.log('bt1',Banthang1)
-    // setBanthang1(trandau.Banthang1);
   }, [goalData]);
 
   // console.log('bt1',Banthang1)
@@ -113,7 +102,6 @@ export default function MatchResult() {
   const [selectedClub, setSelectedClub] = useState(null);
 
   const [openingDialog, setOpeningDialog] = useState(false);
-  const [openingDialog1, setOpeningDialog1] = useState(false);
   const [openingDialogE, setOpeningDialogE] = useState(false);
 
   const [isEditting, setIsEditting] = useState(false);
@@ -124,9 +112,7 @@ export default function MatchResult() {
     setOpeningDialog(false);
   };
 
-  const handleClose1 = () => {
-    setOpeningDialog1(false);
-  };
+  
 
   const handleCloseE = () => {
     setOpeningDialogE(false);
@@ -142,19 +128,19 @@ export default function MatchResult() {
       goalType: goal.goalType,
       isOwnGoal: goal.isOwnGoal,
     };
-    // console.log(goalToSubmit);
     setOpeningDialog(false);
-    setOpeningDialog1(false);
     addG(goalToSubmit);
     setAddedGoalPlayer(goal.player);
-    // console.log("goal", goal);
-    // setBanthang1([...Banthang1, goal]);
+    
   };
 
-  const deleteGoal1 = (id) => {
+  const deleteGoal1 = (clubid,id) => {
     // console.log(id);
-    if (selectedClub === match?.firstClub._id)
+    if (clubid === match?.firstClub._id)
+    {
+      console.log('immediately')
       setBanthang1(Banthang1.filter((item) => item.id !== id));
+    }
     else setBanthang2(Banthang2.filter((item) => item.id !== id));
     deleteG(id);
   };
@@ -188,16 +174,10 @@ export default function MatchResult() {
         open={openingDialog}
         onClose={handleClose}
       >
-        <FormAddGoal submitAdd={addGoal1} clubId={match?.firstClub._id} />
+        <FormAddGoal submitAdd={addGoal1} clubId={selectedClub} />
       </CustomDialog>
 
-      <CustomDialog
-        title={"Thêm bàn thắng 2"}
-        open={openingDialog1}
-        onClose={handleClose1}
-      >
-        <FormAddGoal submitAdd={addGoal1} clubId={match?.secondClub._id} />
-      </CustomDialog>
+      
 
       <CustomDialog
         title={"Chỉnh sửa bàn thắng"}
@@ -275,7 +255,7 @@ export default function MatchResult() {
                         className=" text-red-600"
                         onClick={() => {
                           setSelectedClub(match?.firstClub._id);
-                          deleteGoal1(item.id);
+                          deleteGoal1(match?.firstClub._id,item.id);
                         }}
                       >
                         Xoá
@@ -323,7 +303,7 @@ export default function MatchResult() {
                         className=" text-red-600"
                         onClick={() => {
                           setSelectedClub(match?.secondClub._id);
-                          deleteGoal1(item.id);
+                          deleteGoal1(match?.secondClub._id,item.id);
                         }}
                       >
                         Xoá
@@ -336,7 +316,7 @@ export default function MatchResult() {
                 <button
                   onClick={() => {
                     setSelectedClub(match?.secondClub._id);
-                    setOpeningDialog1(true);
+                    setOpeningDialog(true);
                   }}
                   className="btn float-right"
                 >

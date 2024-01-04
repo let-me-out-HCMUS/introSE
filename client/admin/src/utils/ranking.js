@@ -1,8 +1,12 @@
 export default function ranking(clubs, rule){
-    clubs.forEach(club => {
-        club.points = rule.points.win * club.win + rule.points.draw * club.draw + rule.points.lose * club.lose;
-    });    
+    console.log('ruleranking',rule);
+    // console.log(rule.point)
 
+    clubs.forEach(club => {
+        club.points = rule.point.win * club.won + rule.point.draw * club.draw + rule.point.lose * club.lost;
+    });    
+    // console.log('clubs',clubs);
+    
     for (let i = 0; i < clubs.length-1; i++) {
         for (let j = i+1; j < clubs.length; j++) {
             var res = compare(clubs[i], clubs[j], rule,0);
@@ -20,9 +24,10 @@ export default function ranking(clubs, rule){
                 let temp = clubs[i];
                 clubs[i] = clubs[j];
                 clubs[j] = temp;
-            }   
+            }
         }
     }
+    console.log('clubs',clubs);
     return clubs;
 }
 
@@ -33,10 +38,10 @@ function compare(a, b, rule, time) {
             res = b.points - a.points;
             break;
         case 'goalDifference':
-            res = b.goalDifference - a.goalDifference;
+            res = b.gd - a.gd;
             break;
         case 'totalGoals':
-            res = b.totalGoals - a.totalGoals;
+            res = b.gf - a.gf;
             break;
         // case 'headToHead':
         //     clubs.sort((a, b) => {
