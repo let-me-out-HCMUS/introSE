@@ -29,7 +29,7 @@ function Home() {
         </div>
         <div className="py-10 flex flex-col justify-between items-end">
           <p className="text-white text-6xl uppercase font-bold">Giải bóng đá vô địch quốc gia 2023</p>
-          <button className="rounded-full mr-32 w-32 px-4 py-2 bg-white text-green-700 font-bold">Xem ngay &rarr;</button>
+          <Link to={"/rank"} className="rounded-full mr-32 w-32 px-4 py-2 bg-white text-green-700 font-bold">Xem ngay &rarr;</Link>
         </div>
       </div>
       <div className="mt-14 px-10">
