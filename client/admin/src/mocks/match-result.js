@@ -25,7 +25,7 @@ export const trandau =
         {
             id: 3,
             CauThu: 1,
-            Ten: 'Cristiano Ronaldo',
+            Ten: 'Casemiro',
             ThoiDiem: 40,
             Loai: 'A',
         },

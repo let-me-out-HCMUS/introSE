@@ -15,6 +15,10 @@ const PlayerSchema = new mongoose.Schema({
     ref: "Club",
     required: true,
   },
+  dob: {
+    type: Date,
+    required: true,
+  },
   shirtNum: {
     type: Number,
     required: true,
