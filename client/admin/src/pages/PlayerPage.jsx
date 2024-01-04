@@ -17,7 +17,7 @@ export default function PlayerPage() {
     >
       <PlayerAppBar club={club} setClub={setClub} />
 
-      {club && <PlayerTable clubId={club} />}
+      {<PlayerTable clubId={club} />}
     </Box>
   );
 }

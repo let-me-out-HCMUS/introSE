@@ -1,4 +1,5 @@
 import {
+  Button,
   FormControl,
   Grid,
   InputLabel,
@@ -14,6 +15,11 @@ export default function PlayerAppBar({ club, setClub }) {
   const handleChange = (event) => {
     setClub(event.target.value);
   };
+
+  const handleDeleteFilter = () => {
+    setClub(undefined);
+  };
+
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ["clubs"],
     queryFn: getClubs,
@@ -52,17 +58,17 @@ export default function PlayerAppBar({ club, setClub }) {
           </Select>
         </FormControl>
       </Grid>
-      {/* <Grid item xs={4}>
-        <TextField
+      <Grid item xs={4}>
+        <Button
+          variant="contained"
+          color="success"
           fullWidth
-          id="outlined-basic"
-          label="Tên cầu thủ"
-          variant="outlined"
-          onChangeCapture={(e) => {
-            console.log(e.target.value);
-          }}
-        />
-      </Grid> */}
+          onClick={handleDeleteFilter}
+          sx={{ marginX: 2, paddingTop: 1 }}
+        >
+          Xóa filter
+        </Button>
+      </Grid>
     </Grid>
   );
 }

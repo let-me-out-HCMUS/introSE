@@ -30,3 +30,16 @@ export const getPlayerByPlayerId = async (playerId) => {
   const res = await axiosClient.get(`/players/${playerId}`);
   return res.data;
 };
+
+export const getAllPlayers = async () => {
+  const res = await axiosClient.get(`/players`);
+  return res.data.players;
+};
+
+export const getPlayersWithConditionalChecking = async (clubId) => {
+  if (clubId) {
+    return await getPlayersByClubId(clubId);
+  } else {
+    return await getAllPlayers();
+  }
+};

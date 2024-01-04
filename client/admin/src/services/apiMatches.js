@@ -5,7 +5,6 @@ export const getAllMatches = async () => {
   return response;
 };
 
-export const get5NearestMatches = async () => {};
 export const get5NearestMatches = async () => {
   const response = await axiosClient.get(
     "/matches?sort=time&limit=5&fromNow=true",

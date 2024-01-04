@@ -51,7 +51,8 @@ export default function ClubDetail() {
     return <div>Error: {error.message}</div>;
   }
 
-  const club = data.team;
+  console.log(data);
+  const club = data.club;
 
   const handleClickOpen = () => {
     setOpen(true);

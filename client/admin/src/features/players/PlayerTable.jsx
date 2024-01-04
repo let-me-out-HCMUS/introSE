@@ -11,12 +11,12 @@ import { useQuery } from "@tanstack/react-query";
 
 import { Link } from "react-router-dom";
 
-import { getPlayersByClubId } from "../../services/apiPlayers";
+import { getPlayersWithConditionalChecking } from "../../services/apiPlayers";
 
 export default function PlayerTable({ clubId }) {
   const { isLoading, isError, data, error } = useQuery({
     queryKey: ["players", clubId],
-    queryFn: () => getPlayersByClubId(clubId),
+    queryFn: () => getPlayersWithConditionalChecking(clubId),
   });
 
   if (isLoading) {
