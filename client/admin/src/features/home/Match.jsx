@@ -31,7 +31,7 @@ const Match = ({matchInfo}) => {
           {
             matchInfo.matchId &&
             <Link to={`/match-result/${matchInfo.matchId}`} className="cursor-pointer">
-              Xem chi tiết &rarr;
+              Xem kết quả &rarr;
             </Link>
           }
         </div>

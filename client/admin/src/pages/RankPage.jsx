@@ -25,7 +25,7 @@ function RankPage() {
 
     var ranks = []
     if (clubsData){
-      ranks = clubsData.data.club
+      ranks = clubsData.club
       // console.log(ranks);
     }
 

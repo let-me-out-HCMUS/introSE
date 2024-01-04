@@ -27,6 +27,8 @@ const MatchesPage = () => {
   }
 
   return (
+    <>
+    <h1 className="text-center text-4xl font-bold my-5">Thông tin các trận đấu</h1>
     <div className="flex flex-col justify-center">
       <div>
         {showMatches.map((match) => {
@@ -44,9 +46,10 @@ const MatchesPage = () => {
         })}
       </div>
       <div className="flex justify-center">
-        <Pagination onChange={(event, pageNumber) => handlePageChange(event, pageNumber)} count={maxPage} color="primary" />
+        <Pagination size="large" onChange={(event, pageNumber) => handlePageChange(event, pageNumber)} count={maxPage} color="primary" />
       </div>
     </div>
+    </>
   )
 }
 
