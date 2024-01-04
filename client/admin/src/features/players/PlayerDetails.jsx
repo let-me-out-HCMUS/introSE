@@ -5,25 +5,38 @@ import {
   CardContent,
   CardMedia,
   Divider,
+  LinearProgress,
   Typography,
 } from "@mui/material";
 import PlayerGoalTable from "./PlayerGoalTable";
-
-const player = {
-  number: 7,
-  avatar: "img",
-  name: "Cristiano Ronaliem",
-  total_goal: 53,
-  team: "Al-Nassr FC",
-};
+import { useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { getPlayerByPlayerId } from "../../services/apiPlayers";
 
 export default function PlayerDetails() {
+  const { id } = useParams();
+
+  const { isLoading, isError, data, error } = useQuery({
+    queryKey: ["player", id],
+    queryFn: () => getPlayerByPlayerId(id),
+  });
+
+  if (isLoading) {
+    return <LinearProgress color="success" />;
+  }
+
+  if (isError) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  const player = data.player;
+
   return (
     <div className="flex flex-col justify-center">
       <Card sx={{ display: "flex" }}>
         <CardMedia
           component="img"
-          image="https://cdn-i.vtcnews.vn/resize/th/upload/2023/12/23/cristiano-ronaldo-07305037.jpg"
+          image={player.image}
           sx={{ width: 400, height: 400 }}
         />
 
@@ -39,7 +52,7 @@ export default function PlayerDetails() {
               variant="square"
               sx={{ width: 64, height: 64, fontSize: 52, bgcolor: "#4ade80" }}
             >
-              {player.number}
+              {player.shirtNum}
             </Avatar>
           </CardContent>
           <CardContent>
@@ -53,12 +66,12 @@ export default function PlayerDetails() {
           </CardContent>
           <CardContent>
             <Typography variant="h5" color="text.secondary" component="div">
-              Câu lạc bộ: {player.team}
+              Câu lạc bộ: {player.club.clubName}
             </Typography>
           </CardContent>
           <CardContent>
             <Typography variant="h5" color="text.secondary" component="div">
-              Tổng số bàn thắng: {player.total_goal}
+              Tổng số bàn thắng: {player.totalGoal}
             </Typography>
           </CardContent>
         </Box>

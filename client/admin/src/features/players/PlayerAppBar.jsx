@@ -1,10 +1,7 @@
 import {
-  Box,
-  Button,
   FormControl,
   Grid,
   InputLabel,
-  Menu,
   MenuItem,
   Select,
   TextField,
@@ -13,7 +10,6 @@ import {
 import { useState } from "react";
 
 import { clubs } from "../../mocks/clubPage";
-import { IoSearchCircleOutline } from "react-icons/io5";
 
 export default function PlayerAppBar() {
   const [club, setClub] = useState("");
