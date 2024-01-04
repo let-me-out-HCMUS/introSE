@@ -3,34 +3,38 @@ import {
   Card,
   CardContent,
   CardMedia,
+  CircularProgress,
   Divider,
   Typography,
 } from "@mui/material";
 import PlayerTable from "../players/PlayerTable";
 import { useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { getClubById } from "../../services/apiClubs";
 
 export default function ClubDetail() {
-  // get current club id from url
   const { id } = useParams();
+  const { isLoading, isError, data, error } = useQuery({
+    queryKey: ["club", id],
+    queryFn: () => getClubById(id),
+  });
 
-  // query club by id
-  // const { data: club, isLoading } = useQuery(["clubs", id], () =>
-  //   clubApi.get(id)
-  // );
+  if (isLoading) {
+    return <CircularProgress />;
+  }
 
-  const club = {
-    id,
-    name: "Hà Nội FC",
-    logo: "https://hanoifc.com.vn/images/logo-v2.png",
-    stadium: "Hàng Đẫy",
-  };
+  if (isError) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  const club = data.team;
 
   return (
     <>
       <Card sx={{ display: "flex", alignItems: "center" }}>
         <CardMedia
           component="img"
-          image={club.logo}
+          image={club.image}
           sx={{
             width: 300,
             padding: 5,
@@ -52,7 +56,7 @@ export default function ClubDetail() {
               variant="h2"
               sx={{ fontWeight: "bold" }}
             >
-              {club.name}
+              {club.clubName}
             </Typography>
           </CardContent>
           <CardContent>

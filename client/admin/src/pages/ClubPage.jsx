@@ -1,21 +1,27 @@
-import { useEffect, useState } from "react";
-import { clubs as MockClubs } from "../mocks/clubPage";
+import { useQuery } from "@tanstack/react-query";
 import ClubTable from "../features/clubs/ClubTable";
 
+import { getClubs } from "../services/apiClubs";
+import { CircularProgress } from "@mui/material";
+
 export default function ClubPage() {
-  const [clubs, setClubs] = useState([]);
+  // use query to get clubs
+  const { isLoading, isError, data, error } = useQuery({
+    queryKey: ["clubs"],
+    queryFn: getClubs,
+  });
 
-  useEffect(() => {
-    const fetchClubs = () => {
-      setClubs(MockClubs);
-    };
+  if (isLoading) {
+    return <CircularProgress />;
+  }
 
-    fetchClubs();
-  }, [clubs]);
+  if (isError) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <div className="flex flex-col justify-center">
-      <ClubTable clubs={clubs} />
+      <ClubTable clubs={data.club} />
     </div>
   );
 }

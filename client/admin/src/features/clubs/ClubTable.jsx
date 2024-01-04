@@ -14,7 +14,7 @@ export default function ClubTable({ clubs }) {
               <Paper sx={{ margin: 2, borderRadius: 2 }}>
                 <CardMedia
                   component="img"
-                  image="https://hanoifc.com.vn/images/logo-v2.png"
+                  image={club.image}
                   sx={{
                     marginX: "auto",
                     width: 220,
@@ -30,7 +30,7 @@ export default function ClubTable({ clubs }) {
                   }}
                 >
                   <Typography>
-                    <b>{club.name}</b>
+                    <b>{club.clubName}</b>
                   </Typography>
 
                   <EastIcon />
