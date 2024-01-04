@@ -91,6 +91,7 @@ exports.createPlayer = catchAsync(async (req, res, next) => {
         totalGoal: req.body.totalGoal,
         image: publicUrl[0],
         dob: req.body.dob,
+        note: req.body.note,
       });
       res.status(201).json({
         status: "success",
