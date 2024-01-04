@@ -1,33 +1,27 @@
-import { useEffect, useState } from "react";
-import { clubs as MockClubs } from "../mocks/clubPage";
-import { Divider, Typography } from "@mui/material";
-import PlayerTable from "../features/players/PlayerTable";
-import ClubDetail from "../features/clubs/ClubDetail";
+import { useQuery } from "@tanstack/react-query";
+import ClubTable from "../features/clubs/ClubTable";
+
+import { getClubs } from "../services/apiClubs";
+import { LinearProgress } from "@mui/material";
 
 export default function ClubPage() {
-  const [clubs, setClubs] = useState([]);
+  // use query to get clubs
+  const { isLoading, isError, data, error } = useQuery({
+    queryKey: ["clubs"],
+    queryFn: getClubs,
+  });
 
-  useEffect(() => {
-    const fetchClubs = () => {
-      setClubs(MockClubs);
-    };
+  if (isLoading) {
+    return <LinearProgress color="success" />;
+  }
 
-    fetchClubs();
-  }, [clubs]);
+  if (isError) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <div className="flex flex-col justify-center">
-      <ClubDetail />
-      <Divider sx={{ my: 4 }} />
-
-      <Typography
-        component="div"
-        variant="h4"
-        sx={{ fontWeight: "bold", margin: 2 }}
-      >
-        Cầu thủ
-      </Typography>
-      <PlayerTable />
+      <ClubTable clubs={data.club} />
     </div>
   );
 }

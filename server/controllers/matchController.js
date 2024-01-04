@@ -91,7 +91,8 @@ exports.updateMatch = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteMatch = catchAsync(async (req, res, next) => {
-  await Match.findByIdAndDelete(req.params.id);
+  // delete all match
+  await Match.deleteMany({});
   res.status(204).json({
     status: "success",
     data: null,

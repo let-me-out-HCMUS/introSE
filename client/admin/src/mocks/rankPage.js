@@ -14,6 +14,7 @@
  */
 export const ranks = [
   {
+    id: 1,
     club: "Hà Nội FC",
     played: 10,
     won: 8,
@@ -26,6 +27,7 @@ export const ranks = [
     last5: ["W", "W", "W", "W", "W"],
   },
   {
+    id: 2,
     club: "Hồng Lĩnh Hà Tĩnh",
     played: 10,
     won: 7,
@@ -38,6 +40,7 @@ export const ranks = [
     last5: ["W", "D", "L", "L", "W"],
   },
   {
+    id: 3,
     club: "Bình Định FC",
     played: 10,
     won: 7,
@@ -50,6 +53,7 @@ export const ranks = [
     last5: ["W", "L", "W", "W", "L"],
   },
   {
+    id: 4,
     club: "Than Quảng Ninh",
     played: 10,
     won: 8,
@@ -62,6 +66,7 @@ export const ranks = [
     last5: ["W", "W", "W", "W", "W"],
   },
   {
+    id: 5,
     club: "Hải Phòng FC",
     played: 10,
     won: 7,
@@ -74,6 +79,7 @@ export const ranks = [
     last5: ["L", "D", "L", "W", "W"],
   },
   {
+    id: 6,
     club: "Sài Gòn FC",
     played: 10,
     won: 7,

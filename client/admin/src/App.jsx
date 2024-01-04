@@ -19,6 +19,7 @@ import MatchResult from "./pages/MatchResult";
 import MatchSchedule from "./pages/MatchSchedule";
 import MatchesPage from "./pages/MatchesPage";
 
+import ClubDetail from "./features/clubs/ClubDetail";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -42,6 +43,7 @@ function App() {
             <Route path="/players" element={<PlayerPage />} />
             <Route path="/players/:id" element={<PlayerDetails />} />
             <Route path="/clubs" element={<ClubPage />} />
+            <Route path="/clubs/:id" element={<ClubDetail />} />
             <Route path="/change-rule" element={<ChangeRule />} />
             <Route path="/schedules" element={<MatchSchedule />} />
             <Route path="/match-result/:id" element={<MatchResult/>} />

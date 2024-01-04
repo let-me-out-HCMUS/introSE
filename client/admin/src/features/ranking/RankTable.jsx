@@ -9,6 +9,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
+import { Link } from "react-router-dom";
 
 function renderResult(row) {
   return row.map((result, index) => {
@@ -66,7 +67,11 @@ function RankTable({ rankedClubs }) {
               <TableCell component="th" scope="row" align="center">
                 {index + 1}
               </TableCell>
-              <TableCell>{row.clubName}</TableCell>
+              <TableCell>
+                <Link to={`/clubs/${row.id}`}>
+                  <b>{row.club}</b>
+                </Link>
+              </TableCell>
               <TableCell align="center">{row.played}</TableCell>
               <TableCell align="center">{row.won}</TableCell>
               <TableCell align="center">{row.drawn}</TableCell>

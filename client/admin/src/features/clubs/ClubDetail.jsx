@@ -1,16 +1,42 @@
-import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  CardMedia,
+  Divider,
+  LinearProgress,
+  Typography,
+} from "@mui/material";
+import PlayerTable from "../players/PlayerTable";
+import { useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { getClubById } from "../../services/apiClubs";
 
 export default function ClubDetail() {
+  const { id } = useParams();
+  const { isLoading, isError, data, error } = useQuery({
+    queryKey: ["club", id],
+    queryFn: () => getClubById(id),
+  });
+
+  if (isLoading) {
+    return <LinearProgress color="success" />;
+  }
+
+  if (isError) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  const club = data.team;
+
   return (
     <>
-      <Card
-        sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
-      >
+      <Card sx={{ display: "flex", alignItems: "center" }}>
         <CardMedia
           component="img"
-          image="https://hanoifc.com.vn/images/logo-v2.png"
+          image={club.image}
           sx={{
-            width: 500,
+            width: 300,
             padding: 5,
           }}
         />
@@ -30,7 +56,7 @@ export default function ClubDetail() {
               variant="h2"
               sx={{ fontWeight: "bold" }}
             >
-              Hà Nội FC
+              {club.clubName}
             </Typography>
           </CardContent>
           <CardContent>
@@ -39,11 +65,15 @@ export default function ClubDetail() {
               color="text.secondary"
               component="div"
             >
-              Sân nhà: Hàng Đẫy
+              {club.stadium}
             </Typography>
           </CardContent>
         </Box>
       </Card>
+
+      <Divider sx={{ margin: "20px 0" }} />
+
+      <PlayerTable clubId={id} />
     </>
   );
 }

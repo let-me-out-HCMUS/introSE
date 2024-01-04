@@ -31,7 +31,6 @@ export default function PlayerDetails() {
           sx={{
             display: "flex",
             flexDirection: "column",
-            // justifyContent: "space-evenly",
             width: "100%",
           }}
         >
