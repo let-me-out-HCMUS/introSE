@@ -157,6 +157,11 @@ exports.deleteGoal = catchAsync(async (req, res, next) => {
   }
   match.result = `${firstClubPoint}-${secondClubPoint}`;
   match.save();
+
+  // Update player total goal
+  const player = await Player.findById(goal.player);
+  player.totalGoal -= 1;
+  player.save();
   await Goal.findByIdAndDelete(req.params.id);
   res.status(204).json({
     status: "success",
