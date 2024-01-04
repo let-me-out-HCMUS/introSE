@@ -7,25 +7,16 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Avatar, LinearProgress } from "@mui/material";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
-import { Link } from "react-router-dom";
-import { getPlayersByClubId } from "../../services/apiPlayers";
 import { useQuery } from "@tanstack/react-query";
 
-function createData(id, avatar, name, club, type) {
-  return { id, avatar, name, club, type };
-}
+import { Link } from "react-router-dom";
 
-const rows = [
-  createData("666", "CB", "Chris Bumstead", "IFBB Pro", "Trong nước"),
-  createData("777", "SS", "Sam Sulek", "IFBB Pro", "Trong nước"),
-  createData("888", "RD", "Ramon Dino", "IFBB Pro", "Trong nước"),
-];
+import { getPlayersWithConditionalChecking } from "../../services/apiPlayers";
 
 export default function PlayerTable({ clubId }) {
-  console.log(clubId);
   const { isLoading, isError, data, error } = useQuery({
-    queryKey: ["club", clubId],
-    queryFn: () => getPlayersByClubId(clubId),
+    queryKey: ["players", clubId],
+    queryFn: () => getPlayersWithConditionalChecking(clubId),
   });
 
   if (isLoading) {
@@ -36,7 +27,6 @@ export default function PlayerTable({ clubId }) {
     return <div>Error: {error.message}</div>;
   }
 
-  console.log(data);
   const players = data;
 
   return (
@@ -64,10 +54,10 @@ export default function PlayerTable({ clubId }) {
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                <Avatar src={row.avatar} alt={row.name} />
+                <Avatar src={row.image} alt={row.name} />
               </TableCell>
               <TableCell>{row.name}</TableCell>
-              <TableCell>{row.club}</TableCell>
+              <TableCell>{row.club.clubName}</TableCell>
               <TableCell>{row.type}</TableCell>
               <TableCell>
                 <Link to={`/players/${row.id}`}>

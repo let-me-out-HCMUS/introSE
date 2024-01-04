@@ -1,26 +1,39 @@
 import {
-  Box,
   Button,
   FormControl,
   Grid,
   InputLabel,
-  Menu,
+  LinearProgress,
   MenuItem,
   Select,
-  TextField,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getClubs } from "../../services/apiClubs";
 
-import { clubs } from "../../mocks/clubPage";
-import { IoSearchCircleOutline } from "react-icons/io5";
-
-export default function PlayerAppBar() {
-  const [club, setClub] = useState("");
-
+export default function PlayerAppBar({ club, setClub }) {
   const handleChange = (event) => {
     setClub(event.target.value);
   };
+
+  const handleDeleteFilter = () => {
+    setClub(undefined);
+  };
+
+  const { isLoading, isError, data, error } = useQuery({
+    queryKey: ["clubs"],
+    queryFn: getClubs,
+  });
+
+  if (isLoading) {
+    return <LinearProgress color="success" />;
+  }
+
+  if (isError) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  const clubs = data.club;
 
   return (
     <Grid container spacing={2}>
@@ -39,19 +52,22 @@ export default function PlayerAppBar() {
           <Select value={club} label="Club" onChange={handleChange}>
             {clubs.map((item) => (
               <MenuItem value={item.id} key={item.id}>
-                {item.name}
+                {item.clubName}
               </MenuItem>
             ))}
           </Select>
         </FormControl>
       </Grid>
       <Grid item xs={4}>
-        <TextField
+        <Button
+          variant="contained"
+          color="success"
           fullWidth
-          id="outlined-basic"
-          label="Tên cầu thủ"
-          variant="outlined"
-        />
+          onClick={handleDeleteFilter}
+          sx={{ marginX: 2, paddingTop: 1 }}
+        >
+          Xóa filter
+        </Button>
       </Grid>
     </Grid>
   );
