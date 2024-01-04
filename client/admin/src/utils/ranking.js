@@ -6,10 +6,11 @@ export default async function ranking(clubs, rule) {
     // console.log(rule.point)
     // clubs.forEach(club =>{ club["points"] = 0});
     
-    clubs.forEach(club => {
+    clubs.forEach((club,index) => {
         club.points = rule.point.win * club.won + rule.point.draw * club.drawn + rule.point.lose * club.lost;
+        
     });
-
+    console.log('rank', clubs);
     for (let i = 0; i < clubs.length - 1; i++) {
         for (let j = i + 1; j < clubs.length; j++) {
             var res = await compare(clubs[i], clubs[j], rule, 0);

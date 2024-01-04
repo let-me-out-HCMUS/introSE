@@ -17,8 +17,8 @@ function RankPage() {
       // setRankInfo(ranks.sort((a, b) => b.points - a.points));
       if (ranks)  
       {
-        console.log('ranks',ranks);
-        ranking(ranks,rule).then((res) => setRankInfo(res));
+        // console.log('ranks',ranks);
+        ranking(ranks, rule).then((res) => setRankInfo(res));
       }
       // .then((res) => setRankInfo(res));
     };
@@ -26,7 +26,7 @@ function RankPage() {
     var ranks = []
     if (clubsData){
       ranks = clubsData.data.club
-      // console.log(ranks);
+      console.log(clubsData)
     }
 
     if (ruleData) {

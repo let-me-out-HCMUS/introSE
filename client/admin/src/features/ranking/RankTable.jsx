@@ -7,7 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-// import Avatar from "@mui/material/Avatar";
+import Avatar from "@mui/material/Avatar";
 // import Stack from "@mui/material/Stack";
 
 // function renderResult(row) {
@@ -35,6 +35,7 @@ import Paper from "@mui/material/Paper";
 
 const fields = [
   "Hạng",
+  
   "Câu lạc bộ",
   // "Trận",
   "Thắng",
@@ -66,7 +67,13 @@ function RankTable({ rankedClubs }) {
               <TableCell component="th" scope="row" align="center">
                 {index + 1}
               </TableCell>
-              <TableCell>{row.clubName}</TableCell>
+              <TableCell align="center">
+                  <div className="flex items-center">
+                    <Avatar sx={{width: 40, height: 40}} src={row.image} />
+                    <b className="ml-4">{row.clubName}</b>
+                  </div>
+              </TableCell>
+              <TableCell></TableCell>
               {/* <TableCell align="center">{row.played}</TableCell> */}
               <TableCell align="center">{row.won}</TableCell>
               <TableCell align="center">{row.drawn}</TableCell>
