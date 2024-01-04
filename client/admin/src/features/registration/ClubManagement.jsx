@@ -10,7 +10,44 @@ import { useQuery } from '@tanstack/react-query';
 
 
 const ClubManagement = () => {
-    const [players, setPlayers] = useState([]);
+    const [players, setPlayers] = useState([
+        {
+            id: 1,
+            name: 'Nguyễn Văn A',
+            shirtNum: 1,
+            type: 'Trong nước',
+            dob: '1999-01-01',
+            note: 'Chân trái',
+            image: 'https://cdn-icons-png.flaticon.com/512/147/147144.png'
+        },
+        {
+            id: 2,
+            name: 'Nguyễn Văn B',
+            shirtNum: 2,
+            type: 'Trong nước',
+            dob: '1999-01-01',
+            note: 'Chân trái',
+            image: 'https://cdn-icons-png.flaticon.com/512/147/147144.png'
+        },
+        {
+            id: 3,
+            name: 'Nguyễn Văn C',
+            shirtNum: 3,
+            type: 'Trong nước',
+            dob: '1999-01-01',
+            note: 'Chân trái',
+            image: 'https://cdn-icons-png.flaticon.com/512/147/147144.png'
+        },
+        {
+            id: 4,
+            name: 'Nguyễn Văn D',
+            shirtNum: 4,
+            type: 'Trong nước',
+            dob: '1999-01-01',
+            note: 'Chân trái',
+            image: 'https://cdn-icons-png.flaticon.com/512/147/147144.png'
+        }
+    ]);
     const PlayerForm = useForm();
     const { data } = useQuery(["wtf"], ()=> getRule());
 
@@ -35,7 +72,7 @@ const ClubManagement = () => {
           <LeftSide rules={data ? data.club : null} players={players} />
         </Grid>
         <Grid xs={8}>
-            <RightSide rules={data ? data.club : null} PlayerForm={PlayerForm} players={players} onSubmitPlayer={onSubmitPlayer}/>
+            <RightSide rules={data ? data.club : null} PlayerForm={PlayerForm} players={players} setPlayers={setPlayers} onSubmitPlayer={onSubmitPlayer}/>
         </Grid>
       </Grid>
     </Box>

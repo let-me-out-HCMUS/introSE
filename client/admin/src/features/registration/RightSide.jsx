@@ -11,7 +11,7 @@ import DataTable from './DataTable';
 import { useEffect, useState } from 'react';
 import { Controller } from 'react-hook-form';
 
-const RightSide = ({ rules, PlayerForm, players, onSubmitPlayer }) => {
+const RightSide = ({ rules, PlayerForm, players, setPlayers, onSubmitPlayer }) => {
     const [playerType, setPlayerType] = useState('');
     const [selectedImage, setSelectedImage] = useState(null);
 
@@ -132,7 +132,7 @@ const RightSide = ({ rules, PlayerForm, players, onSubmitPlayer }) => {
                 </Grid>
             </Grid>
         </div>
-        <DataTable players={players}/>
+        <DataTable players={players} setPlayers={setPlayers}/>
     </div>
   )
 }
