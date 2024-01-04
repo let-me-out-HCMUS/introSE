@@ -28,9 +28,12 @@ const Match = ({matchInfo}) => {
               <span>{matchInfo.stadium}</span>
             </div>
           </div>
-          <Link to={`/matches/${matchInfo.matchId}`} className="cursor-pointer">
-            Xem chi tiết &rarr;
-          </Link>
+          {
+            matchInfo.matchId &&
+            <Link to={`/matches/${matchInfo.matchId}`} className="cursor-pointer">
+              Xem chi tiết &rarr;
+            </Link>
+          }
         </div>
   )
 }

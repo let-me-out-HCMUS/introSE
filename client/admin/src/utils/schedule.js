@@ -1,9 +1,12 @@
-function generateDoubleRoundRobin(clubs){
+function generateDoubleRoundRobin(clubs, startDate){
     const numberOfClubs = clubs.length
     const numberOfMatchesPerRound = numberOfClubs / 2
     const numberOfRounds = numberOfClubs - 1
     const matches = []
     const returnMatches = []
+    let date = new Date(startDate)
+    let dateForReturnMatches = new Date(startDate)
+    dateForReturnMatches.setDate(dateForReturnMatches.getDate() + numberOfRounds * 7)
 
     for (let round = 0; round < numberOfRounds; round++) {
         const roundMatches = []
@@ -25,8 +28,7 @@ function generateDoubleRoundRobin(clubs){
                 secondClub: clubs[away].name,
                 secondClubLogo: clubs[away].logo,
                 stadium: clubs[home].stadium,
-                time: '20:00',
-                matchId: match + 1,
+                time: date.toLocaleDateString("vi-VN"),
             })
 
             returnRoundMatches.push({
@@ -35,11 +37,12 @@ function generateDoubleRoundRobin(clubs){
                 secondClub: clubs[home].name,
                 secondClubLogo: clubs[home].logo,
                 stadium: clubs[away].stadium,
-                time: '20:00',
-                matchId: match + 1,
+                time: dateForReturnMatches.toLocaleDateString("vi-VN"),
             })
         }
 
+        date.setDate(date.getDate() + 7)
+        dateForReturnMatches.setDate(dateForReturnMatches.getDate() + 7)
         matches.push(roundMatches)
         returnMatches.push(returnRoundMatches)
     }
@@ -59,6 +62,6 @@ function Shuffle(array) {
     return array
 }
 
-export default function generateSchedule(clubs) {
-    return generateDoubleRoundRobin(Shuffle(clubs))
+export default function generateSchedule(clubs, startDate) {
+    return generateDoubleRoundRobin(Shuffle(clubs), startDate)
 }

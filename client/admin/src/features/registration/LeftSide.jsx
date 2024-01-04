@@ -12,7 +12,7 @@ const LeftSide = ({rules, players}) => {
 
     const {mutate: mutateCreateClub} = useMutation({
         mutationFn: async (data) => {
-            createClub(data.clubName, data.file, data.players)
+            createClub(data.clubName, data.stadium, data.file, data.players)
         },
         onSuccess: () => {
             toast.success('Tạo câu lạc bộ thành công');
@@ -27,6 +27,7 @@ const LeftSide = ({rules, players}) => {
     const registerOpts = {
         clubName: {required: 'Tên câu lạc bộ không được để trống'},
         file: {required: 'Ảnh đại diện không được để trống'},
+        stadium: {required: 'Tên sân vận động không được để trống'},
     }
 
     const onSubmitClub = (data) => {
@@ -43,7 +44,7 @@ const LeftSide = ({rules, players}) => {
             return;
         }
 
-        mutateCreateClub({clubName: data.clubName, file: selectedImage, players: players});
+        mutateCreateClub({clubName: data.clubName, stadium: data.stadium, file: selectedImage, players: players});
     }
 
   return (
@@ -69,7 +70,7 @@ const LeftSide = ({rules, players}) => {
                     <UploadIcon /> Tải ảnh lên
                 </label>
             </div>
-            <div className='mt-10'>
+            <div className='mt-10 flex flex-col'>
                 <TextField
                     className='bg-white'
                     id="outlined-basic"
@@ -79,6 +80,17 @@ const LeftSide = ({rules, players}) => {
                 />
                 {
                     clubForm.formState.errors.clubName && <p className='text-red-500 text-xs'>{clubForm.formState.errors.clubName.message}</p>
+                }
+                <TextField
+                    style={{marginTop: '20px'}}
+                    className='bg-white'
+                    id="outlined-basic"
+                    label="Tên SVĐ"
+                    type="text"
+                    {...clubForm.register("stadium", registerOpts.stadium)}
+                />
+                {
+                    clubForm.formState.errors.stadium && <p className='text-red-500 text-xs'>{clubForm.formState.errors.stadium.message}</p>
                 }
             </div>
             <div className='mt-20'>

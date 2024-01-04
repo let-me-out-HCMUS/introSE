@@ -61,7 +61,7 @@ app.use("/api/rules", ruleRoute);
 app.use("/api/goals", goalRoute);
 app.use("/api/players", playerRoute);
 app.use("/api/clubs", clubRoute);
-app.use("/api/matchs", matchRoute);
+app.use("/api/matches", matchRoute);
 
 // Handle when no match any routes
 app.all("*", (req, res, next) =>

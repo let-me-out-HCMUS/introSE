@@ -49,6 +49,7 @@ exports.createClub = catchAsync(async (req, res, next) => {
       });
       const club = await Club.create({
         clubName: req.body.clubName,
+        stadium: req.body.stadium,
         won: req.body.won,
         lost: req.body.lost,
         drawn: req.body.drawn,

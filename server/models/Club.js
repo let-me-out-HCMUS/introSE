@@ -6,6 +6,10 @@ const ClubSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  stadium: {
+    type: String,
+    required: true,
+  },
   won: {
     type: Number,
     default: 0,
