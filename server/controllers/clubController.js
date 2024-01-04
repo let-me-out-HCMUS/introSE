@@ -112,7 +112,7 @@ exports.getClub = catchAsync(async (req, res, next) => {
   club.won = totalWon;
   club.lost = totalLost;
   club.drawn = totalDrawn;
-
+  await club.save();
   res.status(200).json({
     status: "success",
     data: {
