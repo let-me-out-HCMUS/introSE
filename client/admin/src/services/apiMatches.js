@@ -1,4 +1,4 @@
-import axiosClient from "./axiosClient";
+import {axiosClient} from "./axiosClient";
 
 export const getAllMatches = async () => {
     const response = await axiosClient.get('/matches?limit=1000');

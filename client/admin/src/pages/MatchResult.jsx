@@ -15,13 +15,15 @@ import {
 import CustomDialog from "../features/common/Dialog";
 import FormAddGoal from "../features/match-result/FormAddGoal";
 import FormEditGoal from "../features/match-result/FormEditGoal";
+import { Button } from "@mui/material";
 
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-unescaped-entities */
 export default function MatchResult() {
   const id = useParams().id;
-  const { data: matchData } = useQuery(["match"], () => getMatchById(id));
-  const { data: goalData } = useQuery(["goal"], () => getGoalsMatch(id));
+  const { data: matchData } = useQuery([`match-${id}`], () => getMatchById(id));
+  const { data: goalData } = useQuery([`goal-${id}`], () => getGoalsMatch(id));
+
 
   // console.log('match',matchData);
   // console.log('goal',goalData);
@@ -172,7 +174,9 @@ export default function MatchResult() {
   };
 
   return (
-    <div className="flex w-auto justify-center pt-32">
+    <>
+    <Button variant="contained" color="primary" size="large"  onClick={() => window.history.back()}>Trở lại</Button>
+    <div className="flex w-auto justify-center pt-20">
       <CustomDialog
         title={"Thêm bàn thắng"}
         open={openingDialog}
@@ -191,7 +195,7 @@ export default function MatchResult() {
         <FormEditGoal submitEdit={editGoal1} goal={editedGoal1} />
       </CustomDialog>
 
-      <div className="w-full bg-white">
+      <div className="w-full bg-white py-8">
         <div className="ml-5 mt-4 block">
           <h1>
             Ngày {time.getDate()} - {time.getMonth() + 1}
@@ -341,5 +345,6 @@ export default function MatchResult() {
         )}
       </div>
     </div>
+    </>
   );
 }

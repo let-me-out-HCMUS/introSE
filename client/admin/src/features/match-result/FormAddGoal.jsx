@@ -2,12 +2,12 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getRule } from "../../services/apiRule";
-import { getPlayersClub } from "../../services/apiPlayers";
+import { getPlayersByClubId } from "../../services/apiPlayers";
 
 /* eslint-disable react/prop-types */
 export default function FormAddGoal({ submitAdd, clubId }) {
   const { data: ruleData } = useQuery(["rule"], async () => await getRule());
-  const { data: playerData, refetch } = useQuery(["player"], async () => await getPlayersClub(clubId));
+  const { data: playerData, refetch } = useQuery(["player"], async () => await getPlayersByClubId(clubId));
 
   const [rule, setRule] = useState(null);
   const [players, setPlayers] = useState([]);
