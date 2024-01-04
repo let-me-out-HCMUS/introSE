@@ -91,7 +91,8 @@ exports.createGoal = catchAsync(async (req, res, next) => {
   };
 
   const goal = await Goal.create(goadObj);
-
+  player.totalGoal += 1;
+  await player.save();
   // Update match point
   let firstClubPoint = Number(match.result.split("-")[0]);
   let secondClubPoint = Number(match.result.split("-")[1]);
