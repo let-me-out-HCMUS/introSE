@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import { useQuery } from "@tanstack/react-query";
 import { useMutation } from "@tanstack/react-query";
 import { getMatchById } from "../services/apiMatch";
-import { getGoalsMatch, updateGoal, addGoal } from "../services/apiGoal";
+import { getGoalsMatch, updateGoal, addGoal, deleteGoal } from "../services/apiGoal";
 
 import CustomDialog from "../features/common/Dialog";
 import FormAddGoal from "../features/match-result/FormAddGoal";
@@ -18,6 +18,20 @@ export default function MatchResult() {
   const { data: matchData } = useQuery(["match"], () => getMatchById(id));
   const { data: goalData } = useQuery(["goal"], () => getGoalsMatch(id));
   
+  const { mutate: addG } = useMutation({
+    mutationFn: async (data) => {
+      const res = await addGoal(data);
+      return res;
+    },
+    onSuccess: (goal) => {
+      goal.player = addedGoalPlayer;
+      setBanthang1([...Banthang1, goal]);
+      toast.success("Thêm thành công");
+    },
+    onError: () => {
+      toast.error("Thêm thất bại");
+    },
+  });
 
   const { mutate: updateG } = useMutation({
     mutationFn: (data) => {
@@ -31,18 +45,17 @@ export default function MatchResult() {
     },
   });
 
-  const { mutate: addG } = useMutation({
-    mutationFn: (data) => {
-      addGoal(data);
+  const { mutate: deleteG } = useMutation({
+    mutationFn: (id) => {
+      deleteGoal(id);
     },
     onSuccess: () => {
-      toast.success("Thêm thành công");
+      toast.success("Xoá thành công");
     },
     onError: () => {
-      toast.error("Thêm thất bại");
+      toast.error("Xoá thất bại");
     },
   });
-  
 
   const [match, setMatch] = useState(null);
 
@@ -51,6 +64,8 @@ export default function MatchResult() {
   const [Banthang1, setBanthang1] = useState([]);
   const [Banthang2, setBanthang2] = useState([]);
   const [time, setTime] = useState(new Date());
+
+  const [addedGoalPlayer, setAddedGoalPlayer] = useState(null);
   
   useEffect(() => {
     if (matchData) {
@@ -99,7 +114,7 @@ export default function MatchResult() {
     setOpeningDialogE(false);
   };
 
-  const addGoal1 = (goal) => {
+  const addGoal1 = async (goal) => {
     // console.log(goal);
     const goalToSubmit = {
       "firstClub": match?.firstClub.clubName,
@@ -109,15 +124,18 @@ export default function MatchResult() {
       "goalType": goal.goalType,
       "isOwnGoal": goal.isOwnGoal,
     }
-    console.log(goalToSubmit);
-    addG(goalToSubmit);
-    setBanthang1([...Banthang1, goal]);
+    // console.log(goalToSubmit);
     setOpeningDialog(false);
+    addG(goalToSubmit);
+    setAddedGoalPlayer(goal.player);
+    console.log('goal',goal);
+    // setBanthang1([...Banthang1, goal]);
   };
 
   const deleteGoal1 = (id) => {
-    // console.log(id);
+    console.log(id);
     setBanthang1(Banthang1.filter((item) => item.id !== id));
+    deleteG(id);
   };
 
   // Handle edit goal team 1
@@ -130,10 +148,7 @@ export default function MatchResult() {
     updateG(goalToSubmit);
     goal.player = editedGoal1.player;
     setBanthang1((Banthang1) => {
-      const index = Banthang1.findIndex((item) => item.id === goal.id);
-      const newBanthang1 = [...Banthang1];
-      newBanthang1[index] = goal;
-      return newBanthang1;
+      return Banthang1.map((item) => item.id === goal.id ? goal : item);
     });
     
     setOpeningDialogE(false);
@@ -191,9 +206,9 @@ export default function MatchResult() {
         {isPlayed && (
           <div className="mt-10 flex justify-between px-8">
             <ul className=" w-2/5">
-              {Banthang1.map((item, index) => (
+              {Banthang1.map((item) => (
                 <li
-                  key={index}
+                  key={item.id}
                   className="flex space-x-2 text-sm font-semibold text-gray-500"
                 >
                   <div>{item.player.name}</div>
