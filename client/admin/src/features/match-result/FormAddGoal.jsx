@@ -22,7 +22,7 @@ export default function FormAddGoal({ submitAdd, clubId }) {
   useEffect(() => {
     if (playerData) {
       setPlayers(playerData);
-      console.log(playerData);
+      // console.log(playerData);
     }
   }, [playerData, clubId]);
 

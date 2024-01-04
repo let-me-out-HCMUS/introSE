@@ -82,7 +82,7 @@ export default function MatchResult() {
       setTime(new Date(matchData.time));
 
       // console.log(time);
-      console.log(matchData);
+      // console.log(matchData);
     }
   }, [matchData]);
 
@@ -147,12 +147,12 @@ export default function MatchResult() {
     setOpeningDialog1(false);
     addG(goalToSubmit);
     setAddedGoalPlayer(goal.player);
-    console.log("goal", goal);
+    // console.log("goal", goal);
     // setBanthang1([...Banthang1, goal]);
   };
 
   const deleteGoal1 = (id) => {
-    console.log(id);
+    // console.log(id);
     if (selectedClub === match?.firstClub._id)
       setBanthang1(Banthang1.filter((item) => item.id !== id));
     else setBanthang2(Banthang2.filter((item) => item.id !== id));
