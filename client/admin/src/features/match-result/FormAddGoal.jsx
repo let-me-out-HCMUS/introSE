@@ -7,7 +7,7 @@ import { getPlayersClub } from "../../services/apiPlayers";
 /* eslint-disable react/prop-types */
 export default function FormAddGoal({ submitAdd, clubId }) {
   const { data: ruleData } = useQuery(["rule"], async () => await getRule());
-  const { data: playerData } = useQuery(["player"], async () => await getPlayersClub(clubId));
+  const { data: playerData, refetch } = useQuery(["player"], async () => await getPlayersClub(clubId));
 
   const [rule, setRule] = useState(null);
   const [players, setPlayers] = useState([]);
@@ -16,10 +16,12 @@ export default function FormAddGoal({ submitAdd, clubId }) {
   useEffect(() => {
     if (ruleData) {
       setRule(ruleData);
+      // console.log(ruleData);
     }
   }, [ruleData]);
 
   useEffect(() => {
+    refetch();
     if (playerData) {
       setPlayers(playerData);
       // console.log(playerData);
